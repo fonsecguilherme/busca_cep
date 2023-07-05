@@ -15,5 +15,5 @@ class FetchedSearchZipState extends SearchZipState {
 class ErrorSearchZipState extends SearchZipState {
   final String errorMessage;
 
-  ErrorSearchZipState(this.errorMessage);
+  ErrorSearchZipState({required this.errorMessage});
 }
