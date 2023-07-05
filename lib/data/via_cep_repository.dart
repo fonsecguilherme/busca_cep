@@ -12,8 +12,12 @@ class ViaCepRepository {
     if (response.statusCode == 200) {
       final address = jsonDecode(response.body);
       return AddressModel.fromJson(address);
+    } else if (response.statusCode == 400) {
+      throw Exception('Bad request');
+    } else if (response.statusCode == 404) {
+      throw Exception('CEP inválido');
     } else {
-      throw Exception('Deu ruim família');
+      throw Exception('Erro desconhecido!');
     }
   }
 }
