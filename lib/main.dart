@@ -58,7 +58,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Buca CEP concept'),
+        title: const Text('Busca CEP concept'),
         centerTitle: true,
       ),
       body: BlocBuilder(
@@ -72,9 +72,10 @@ class _HomeWidgetState extends State<HomeWidget> {
             );
           } else if (state is FetchedSearchZipState) {
             return addressInfo(state.address);
-          } else {
-            return const Text('outro estado');
+          } else if (state is ErrorSearchZipState) {
+            return errorWidget(state.errorMessage);
           }
+          return const SizedBox();
         },
       ),
     );
@@ -86,9 +87,12 @@ class _HomeWidgetState extends State<HomeWidget> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         initialWidget(),
+        const SizedBox(height: 12),
         Container(
+            decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 211, 211, 211),
+                borderRadius: BorderRadius.all(Radius.circular(16))),
             padding: const EdgeInsets.all(8.0),
-            color: Colors.grey,
             child: Column(
               children: [
                 Text(
@@ -100,6 +104,17 @@ class _HomeWidgetState extends State<HomeWidget> {
             )),
       ],
     ));
+  }
+
+  Widget errorWidget(String errorMessage) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(errorMessage),
+        ],
+      ),
+    );
   }
 
   Widget initialWidget() => Column(
