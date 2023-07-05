@@ -21,9 +21,7 @@ class MainApp extends StatelessWidget {
       home: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => SearchZipCubit(
-              viaCepRepository,
-            ),
+            create: (context) => SearchZipCubit(),
           ),
           BlocProvider(
             create: (context) => CounterCubit(),
