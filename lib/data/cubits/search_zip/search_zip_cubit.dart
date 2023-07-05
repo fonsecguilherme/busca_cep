@@ -14,8 +14,12 @@ class SearchZipCubit extends Cubit<SearchZipState> {
       final address = await repository.fetchAddress(zipCode);
 
       emit(FetchedSearchZipState(address));
+    } else if (zipCode.isEmpty) {
+      emit(ErrorSearchZipState(
+          errorMessage: 'Parece não foi digitado nenhum CEP!'));
+      emit(InitialSearchZipState());
     } else {
-      emit(ErrorSearchZipState('Parece que algo deu errado!'));
+      emit(ErrorSearchZipState(errorMessage: 'Parece que algo deu errado!'));
     }
   }
 }
