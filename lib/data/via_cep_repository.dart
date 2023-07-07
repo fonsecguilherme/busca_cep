@@ -4,20 +4,20 @@ import 'package:http/http.dart' as http;
 import 'package:zip_search/model/address_model.dart';
 
 class ViaCepRepository {
-  Future<AddressModel> fetchAddress(String zipCode) async {
+  Future<AddressModel?> fetchAddress(String zipCode) async {
     final String url = 'https://viacep.com.br/ws/$zipCode/json/';
 
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
       final address = jsonDecode(response.body);
-      return AddressModel.fromJson(address);
-    } else if (response.statusCode == 400) {
-      throw Exception('Bad request');
-    } else if (response.statusCode == 404) {
-      throw Exception('CEP inválido');
+      if (address['erro'] == null) {
+        return AddressModel.fromJson(address);
+      } else {
+        throw Exception('Cep not found');
+      }
     } else {
-      throw Exception('Erro desconhecido!');
+      throw Exception('Cep not found 2');
     }
   }
 }
