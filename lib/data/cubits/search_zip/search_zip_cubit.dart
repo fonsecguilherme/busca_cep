@@ -23,10 +23,8 @@ class SearchZipCubit extends Cubit<SearchZipState> {
       if (zipCode.isEmpty) {
         emit(ErrorSearchZipState(
             errorMessage: 'Parece não foi digitado nenhum CEP!'));
-        emit(InitialSearchZipState());
       } else {
         emit(ErrorSearchZipState(errorMessage: 'CEP digitado não é válido.'));
-        emit(InitialSearchZipState());
       }
     }
   }
