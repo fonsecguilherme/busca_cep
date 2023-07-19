@@ -42,6 +42,9 @@ class _InitialWidgetState extends State<InitialWidget> {
             ),
           ),
           const SizedBox(height: 12),
+          Text(
+              'Quantidade de ceps procuados com sucesso: ${cubit.counterValue}'),
+          const SizedBox(height: 12),
           ElevatedButton(
             onPressed: () {
               cubit.searchZip(zipCode: _zipController.text);
