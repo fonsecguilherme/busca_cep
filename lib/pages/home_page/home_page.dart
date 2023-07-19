@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomeState extends State<HomePage> {
-  SearchZipCubit get cubit => context.read<SearchZipCubit>();
+  SearchZipCubit get searchZipCubit => context.read<SearchZipCubit>();
 
   @override
   void initState() {
@@ -27,7 +27,7 @@ class _HomeState extends State<HomePage> {
           centerTitle: true,
         ),
         body: BlocConsumer<SearchZipCubit, SearchZipState>(
-          bloc: cubit,
+          bloc: searchZipCubit,
           listener: listener,
           builder: builder,
         ),
@@ -51,7 +51,9 @@ class _HomeState extends State<HomePage> {
         child: CircularProgressIndicator(),
       );
     } else if (state is FetchedSearchZipState) {
-      return SuccessWidget(address: state.address);
+      return SuccessWidget(
+        address: state.address,
+      );
     }
     return const InitialWidget();
   }
