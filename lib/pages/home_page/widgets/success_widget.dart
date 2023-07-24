@@ -5,6 +5,8 @@ import 'package:zip_search/pages/home_page/widgets/inital_widget.dart';
 class SuccessWidget extends StatelessWidget {
   final AddressModel address;
 
+  static const addressFoundWidgetKey = Key('addressFoundWidgetKey');
+
   const SuccessWidget({
     super.key,
     required this.address,
