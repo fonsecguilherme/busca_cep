@@ -17,6 +17,29 @@ State management: BLoC and Flutter BLoC
 API requests: HTTP
 ## Screenshots
 
+* Initial Screen Android/iOS
+<p float="left">
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/initialScreenAndroid.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/initialScreenIOS.png" width="350" />
+</p>
+
+* Success screen Android/iOS
+<p float="left">
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/successZipSearchAndroid.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/successZipSearchIOS.png" width="350" />
+</p>
+
+* No ZIP typed error Android/iOS
+<p float="left">
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/noZipTypedAndroid.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/noZipTypedIOS.png" width="350" />
+</p>
+
+* Invalid ZIP error Android/iOS
+<p float="left">
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/notValidZipAndroid.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/notValidZipIOS.png" width="350" />
+</p>
 
 
 
