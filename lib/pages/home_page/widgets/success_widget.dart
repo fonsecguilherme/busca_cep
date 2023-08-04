@@ -14,6 +14,7 @@ class SuccessWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
+        key: SuccessWidget.addressFoundWidgetKey,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
