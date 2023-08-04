@@ -5,6 +5,8 @@ import 'package:zip_search/data/cubits/search_zip/search_zip_cubit.dart';
 class InitialWidget extends StatefulWidget {
   const InitialWidget({super.key});
 
+  static const initialWidgetKey = Key('initialWidgetKey');
+
   @override
   State<InitialWidget> createState() => _InitialWidgetState();
 }
@@ -22,6 +24,7 @@ class _InitialWidgetState extends State<InitialWidget> {
 
   @override
   Widget build(BuildContext context) => Column(
+        key: InitialWidget.initialWidgetKey,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Text('Digite o seu cep abaixo: '),

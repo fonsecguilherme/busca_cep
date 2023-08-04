@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:zip_search/data/cubits/counter/counter_cubit.dart';
 import 'package:zip_search/data/cubits/search_zip/search_zip_cubit.dart';
 import 'package:zip_search/data/via_cep_repository.dart';
 import 'package:zip_search/pages/home_page/home_page.dart';
@@ -22,9 +21,6 @@ class MainApp extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (context) => SearchZipCubit(),
-          ),
-          BlocProvider(
-            create: (context) => CounterCubit(),
           ),
         ],
         child: const HomePage(),
