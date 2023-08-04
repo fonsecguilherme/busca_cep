@@ -7,6 +7,7 @@ import 'package:zip_search/data/cubits/search_zip/search_zip_cubit.dart';
 import 'package:zip_search/data/cubits/search_zip/search_zip_state.dart';
 import 'package:zip_search/model/address_model.dart';
 import 'package:zip_search/pages/home_page/home_page.dart';
+import 'package:zip_search/pages/home_page/widgets/inital_widget.dart';
 import 'package:zip_search/pages/home_page/widgets/success_widget.dart';
 
 class MockSearchZipCubit extends MockCubit<SearchZipState>
@@ -31,10 +32,11 @@ void main() {
 
   testWidgets('Find inital widgets when state is inital', (tester) async {
     when(() => searchZipCubit.state).thenReturn(InitialSearchZipState());
+    when(() => searchZipCubit.counterValue).thenReturn(0);
 
     await _createWidget(tester);
 
-    //expect(find.byKey(InitialWidget.initialWidgetKey), findsOneWidget);
+    expect(find.byKey(InitialWidget.initialWidgetKey), findsOneWidget);
     expect(
         find.text(
             'Quantidade de ceps procuados com sucesso: ${searchZipCubit.counterValue}'),
@@ -52,6 +54,7 @@ void main() {
   testWidgets('Find success screen widgets', (tester) async {
     when(() => searchZipCubit.state)
         .thenReturn(FetchedSearchZipState(_addressModel));
+    when(() => searchZipCubit.counterValue).thenReturn(1);
 
     await _createWidget(tester);
 
