@@ -54,7 +54,8 @@ class _HomeState extends State<HomePage> {
       return SuccessWidget(
         address: state.address,
       );
+    } else {
+      return const InitialWidget();
     }
-    return const InitialWidget();
   }
 }
