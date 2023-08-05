@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/data/cubits/search_zip/search_zip_cubit.dart';
 import 'package:zip_search/data/cubits/search_zip/search_zip_state.dart';
-import 'package:zip_search/pages/home_page/widgets/inital_widget.dart';
-import 'package:zip_search/pages/home_page/widgets/success_widget.dart';
+import 'package:zip_search/pages/search_page/widgets/initial_widget.dart';
+import 'package:zip_search/pages/search_page/widgets/success_widget.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class SearchPage extends StatefulWidget {
+  const SearchPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomeState();
+  State<SearchPage> createState() => _HomeState();
 }
 
-class _HomeState extends State<HomePage> {
+class _HomeState extends State<SearchPage> {
   SearchZipCubit get searchZipCubit => context.read<SearchZipCubit>();
 
   @override
@@ -22,10 +22,6 @@ class _HomeState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: const Text('Busca CEP concept'),
-          centerTitle: true,
-        ),
         body: BlocConsumer<SearchZipCubit, SearchZipState>(
           bloc: searchZipCubit,
           listener: listener,

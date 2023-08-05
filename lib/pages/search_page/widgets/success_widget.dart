@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zip_search/model/address_model.dart';
-import 'package:zip_search/pages/home_page/widgets/inital_widget.dart';
+import 'package:zip_search/pages/search_page/widgets/initial_widget.dart';
 
 class SuccessWidget extends StatelessWidget {
   final AddressModel address;
