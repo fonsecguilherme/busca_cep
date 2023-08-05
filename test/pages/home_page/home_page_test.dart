@@ -6,9 +6,9 @@ import 'package:mocktail/mocktail.dart';
 import 'package:zip_search/data/cubits/search_zip/search_zip_cubit.dart';
 import 'package:zip_search/data/cubits/search_zip/search_zip_state.dart';
 import 'package:zip_search/model/address_model.dart';
-import 'package:zip_search/pages/home_page/home_page.dart';
-import 'package:zip_search/pages/home_page/widgets/inital_widget.dart';
-import 'package:zip_search/pages/home_page/widgets/success_widget.dart';
+import 'package:zip_search/pages/search_page/search_page.dart';
+import 'package:zip_search/pages/search_page/widgets/initial_widget.dart';
+import 'package:zip_search/pages/search_page/widgets/success_widget.dart';
 
 class MockSearchZipCubit extends MockCubit<SearchZipState>
     implements SearchZipCubit {}
@@ -67,7 +67,7 @@ Future<void> _createWidget(WidgetTester tester) async {
     BlocProvider<SearchZipCubit>.value(
       value: searchZipCubit,
       child: const MaterialApp(
-        home: HomePage(),
+        home: SearchPage(),
       ),
     ),
   );
