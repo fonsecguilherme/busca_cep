@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:zip_search/data/cubits/search_zip/search_zip_cubit.dart';
 import 'package:zip_search/data/cubits/search_zip/search_zip_state.dart';
-import 'package:zip_search/pages/home_page/widgets/inital_widget.dart';
+import 'package:zip_search/pages/search_page/widgets/inital_widget.dart';
 
 class MockSearchZipCubit extends MockCubit<SearchZipState>
     implements SearchZipCubit {}
