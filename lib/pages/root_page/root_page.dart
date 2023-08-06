@@ -18,12 +18,13 @@ class _RootPageState extends State<RootPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Busca CEP concept'),
-      ),
-      bottomNavigationBar: _bottomNavigationWidget(),
-      body: _body());
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text('Busca CEP concept'),
+        ),
+        bottomNavigationBar: _bottomNavigationWidget(),
+        body: _body(),
+      );
 
   Widget _bottomNavigationWidget() =>
       BlocBuilder<NavigationCubit, NavigationState>(
