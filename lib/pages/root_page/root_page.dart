@@ -32,11 +32,11 @@ class _RootPageState extends State<RootPage> {
             currentIndex: state.index,
             items: const [
               BottomNavigationBarItem(
-                  icon: Icon(Icons.one_k_outlined), label: 'Count'),
+                  icon: Icon(Icons.home_outlined), label: 'Count'),
               BottomNavigationBarItem(
                   icon: Icon(Icons.search), label: 'Search'),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.bookmark_add), label: 'Saved')
+                  icon: Icon(Icons.star_border_rounded), label: 'Saved')
             ],
             onTap: (index) {
               if (index == 0) {
