@@ -15,7 +15,7 @@ class MockSearchZipCubit extends MockCubit<SearchZipState>
 
 late SearchZipCubit searchZipCubit;
 
-AddressModel _addressModel = AddressModel(
+AddressModel _addressModel = const AddressModel(
   cep: '57035400',
   logradouro: 'Rua da casinha',
   complemento: ' ',
