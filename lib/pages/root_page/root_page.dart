@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/data/cubits/navigation/naviagtion_state.dart';
 import 'package:zip_search/data/cubits/navigation/navigation_cubit.dart';
 import 'package:zip_search/pages/counter_page/counter_page.dart';
-import 'package:zip_search/pages/saved_zip_page/saved_zip.dart';
+import 'package:zip_search/pages/saved_zip_page/saved_zip_page.dart';
 import 'package:zip_search/pages/search_page/search_page.dart';
 
 class RootPage extends StatefulWidget {
