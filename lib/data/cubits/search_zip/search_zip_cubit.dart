@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:zip_search/data/cubits/search_zip/search_zip_state.dart';
 import 'package:zip_search/data/via_cep_repository.dart';
+import 'package:zip_search/model/address_model.dart';
 
 class SearchZipCubit extends Cubit<SearchZipState> {
   SearchZipCubit({
@@ -9,7 +10,10 @@ class SearchZipCubit extends Cubit<SearchZipState> {
         super(InitialSearchZipState());
 
   final ViaCepRepository _viaCepRepository;
+  final List<AddressModel> _addressList = [];
+  List<AddressModel> get addressList => _addressList;
   int counterValue = 0;
+  int counterFavZips = 0;
 
   Future<void> searchZip({required String zipCode}) async {
     emit(LoadingSearchZipState());
@@ -28,6 +32,17 @@ class SearchZipCubit extends Cubit<SearchZipState> {
       } else {
         emit(ErrorSearchZipState(errorMessage: 'CEP digitado não é válido.'));
       }
+    }
+  }
+
+  void addToFavorites(AddressModel address) {
+    if (_addressList.contains(address)) {
+      emit(ErrorAlreadyAddedZipState(
+          errorMessage: 'Ops! Esse cep já foi favoritado'));
+    } else {
+      _addressList.add(address);
+      counterFavZips++;
+      emit(FavoritedAddressZipState(message: 'CEP favoritado com sucesso!'));
     }
   }
 }
