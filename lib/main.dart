@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zip_search/data/cubits/favorites/favorites_cubit.dart';
 import 'package:zip_search/data/cubits/navigation/navigation_cubit.dart';
 import 'package:zip_search/data/cubits/search_zip/search_zip_cubit.dart';
 import 'package:zip_search/data/via_cep_repository.dart';
@@ -26,6 +27,9 @@ class MainApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => NavigationCubit(),
+          ),
+          BlocProvider(
+            create: (context) => FavoritesCubit(),
           ),
         ],
         child: const RootPage(),

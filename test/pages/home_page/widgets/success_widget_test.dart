@@ -38,7 +38,7 @@ Future<void> _createWidget(WidgetTester tester) async {
   );
 }
 
-AddressModel _address = AddressModel(
+AddressModel _address = const AddressModel(
   cep: '57035400',
   logradouro: 'Rua da casinha',
   complemento: ' ',

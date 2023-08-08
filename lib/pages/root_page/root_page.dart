@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/data/cubits/navigation/naviagtion_state.dart';
 import 'package:zip_search/data/cubits/navigation/navigation_cubit.dart';
 import 'package:zip_search/pages/counter_page/counter_page.dart';
-import 'package:zip_search/pages/saved_zip_page/saved_zip.dart';
+import 'package:zip_search/pages/favorites_zip_page/favorites_zip_page.dart';
 import 'package:zip_search/pages/search_page/search_page.dart';
 
 class RootPage extends StatefulWidget {
@@ -18,12 +18,13 @@ class _RootPageState extends State<RootPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Busca CEP concept'),
-      ),
-      bottomNavigationBar: _bottomNavigationWidget(),
-      body: _body());
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text('Busca CEP concept'),
+        ),
+        bottomNavigationBar: _bottomNavigationWidget(),
+        body: _body(),
+      );
 
   Widget _bottomNavigationWidget() =>
       BlocBuilder<NavigationCubit, NavigationState>(
@@ -32,11 +33,11 @@ class _RootPageState extends State<RootPage> {
             currentIndex: state.index,
             items: const [
               BottomNavigationBarItem(
-                  icon: Icon(Icons.one_k_outlined), label: 'Count'),
+                  icon: Icon(Icons.home_outlined), label: 'Count'),
               BottomNavigationBarItem(
                   icon: Icon(Icons.search), label: 'Search'),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.bookmark_add), label: 'Saved')
+                  icon: Icon(Icons.star_border_rounded), label: 'Saved')
             ],
             onTap: (index) {
               if (index == 0) {
@@ -58,7 +59,7 @@ class _RootPageState extends State<RootPage> {
           } else if (state.navBarItem == NavBarItem.search) {
             return const SearchPage();
           } else if (state.navBarItem == NavBarItem.saved) {
-            return const SavedZipPage();
+            return const FavoritesZipPAge();
           }
           return const SizedBox();
         },

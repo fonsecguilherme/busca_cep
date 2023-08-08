@@ -4,7 +4,9 @@
 
 import 'dart:convert';
 
-class AddressModel {
+import 'package:equatable/equatable.dart';
+
+class AddressModel extends Equatable {
   final String cep;
   final String logradouro;
   final String complemento;
@@ -13,7 +15,7 @@ class AddressModel {
   final String uf;
   final String ddd;
 
-  AddressModel({
+  const AddressModel({
     required this.cep,
     required this.logradouro,
     required this.complemento,
@@ -47,4 +49,15 @@ class AddressModel {
         "uf": uf,
         "ddd": ddd,
       };
+
+  @override
+  List<Object?> get props => [
+        cep,
+        logradouro,
+        complemento,
+        bairro,
+        localidade,
+        uf,
+        ddd,
+      ];
 }
