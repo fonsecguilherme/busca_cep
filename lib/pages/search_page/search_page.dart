@@ -38,6 +38,22 @@ class _HomeState extends State<SearchPage> {
           duration: const Duration(seconds: 5),
         ),
       );
+    } else if (state is ErrorAlreadyAddedZipState) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          content: Text(state.errorMessage),
+          duration: const Duration(seconds: 5),
+        ),
+      );
+    } else if (state is FavoritedAddressZipState) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.green,
+          content: Text(state.message),
+          duration: const Duration(seconds: 5),
+        ),
+      );
     }
   }
 
