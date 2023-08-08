@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/data/cubits/favorites/favorites_cubit.dart';
+import 'package:zip_search/data/cubits/search_zip/search_zip_cubit.dart';
 import 'package:zip_search/model/address_model.dart';
 
 class AddFavoritesButton extends StatefulWidget {
@@ -13,13 +14,17 @@ class AddFavoritesButton extends StatefulWidget {
 }
 
 class _AddFavoritesButtonState extends State<AddFavoritesButton> {
-  FavoritesCubit get cubit => context.read<FavoritesCubit>();
+  FavoritesCubit get favoritesCubit => context.read<FavoritesCubit>();
+  SearchZipCubit get searchZipCubit => context.read<SearchZipCubit>();
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        cubit.addToFavorites(widget.address);
+        searchZipCubit.addToFavorites(widget.address);
+
+        List<AddressModel> addressList = searchZipCubit.addressList;
+        favoritesCubit.loadFavoriteAddresses(addressList);
       },
       child: const Row(
         mainAxisSize: MainAxisSize.min,
