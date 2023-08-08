@@ -30,7 +30,7 @@ class _CounterPageState extends State<CounterPage> {
           const Text('Quantidade de CEPS salvos:'),
           BlocBuilder<SearchZipCubit, SearchZipState>(
             builder: (context, state) {
-              return Text('${favoritesCubit.counterValue}');
+              return Text('${searchZipCubit.counterFavZips}');
             },
           ),
         ],
