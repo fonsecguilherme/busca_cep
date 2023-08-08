@@ -19,25 +19,17 @@ class _SavedZipState extends State<FavoritesZipPAge> {
         body: BlocConsumer<FavoritesCubit, FavoritesState>(
           bloc: favoritesCubit,
           listener: (context, state) {
-            if (state is ErrorZipState) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  backgroundColor: Colors.red,
-                  content: Text(state.errorMessage),
-                  duration: const Duration(seconds: 5),
-                ),
-              );
-            }
+            //! flushBar when address is removed successfully
           },
           builder: (context, state) {
-            if (state is InitialSearchZipState) {
+            if (state is InitialFavoriteState) {
               return const Center(
                 child: Text('Nenhum CEP foi favoritado!'),
               );
-            } else if (state is LoadedZipState) {
+            } else if (state is LoadFavoriteZipState) {
               return _loadedAddresses(state.addresses);
             }
-            return _loadedAddresses(favoritesCubit.addressList);
+            return const SizedBox();
           },
         ),
       );
