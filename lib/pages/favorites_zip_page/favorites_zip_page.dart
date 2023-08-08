@@ -4,14 +4,14 @@ import 'package:zip_search/data/cubits/favorites/favorites_cubit.dart';
 import 'package:zip_search/data/cubits/favorites/favorites_state.dart';
 import 'package:zip_search/model/address_model.dart';
 
-class SavedZipPage extends StatefulWidget {
-  const SavedZipPage({super.key});
+class FavoritesZipPAge extends StatefulWidget {
+  const FavoritesZipPAge({super.key});
 
   @override
-  State<SavedZipPage> createState() => _SavedZipState();
+  State<FavoritesZipPAge> createState() => _SavedZipState();
 }
 
-class _SavedZipState extends State<SavedZipPage> {
+class _SavedZipState extends State<FavoritesZipPAge> {
   FavoritesCubit get favoritesCubit => context.read<FavoritesCubit>();
 
   @override
