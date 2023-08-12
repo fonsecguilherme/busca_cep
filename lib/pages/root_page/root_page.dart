@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zip_search/commons/app_strings.dart';
 import 'package:zip_search/data/cubits/navigation/naviagtion_state.dart';
 import 'package:zip_search/data/cubits/navigation/navigation_cubit.dart';
 import 'package:zip_search/pages/counter_page/counter_page.dart';
@@ -20,7 +21,7 @@ class _RootPageState extends State<RootPage> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: const Text('Busca CEP concept'),
+          title: const Text(AppStrings.appbarText),
         ),
         bottomNavigationBar: _bottomNavigationWidget(),
         body: _body(),
@@ -33,11 +34,14 @@ class _RootPageState extends State<RootPage> {
             currentIndex: state.index,
             items: const [
               BottomNavigationBarItem(
-                  icon: Icon(Icons.home_outlined), label: 'Count'),
+                  icon: Icon(Icons.home_outlined),
+                  label: AppStrings.navigationBarLabel01),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.search), label: 'Search'),
+                  icon: Icon(Icons.search),
+                  label: AppStrings.navigationBarLabel02),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.star_border_rounded), label: 'Saved')
+                  icon: Icon(Icons.star_border_rounded),
+                  label: AppStrings.navigationBarLabel03)
             ],
             onTap: (index) {
               if (index == 0) {
