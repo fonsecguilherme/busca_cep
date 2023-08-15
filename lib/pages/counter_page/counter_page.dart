@@ -54,34 +54,22 @@ class _CounterPageState extends State<CounterPage> {
     required IconData icon,
     required String text,
   }) =>
-      Container(
-        decoration: BoxDecoration(
-          color: Colors.grey,
-          borderRadius: BorderRadius.circular(18),
-        ),
+      Card(
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 12,
-            vertical: 8,
-          ),
+          padding: const EdgeInsets.all(12),
           child: Row(
             children: [
-              Icon(
-                icon,
-                color: Colors.white,
-              ),
+              Icon(icon),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
                   text,
-                  style: const TextStyle(color: Colors.white),
                 ),
               ),
               BlocBuilder<SearchZipCubit, SearchZipState>(
                 builder: (context, state) {
                   return Text(
                     '$counterType',
-                    style: const TextStyle(color: Colors.white),
                   );
                 },
               ),
