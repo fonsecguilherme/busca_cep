@@ -32,14 +32,14 @@ void main() {
 
   testWidgets('Find inital widgets when state is inital', (tester) async {
     when(() => searchZipCubit.state).thenReturn(InitialSearchZipState());
-    when(() => searchZipCubit.counterValue).thenReturn(0);
+    when(() => searchZipCubit.counterSearchedZips).thenReturn(0);
 
     await _createWidget(tester);
 
     expect(find.byKey(InitialWidget.initialWidgetKey), findsOneWidget);
     expect(
         find.text(
-            'Quantidade de ceps procuados com sucesso: ${searchZipCubit.counterValue}'),
+            'Quantidade de ceps procuados com sucesso: ${searchZipCubit.counterSearchedZips}'),
         findsOneWidget);
   });
 
@@ -54,7 +54,7 @@ void main() {
   testWidgets('Find success screen widgets', (tester) async {
     when(() => searchZipCubit.state)
         .thenReturn(FetchedSearchZipState(_addressModel));
-    when(() => searchZipCubit.counterValue).thenReturn(1);
+    when(() => searchZipCubit.counterSearchedZips).thenReturn(1);
 
     await _createWidget(tester);
 

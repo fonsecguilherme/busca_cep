@@ -12,7 +12,7 @@ class SearchZipCubit extends Cubit<SearchZipState> {
   final ViaCepRepository _viaCepRepository;
   final List<AddressModel> _addressList = [];
   List<AddressModel> get addressList => _addressList;
-  int counterValue = 0;
+  int counterSearchedZips = 0;
   int counterFavZips = 0;
 
   Future<void> searchZip({required String zipCode}) async {
@@ -22,7 +22,7 @@ class SearchZipCubit extends Cubit<SearchZipState> {
       final address = await _viaCepRepository.fetchAddress(zipCode);
 
       if (address != null) {
-        counterValue += 1;
+        counterSearchedZips += 1;
         emit(FetchedSearchZipState(address));
       }
     } on Exception {

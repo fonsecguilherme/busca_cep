@@ -18,7 +18,7 @@ void main() {
   });
 
   testWidgets('Find inital widget when app loads', (tester) async {
-    when(() => searchZipCubit.counterValue).thenReturn(0);
+    when(() => searchZipCubit.counterSearchedZips).thenReturn(0);
 
     await _createWidget(tester);
 

@@ -18,7 +18,7 @@ void main() {
   });
 
   testWidgets('Should whow address after', (tester) async {
-    when(() => searchZipCubit.counterValue).thenReturn(1);
+    when(() => searchZipCubit.counterSearchedZips).thenReturn(1);
     await _createWidget(tester);
 
     expect(find.byKey(SuccessWidget.addressFoundWidgetKey), findsOneWidget);

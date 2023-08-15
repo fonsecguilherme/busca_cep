@@ -47,7 +47,7 @@ class _InitialWidgetState extends State<InitialWidget> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 12.0),
             child: Text(
-                'Quantidade de ceps procuados com sucesso: ${cubit.counterValue}'),
+                'Quantidade de ceps procuados com sucesso: ${cubit.counterSearchedZips}'),
           ),
           ElevatedButton(
             onPressed: () {
