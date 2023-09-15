@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zip_search/commons/app_strings.dart';
 import 'package:zip_search/data/cubits/favorites/favorites_cubit.dart';
 import 'package:zip_search/data/cubits/favorites/favorites_state.dart';
 import 'package:zip_search/model/address_model.dart';
@@ -38,7 +39,7 @@ class _SavedZipState extends State<FavoritesZipPAge> {
   Widget builder(BuildContext context, FavoritesState state) {
     if (state is InitialFavoriteState) {
       return const Center(
-        child: Text('Nenhum CEP foi favoritado!'),
+        child: Text(AppStrings.initialZipPageText),
       );
     }
     if (state is LoadFavoriteZipState) {
@@ -65,25 +66,24 @@ class _SavedZipState extends State<FavoritesZipPAge> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(address.cep),
-                        //! TODO: Add delete address function
+                        Text(
+                          address.cep,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         IconButton(
                           onPressed: () {
                             favoritesCubit.deleteAddress(addressList, address);
                           },
-                          icon: const Icon(
-                            Icons.delete,
-                          ),
+                          icon: const Icon(Icons.delete),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8),
                     Padding(
                       padding: const EdgeInsets.only(left: 8),
                       child: Text(
-                        '${address.logradouro}\n${_complementField(address.complemento)}'
-                        '\nBairro: ${address.bairro},\nDDD: ${address.ddd},'
-                        '\n${address.localidade}, ${address.uf}',
+                        _addressText(address),
                       ),
                     ),
                   ],
@@ -94,7 +94,12 @@ class _SavedZipState extends State<FavoritesZipPAge> {
         },
       );
 
+  String _addressText(AddressModel address) =>
+      '${address.logradouro},\n${_complementField(address.complemento)},'
+      '\nBairro: ${address.bairro},\nDDD: ${address.ddd},'
+      '\n${address.localidade}, ${address.uf}';
+
   String _complementField(String complement) {
-    return complement.isEmpty ? 'Não possui complemento' : complement;
+    return complement.isEmpty ? AppStrings.emptyComplementText : complement;
   }
 }
