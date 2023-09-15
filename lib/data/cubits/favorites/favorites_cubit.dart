@@ -10,4 +10,14 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   }
 
   //! Implement remove address from favorites list
+  void deleteAddress(List<AddressModel> adresses, AddressModel address) {
+    adresses.removeWhere((element) => element.cep == address.cep);
+
+    emit(DeletedFavoriteZipState('CEP deletado com sucesso!'));
+    if (adresses.isEmpty) {
+      emit(InitialFavoriteState());
+    } else {
+      emit(LoadFavoriteZipState(adresses));
+    }
+  }
 }

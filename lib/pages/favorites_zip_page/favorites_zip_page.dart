@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zip_search/commons/app_strings.dart';
 import 'package:zip_search/data/cubits/favorites/favorites_cubit.dart';
 import 'package:zip_search/data/cubits/favorites/favorites_state.dart';
 import 'package:zip_search/model/address_model.dart';
@@ -18,21 +19,34 @@ class _SavedZipState extends State<FavoritesZipPAge> {
   Widget build(BuildContext context) => Scaffold(
         body: BlocConsumer<FavoritesCubit, FavoritesState>(
           bloc: favoritesCubit,
-          listener: (context, state) {
-            //! flushBar when address is removed successfully
-          },
-          builder: (context, state) {
-            if (state is InitialFavoriteState) {
-              return const Center(
-                child: Text('Nenhum CEP foi favoritado!'),
-              );
-            } else if (state is LoadFavoriteZipState) {
-              return _loadedAddresses(state.addresses);
-            }
-            return const SizedBox();
-          },
+          listener: listener,
+          builder: builder,
         ),
       );
+
+  void listener(BuildContext context, FavoritesState state) {
+    if (state is DeletedFavoriteZipState) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.green,
+          content: Text(state.deletedMessage),
+          duration: const Duration(seconds: 5),
+        ),
+      );
+    }
+  }
+
+  Widget builder(BuildContext context, FavoritesState state) {
+    if (state is InitialFavoriteState) {
+      return const Center(
+        child: Text(AppStrings.initialZipPageText),
+      );
+    }
+    if (state is LoadFavoriteZipState) {
+      return _loadedAddresses(state.addresses);
+    }
+    return const SizedBox();
+  }
 
   Widget _loadedAddresses(List<AddressModel> addressList) => ListView.builder(
         itemCount: addressList.length,
@@ -44,22 +58,48 @@ class _SavedZipState extends State<FavoritesZipPAge> {
               horizontal: 16.0,
             ),
             child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(address.cep),
-                const SizedBox(height: 12),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16, bottom: 8),
-                  child: Text(
-                    '${address.logradouro}\n${address.complemento}'
-                    '\nBairro: ${address.bairro},\nDDD: ${address.ddd},'
-                    '\n${address.localidade}, ${address.uf}',
-                  ),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          address.cep,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            favoritesCubit.deleteAddress(addressList, address);
+                          },
+                          icon: const Icon(Icons.delete),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Text(
+                        _addressText(address),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            )),
+              ),
+            ),
           );
         },
       );
+
+  String _addressText(AddressModel address) =>
+      '${address.logradouro},\n${_complementField(address.complemento)},'
+      '\nBairro: ${address.bairro},\nDDD: ${address.ddd},'
+      '\n${address.localidade}, ${address.uf}';
+
+  String _complementField(String complement) {
+    return complement.isEmpty ? AppStrings.emptyComplementText : complement;
+  }
 }

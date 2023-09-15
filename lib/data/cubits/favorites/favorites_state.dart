@@ -8,6 +8,10 @@ class LoadFavoriteZipState extends FavoritesState {
   final List<AddressModel> addresses;
 
   LoadFavoriteZipState(this.addresses);
+}
 
-  //! create state to show when address is removed successfully
+class DeletedFavoriteZipState extends FavoritesState {
+  final String deletedMessage;
+
+  DeletedFavoriteZipState(this.deletedMessage);
 }
