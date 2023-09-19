@@ -19,12 +19,8 @@ class _RootPageState extends State<RootPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text(AppStrings.appbarText),
-        ),
         bottomNavigationBar: _bottomNavigationWidget(),
-        body: _body(),
+        body: SafeArea(child: _body()),
       );
 
   Widget _bottomNavigationWidget() =>
