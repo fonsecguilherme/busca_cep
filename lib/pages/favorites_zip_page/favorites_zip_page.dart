@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/commons/app_strings.dart';
@@ -16,11 +19,24 @@ class _SavedZipState extends State<FavoritesZipPAge> {
   FavoritesCubit get favoritesCubit => context.read<FavoritesCubit>();
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: BlocConsumer<FavoritesCubit, FavoritesState>(
-          bloc: favoritesCubit,
-          listener: listener,
-          builder: builder,
+  Widget build(BuildContext context) => Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Theme.of(context).colorScheme.primaryContainer,
+              Colors.white,
+            ],
+          ),
+        ),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: BlocConsumer<FavoritesCubit, FavoritesState>(
+            bloc: favoritesCubit,
+            listener: listener,
+            builder: builder,
+          ),
         ),
       );
 
@@ -73,9 +89,29 @@ class _SavedZipState extends State<FavoritesZipPAge> {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {
-                            favoritesCubit.deleteAddress(addressList, address);
-                          },
+                          onPressed: () => _showAdaptiveDialog(
+                            context,
+                            title: const Text(AppStrings.dialogTitleText),
+                            content: const Text(
+                              AppStrings.dialogContentText,
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text('Cancelar'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  favoritesCubit.deleteAddress(
+                                    addressList,
+                                    address,
+                                  );
+                                  Navigator.pop(context);
+                                },
+                                child: const Text(AppStrings.okText),
+                              ),
+                            ],
+                          ),
                           icon: const Icon(Icons.delete),
                         ),
                       ],
@@ -94,9 +130,34 @@ class _SavedZipState extends State<FavoritesZipPAge> {
         },
       );
 
+  void _showAdaptiveDialog(
+    context, {
+    required Text title,
+    required Text content,
+    required List<Widget> actions,
+  }) {
+    Platform.isIOS || Platform.isMacOS
+        ? showCupertinoDialog<String>(
+            context: context,
+            builder: (BuildContext context) => CupertinoAlertDialog(
+              title: title,
+              content: content,
+              actions: actions,
+            ),
+          )
+        : showDialog(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+              title: title,
+              content: content,
+              actions: actions,
+            ),
+          );
+  }
+
   String _addressText(AddressModel address) =>
       '${address.logradouro},\n${_complementField(address.complemento)},'
-      '\nBairro: ${address.bairro},\nDDD: ${address.ddd},'
+      '\nBairro: ${address.bairro},'
       '\n${address.localidade}, ${address.uf}';
 
   String _complementField(String complement) {

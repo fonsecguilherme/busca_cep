@@ -20,7 +20,9 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         useMaterial3: true,
-        colorSchemeSeed: Colors.purple,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.purple,
+        ),
       ),
       debugShowCheckedModeBanner: false,
       home: MultiBlocProvider(
