@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zip_search/commons/app_strings.dart';
 import 'package:zip_search/model/address_model.dart';
 import 'package:zip_search/pages/search_page/widgets/add_favorites_button.dart';
 import 'package:zip_search/pages/search_page/widgets/initial_widget.dart';
@@ -20,23 +21,40 @@ class SuccessWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const InitialWidget(),
-            const SizedBox(height: 12),
-            Container(
-              decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 211, 211, 211),
-                  borderRadius: BorderRadius.all(Radius.circular(16))),
-              padding: const EdgeInsets.all(8.0),
-              child: _addressWidget(),
-            ),
-            const SizedBox(height: 12),
+            _addressWidget(),
             AddFavoritesButton(address: address),
           ],
         ),
       );
 
-  Widget _addressWidget() => Text(
-        'CEP pesquisado: ${address.cep}\n${address.logradouro}\n${address.complemento}'
-        '\nBairro: ${address.bairro},\nDDD: ${address.ddd},\nCidade: ${address.localidade},\nEstado: ${address.uf}',
-        textAlign: TextAlign.center,
+  Widget _addressWidget() => Padding(
+        padding: const EdgeInsets.only(
+          top: 12,
+          bottom: 12,
+          left: 18,
+          right: 32,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              AppStrings.addressText,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.purple,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            Text(
+              '${address.logradouro} ${_complementFormat()}'
+              ' - ${address.bairro} \n${address.localidade} ${address.uf}'
+              ' - CEP ${address.cep}',
+              textAlign: TextAlign.left,
+            ),
+          ],
+        ),
       );
+
+  String _complementFormat() =>
+      address.complemento.isEmpty ? '' : '- ${address.complemento}';
 }
