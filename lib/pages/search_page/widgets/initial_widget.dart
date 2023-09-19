@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zip_search/commons/app_strings.dart';
 import 'package:zip_search/data/cubits/search_zip/search_zip_cubit.dart';
 
 class InitialWidget extends StatefulWidget {
@@ -27,7 +28,12 @@ class _InitialWidgetState extends State<InitialWidget> {
         key: InitialWidget.initialWidgetKey,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text('Digite o seu cep abaixo: '),
+          const Text(
+            AppStrings.searchPageMessage,
+            style: TextStyle(
+              fontSize: 16,
+            ),
+          ),
           const SizedBox(height: 12),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -39,22 +45,17 @@ class _InitialWidgetState extends State<InitialWidget> {
                 border: OutlineInputBorder(),
                 filled: true,
                 hintStyle: TextStyle(color: Colors.grey),
-                hintText: "Somente números =)",
+                hintText: AppStrings.textFieldText,
                 fillColor: Colors.white70,
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12.0),
-            child: Text(
-                'Quantidade de ceps procuados com sucesso: ${cubit.counterSearchedZips}'),
           ),
           ElevatedButton(
             onPressed: () {
               cubit.searchZip(zipCode: _zipController.text);
               _zipController.clear();
             },
-            child: const Text('Buscar cep!'),
+            child: const Text(AppStrings.searchPagebuttonText),
           )
         ],
       );
