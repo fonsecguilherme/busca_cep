@@ -49,7 +49,6 @@ class _HomeState extends State<SearchPage> {
     } else if (state is FavoritedAddressZipState) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          backgroundColor: Colors.green,
           content: Text(state.message),
           duration: const Duration(seconds: 5),
         ),
