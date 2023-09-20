@@ -1,6 +1,11 @@
+import 'package:equatable/equatable.dart';
 import 'package:zip_search/model/address_model.dart';
 
-abstract class SearchZipState {}
+abstract class SearchZipState extends Equatable {
+  @override
+  @override
+  List<Object> get props => [];
+}
 
 class InitialSearchZipState extends SearchZipState {}
 

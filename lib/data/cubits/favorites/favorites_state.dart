@@ -1,6 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:zip_search/model/address_model.dart';
 
-abstract class FavoritesState {}
+abstract class FavoritesState extends Equatable {
+  @override
+  List<Object> get props => [];
+}
 
 class InitialFavoriteState extends FavoritesState {}
 
