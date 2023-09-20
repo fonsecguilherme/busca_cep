@@ -19,6 +19,12 @@ class _SavedZipState extends State<FavoritesZipPAge> {
   FavoritesCubit get favoritesCubit => context.read<FavoritesCubit>();
 
   @override
+  void initState() {
+    super.initState();
+    favoritesCubit.loadFavoriteAddresses();
+  }
+
+  @override
   Widget build(BuildContext context) => Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -44,7 +50,6 @@ class _SavedZipState extends State<FavoritesZipPAge> {
     if (state is DeletedFavoriteZipState) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          backgroundColor: Colors.green,
           content: Text(state.deletedMessage),
           duration: const Duration(seconds: 5),
         ),
@@ -103,7 +108,6 @@ class _SavedZipState extends State<FavoritesZipPAge> {
                               TextButton(
                                 onPressed: () {
                                   favoritesCubit.deleteAddress(
-                                    addressList,
                                     address,
                                   );
                                   Navigator.pop(context);
