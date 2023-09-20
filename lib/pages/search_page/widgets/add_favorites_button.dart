@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zip_search/commons/app_strings.dart';
 import 'package:zip_search/data/cubits/favorites/favorites_cubit.dart';
 import 'package:zip_search/data/cubits/search_zip/search_zip_cubit.dart';
 import 'package:zip_search/model/address_model.dart';
@@ -23,15 +24,15 @@ class _AddFavoritesButtonState extends State<AddFavoritesButton> {
       onPressed: () {
         searchZipCubit.addToFavorites(widget.address);
 
-        List<AddressModel> addressList = searchZipCubit.addressList;
-        favoritesCubit.loadFavoriteAddresses(addressList);
+        favoritesCubit.addressList = searchZipCubit.addressList;
+        favoritesCubit.loadFavoriteAdresses();
       },
       child: const Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(Icons.star_border_rounded),
           SizedBox(width: 5),
-          Text('Adicionar aos favoritos'),
+          Text(AppStrings.addToFavoritesButton),
         ],
       ),
     );
