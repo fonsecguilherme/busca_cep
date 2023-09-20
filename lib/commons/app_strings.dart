@@ -24,4 +24,19 @@ class AppStrings {
       'Digite o CEP que você deseja procurar:';
   static const String searchPagebuttonText = 'Buscar CEP!';
   static const String addressText = 'Endereço:';
+  static const String addToFavoritesButton = 'Adicionar aos favoritos';
+
+
+  //Cubit messages
+
+  //Search zip cubit
+  static const zipCodeEmptyErrorMessageText =
+      'Parece não foi digitado nenhum CEP!';
+  static const zipCodeInvalidErrorMessageText = 'CEP digitado não é válido.';
+
+  static const alreadyFavoritedZipCodeText = 'Ops! Esse cep já foi favoritado';
+  static const successZipFavoriteText = 'CEP favoritado com sucesso!';
+
+  //Favorites cubit
+  static const deletedFavoriteZipText = 'CEP deletado com sucesso!';
 }
