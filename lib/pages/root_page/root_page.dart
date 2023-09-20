@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/commons/app_strings.dart';
+import 'package:zip_search/data/cubits/favorites/favorites_cubit.dart';
 import 'package:zip_search/data/cubits/navigation/naviagtion_state.dart';
 import 'package:zip_search/data/cubits/navigation/navigation_cubit.dart';
 import 'package:zip_search/pages/counter_page/counter_page.dart';
@@ -15,7 +16,8 @@ class RootPage extends StatefulWidget {
 }
 
 class _RootPageState extends State<RootPage> {
-  NavigationCubit get cubit => context.read<NavigationCubit>();
+  NavigationCubit get navigationCubit => context.read<NavigationCubit>();
+  FavoritesCubit get favoritesCubit => context.read<FavoritesCubit>();
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -28,24 +30,31 @@ class _RootPageState extends State<RootPage> {
         builder: (context, state) {
           return BottomNavigationBar(
             currentIndex: state.index,
-            items: const [
-              BottomNavigationBarItem(
+            items: [
+              const BottomNavigationBarItem(
                   icon: Icon(Icons.home_outlined),
                   label: AppStrings.navigationBarLabel01),
-              BottomNavigationBarItem(
+              const BottomNavigationBarItem(
                   icon: Icon(Icons.search),
                   label: AppStrings.navigationBarLabel02),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.star_border_rounded),
+                  icon: Badge(
+                    label: Text(
+                      favoritesCubit.addressList.length.toString(),
+                    ),
+                    child: const Icon(
+                      Icons.star_border_rounded,
+                    ),
+                  ),
                   label: AppStrings.navigationBarLabel03)
             ],
             onTap: (index) {
               if (index == 0) {
-                cubit.getNavBarItem(NavBarItem.counter);
+                navigationCubit.getNavBarItem(NavBarItem.counter);
               } else if (index == 1) {
-                cubit.getNavBarItem(NavBarItem.search);
+                navigationCubit.getNavBarItem(NavBarItem.search);
               } else if (index == 2) {
-                cubit.getNavBarItem(NavBarItem.saved);
+                navigationCubit.getNavBarItem(NavBarItem.saved);
               }
             },
           );
