@@ -19,12 +19,6 @@ class _SavedZipState extends State<FavoritesZipPAge> {
   FavoritesCubit get favoritesCubit => context.read<FavoritesCubit>();
 
   @override
-  void initState() {
-    super.initState();
-    favoritesCubit.loadFavoriteAddresses();
-  }
-
-  @override
   Widget build(BuildContext context) => Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
