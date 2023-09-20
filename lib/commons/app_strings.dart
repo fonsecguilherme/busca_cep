@@ -26,7 +26,6 @@ class AppStrings {
   static const String addressText = 'Endereço:';
   static const String addToFavoritesButton = 'Adicionar aos favoritos';
 
-
   //Cubit messages
 
   //Search zip cubit
