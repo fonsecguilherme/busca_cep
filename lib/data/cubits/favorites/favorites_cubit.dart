@@ -8,7 +8,7 @@ class FavoritesCubit extends Cubit<FavoritesState> {
 
   List<AddressModel> addressList = [];
 
-  void loadFavoriteAddresses() {
+  void loadFavoriteAdresses() {
     emit(LoadFavoriteZipState(addressList));
   }
 
