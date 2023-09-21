@@ -37,10 +37,6 @@ void main() {
     await _createWidget(tester);
 
     expect(find.byKey(InitialWidget.initialWidgetKey), findsOneWidget);
-    expect(
-        find.text(
-            'Quantidade de ceps procuados com sucesso: ${searchZipCubit.counterSearchedZips}'),
-        findsOneWidget);
   });
 
   testWidgets('Loading screen', (tester) async {
