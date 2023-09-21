@@ -11,8 +11,9 @@ class SearchZipCubit extends Cubit<SearchZipState> {
         super(InitialSearchZipState());
 
   final ViaCepRepository _viaCepRepository;
-  final List<AddressModel> _addressList = [];
-  List<AddressModel> get addressList => _addressList;
+  List<AddressModel> addressList = [];
+  //List<AddressModel> get addressList => _addressList;
+  //set addressList(List<AddressModel> addressList) => _addressList = addressList;
   int counterSearchedZips = 0;
   int counterFavZips = 0;
 
@@ -38,11 +39,11 @@ class SearchZipCubit extends Cubit<SearchZipState> {
   }
 
   void addToFavorites(AddressModel address) {
-    if (_addressList.contains(address)) {
+    if (addressList.contains(address)) {
       emit(ErrorAlreadyAddedZipState(
           errorMessage: AppStrings.alreadyFavoritedZipCodeText));
     } else {
-      _addressList.add(address);
+      addressList.add(address);
       counterFavZips++;
       emit(
           FavoritedAddressZipState(message: AppStrings.successZipFavoriteText));
