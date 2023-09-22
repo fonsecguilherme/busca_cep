@@ -11,6 +11,8 @@ import 'package:zip_search/model/address_model.dart';
 class FavoritesZipPAge extends StatefulWidget {
   const FavoritesZipPAge({super.key});
 
+  static const loadedFavoriteAdressesKey = Key('loadedFavoriteAdressesKey');
+
   @override
   State<FavoritesZipPAge> createState() => _SavedZipState();
 }
@@ -64,6 +66,7 @@ class _SavedZipState extends State<FavoritesZipPAge> {
   }
 
   Widget _loadedAddresses(List<AddressModel> addressList) => ListView.builder(
+        key: FavoritesZipPAge.loadedFavoriteAdressesKey,
         itemCount: addressList.length,
         itemBuilder: (context, index) {
           final address = addressList[index];
