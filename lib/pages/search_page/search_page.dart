@@ -38,6 +38,14 @@ class _HomeState extends State<SearchPage> {
           duration: const Duration(seconds: 5),
         ),
       );
+    } else if (state is ErrorEmptyZipState) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Theme.of(context).colorScheme.error,
+          content: Text(state.errorEmptyMessage),
+          duration: const Duration(seconds: 5),
+        ),
+      );
     } else if (state is ErrorAlreadyAddedZipState) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

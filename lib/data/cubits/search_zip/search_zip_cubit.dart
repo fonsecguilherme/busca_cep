@@ -29,8 +29,8 @@ class SearchZipCubit extends Cubit<SearchZipState> {
       }
     } on Exception {
       if (zipCode.isEmpty) {
-        emit(ErrorSearchZipState(
-            errorMessage: AppStrings.zipCodeEmptyErrorMessageText));
+        emit(ErrorEmptyZipState(
+            errorEmptyMessage: AppStrings.zipCodeEmptyErrorMessageText));
       } else {
         emit(ErrorSearchZipState(
             errorMessage: AppStrings.zipCodeInvalidErrorMessageText));

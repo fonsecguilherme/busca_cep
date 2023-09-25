@@ -29,6 +29,12 @@ class ErrorSearchZipState extends SearchZipState {
   ErrorSearchZipState({required this.errorMessage});
 }
 
+class ErrorEmptyZipState extends SearchZipState {
+  final String errorEmptyMessage;
+
+  ErrorEmptyZipState({required this.errorEmptyMessage});
+}
+
 class ErrorAlreadyAddedZipState extends SearchZipState {
   final String errorMessage;
 
