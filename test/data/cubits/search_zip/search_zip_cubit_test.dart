@@ -28,8 +28,8 @@ void main() {
       act: (cubit) => cubit.searchZip(zipCode: ''),
       expect: () => <SearchZipState>[
         LoadingSearchZipState(),
-        ErrorSearchZipState(
-          errorMessage: AppStrings.zipCodeEmptyErrorMessageText,
+        ErrorEmptyZipState(
+          errorEmptyMessage: AppStrings.zipCodeEmptyErrorMessageText,
         )
       ],
     );
