@@ -10,7 +10,7 @@ English 🇺🇸
 
 **Front-end:** Dart e Flutter
 
-**Pacotes utilizados:** [BLoC](https://pub.dev/packages/bloc), [Flutter BLoC](https://pub.dev/packages/flutter_bloc), [HTTP](https://pub.dev/packages/http)
+**Pacotes utilizados:** [BLoC](https://pub.dev/packages/bloc), [Flutter BLoC](https://pub.dev/packages/flutter_bloc), [HTTP](https://pub.dev/packages/http), [BLoC test](https://pub.dev/packages/bloc_test), [Equatable](https://pub.dev/packages/equatable), [Mocktail](https://pub.dev/packages/mocktail), [BLoC test](https://pub.dev/packages/bloc_test)
 
 State management: BLoC and Flutter BLoC
 
