@@ -17,39 +17,42 @@ State management: BLoC and Flutter BLoC
 API requests: HTTP
 ## Screenshots
 
-* Initial Screen Android/iOS
+* Counter screen Android/iOS
 <p float="left">
-  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/initialScreenAndroid.png" width="350" />
-  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/initialScreenIOS.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/counter_screen_android.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/counter_screen_ios.png" width="350" />
 </p>
 
-* Success screen Android/iOS
+* Search screen Android/iOS
 <p float="left">
-  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/successZipSearchAndroid.png" width="350" />
-  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/successZipSearchIOS.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/search_screen_android.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/search_screen_ios.png" width="350" />
 </p>
 
-* No ZIP typed error Android/iOS
+* Favorites Screen empty Android/iOS
 <p float="left">
-  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/noZipTypedAndroid.png" width="350" />
-  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/noZipTypedIOS.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/favorites_screens_android.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/favorites_screens_ios.png" width="350" />
 </p>
 
-* Invalid ZIP error Android/iOS
+* Favorites Screen populated Android/iOS
 <p float="left">
-  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/notValidZipAndroid.png" width="350" />
-  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/notValidZipIOS.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/favorites_screen_populated_android.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/favorites_screen_populated_ios.png" width="350" />
 </p>
 
+* Success favorite address Android/iOS
+<p float="left">
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/flushbar_success_favorite_android.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/flushbar_success_favorite_ios.png" width="350" />
+</p>
 
 
 ## Melhorias
 
 PT/BR 🇧🇷
-- Como é um app apenas para fins de estudo, as telas não momento não estão estilizadas. 
-- Algumas das novas funcionalidades que serão adicionadas no futuro podem ser vista na aba de issues.
+- Implementar persistência de dados tanto dos contadores quanto dos endereços salvos. 
 
 English 🇺🇸
-- Since the it is a porject for study pupose only, the screens are not styled.
-- Some new functionalities will be developed in the future. check the issues tab to see them.
+- Implement data persistance of both counters and saved adresses.
 
