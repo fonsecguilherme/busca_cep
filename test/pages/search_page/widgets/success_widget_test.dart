@@ -17,7 +17,7 @@ void main() {
     searchZipCubit = MockSearchZipCubit();
   });
 
-  testWidgets('Should whow address after', (tester) async {
+  testWidgets('Should show address after', (tester) async {
     when(() => searchZipCubit.counterSearchedZips).thenReturn(1);
     await _createWidget(tester);
 

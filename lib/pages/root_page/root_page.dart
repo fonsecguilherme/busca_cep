@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/commons/app_strings.dart';
 import 'package:zip_search/data/cubits/favorites/favorites_cubit.dart';
-import 'package:zip_search/data/cubits/navigation/naviagtion_state.dart';
+import 'package:zip_search/data/cubits/navigation/navigation_state.dart';
 import 'package:zip_search/data/cubits/navigation/navigation_cubit.dart';
 import 'package:zip_search/pages/counter_page/counter_page.dart';
 import 'package:zip_search/pages/favorites_zip_page/favorites_zip_page.dart';

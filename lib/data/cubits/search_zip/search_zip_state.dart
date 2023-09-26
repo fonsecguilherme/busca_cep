@@ -1,6 +1,11 @@
+import 'package:equatable/equatable.dart';
 import 'package:zip_search/model/address_model.dart';
 
-abstract class SearchZipState {}
+abstract class SearchZipState extends Equatable {
+  @override
+  @override
+  List<Object> get props => [];
+}
 
 class InitialSearchZipState extends SearchZipState {}
 
@@ -22,6 +27,12 @@ class ErrorSearchZipState extends SearchZipState {
   final String errorMessage;
 
   ErrorSearchZipState({required this.errorMessage});
+}
+
+class ErrorEmptyZipState extends SearchZipState {
+  final String errorEmptyMessage;
+
+  ErrorEmptyZipState({required this.errorEmptyMessage});
 }
 
 class ErrorAlreadyAddedZipState extends SearchZipState {

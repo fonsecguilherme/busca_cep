@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:zip_search/data/cubits/navigation/naviagtion_state.dart';
+import 'package:zip_search/data/cubits/navigation/navigation_state.dart';
 
 class NavigationCubit extends Cubit<NavigationState> {
   NavigationCubit() : super(const NavigationState(NavBarItem.counter, 0));
