@@ -45,7 +45,7 @@ class AppStrings {
 
   static const String welcomePageItemTitle04 = 'Tela de Favoritos';
   static const String welcomePageItemMessage04 =
-      'Nessa tela temos todos os seus CEOs favoritados!'
+      'Nessa tela temos todos os seus CEPs favoritados!'
       'Caso seja desejado, também é possível apagar o endereço favoritado';
 
   //Cubit messages
