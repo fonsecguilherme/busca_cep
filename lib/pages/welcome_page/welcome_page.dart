@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zip_search/commons/app_strings.dart';
-import 'package:zip_search/data/cubits/favorites/favorites_cubit.dart';
-import 'package:zip_search/data/cubits/navigation/navigation_cubit.dart';
-import 'package:zip_search/data/cubits/search_zip/search_zip_cubit.dart';
 import 'package:zip_search/pages/root_page/root_page.dart';
 import 'package:zip_search/pages/welcome_page/widgets/welcome_page_item.dart';
 
