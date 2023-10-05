@@ -26,6 +26,28 @@ class AppStrings {
   static const String addressText = 'Endereço:';
   static const String addToFavoritesButton = 'Adicionar aos favoritos';
 
+  //Welcome page
+  static const String welcomePageItemTitle01 = 'Seja bem vindo ao Busca CEP!';
+  static const String welcomePageItemMessage01 =
+      'Primeiramente gostaria de agradecer pelo download!\n\nEspero que o app seja útil no seu dia-a-dia.';
+
+  static const String welcomePageItemTitle02 = 'Home Page';
+  static const String welcomePageItemMessage02 =
+      'Nessa tela teremos os dois contadores.'
+      '\n• Primeiro representando as quantidades totais de CEPs procurados.'
+      '\n• Segundo representando a quantidade de CEPs totais que foram favoritados.';
+
+  static const String welcomePageItemTitle03 = 'Tela de Busca';
+  static const String welcomePageItemMessage03 =
+      'Essa é a tela principal do app!'
+      'Onde você pode realizar suas consultas e caso deseje, '
+      'favoritar seus endereços e consultá-los na tela de favoritos.';
+
+  static const String welcomePageItemTitle04 = 'Tela de Favoritos';
+  static const String welcomePageItemMessage04 =
+      'Nessa tela temos todos os seus CEOs favoritados!'
+      'Caso seja desejado, também é possível apagar o endereço favoritado';
+
   //Cubit messages
 
   //Search zip cubit
