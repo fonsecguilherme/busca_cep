@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:zip_search/data/cubits/favorites/favorites_cubit.dart';
-import 'package:zip_search/data/cubits/navigation/navigation_cubit.dart';
-import 'package:zip_search/data/cubits/search_zip/search_zip_cubit.dart';
 import 'package:zip_search/data/via_cep_repository.dart';
-import 'package:zip_search/pages/root_page/root_page.dart';
+import 'package:zip_search/pages/welcome_page/welcome_page.dart';
 
 void main() {
   runApp(MainApp());
@@ -25,20 +21,7 @@ class MainApp extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => SearchZipCubit(),
-          ),
-          BlocProvider(
-            create: (context) => NavigationCubit(),
-          ),
-          BlocProvider(
-            create: (context) => FavoritesCubit(),
-          ),
-        ],
-        child: const RootPage(),
-      ),
+      home: const WelcomePage(),
     );
   }
 }
