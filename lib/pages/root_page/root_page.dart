@@ -51,11 +51,9 @@ class _RootPageState extends State<RootPage> {
               BottomNavigationBarItem(
                   icon: Badge(
                     label: Text(BlocProvider.of<FavoritesCubit>(context)
-                            .addressList
-                            .length
-                            .toString()
-                        //favoritesCubit.addressList.length.toString(),
-                        ),
+                        .addressList
+                        .length
+                        .toString()),
                     child: const Icon(
                       Icons.star_border_rounded,
                     ),
