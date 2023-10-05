@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zip_search/commons/app_strings.dart';
+import 'package:zip_search/data/cubits/favorites/favorites_cubit.dart';
+import 'package:zip_search/data/cubits/navigation/navigation_cubit.dart';
+import 'package:zip_search/data/cubits/search_zip/search_zip_cubit.dart';
+import 'package:zip_search/pages/root_page/root_page.dart';
 import 'package:zip_search/pages/welcome_page/widgets/welcome_page_item.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -66,7 +71,10 @@ class _WelcomeState extends State<WelcomePage> {
                   child: SmoothPageIndicator(
                     controller: _pageController,
                     count: 4,
-                    effect: const WormEffect(),
+                    effect: WormEffect(
+                      activeDotColor: Theme.of(context).colorScheme.primary,
+                      dotColor: Theme.of(context).colorScheme.primaryContainer,
+                    ),
                   ),
                 ),
               )
@@ -80,9 +88,9 @@ class _WelcomeState extends State<WelcomePage> {
         ? const SizedBox(height: 44)
         : ElevatedButton(
             onPressed: () {
-              //TODO: implementar navegação para a root page
-
-              print('bateu papi');
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (_) => const RootPage()),
+              );
             },
             child: const Text('Ir para home'),
           );
