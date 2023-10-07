@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:zip_search/data/via_cep_repository.dart';
 import 'package:zip_search/pages/welcome_page/welcome_page.dart';
 
 void main() {
-  runApp(MainApp());
+  runApp(const MainApp());
 }
 
 class MainApp extends StatelessWidget {
-  MainApp({super.key});
-
-  final ViaCepRepository viaCepRepository = ViaCepRepository();
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
