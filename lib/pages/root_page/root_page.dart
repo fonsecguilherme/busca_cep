@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/commons/app_strings.dart';
 import 'package:zip_search/data/cubits/favorites/favorites_cubit.dart';
-import 'package:zip_search/data/cubits/navigation/navigation_state.dart';
 import 'package:zip_search/data/cubits/navigation/navigation_cubit.dart';
+import 'package:zip_search/data/cubits/navigation/navigation_state.dart';
+import 'package:zip_search/data/cubits/search_zip/search_zip_cubit.dart';
 import 'package:zip_search/pages/counter_page/counter_page.dart';
 import 'package:zip_search/pages/favorites_zip_page/favorites_zip_page.dart';
 import 'package:zip_search/pages/search_page/search_page.dart';
@@ -16,13 +17,23 @@ class RootPage extends StatefulWidget {
 }
 
 class _RootPageState extends State<RootPage> {
-  NavigationCubit get navigationCubit => context.read<NavigationCubit>();
-  FavoritesCubit get favoritesCubit => context.read<FavoritesCubit>();
-
   @override
-  Widget build(BuildContext context) => Scaffold(
-        bottomNavigationBar: _bottomNavigationWidget(),
-        body: SafeArea(child: _body()),
+  Widget build(BuildContext context) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => SearchZipCubit(),
+          ),
+          BlocProvider(
+            create: (context) => NavigationCubit(),
+          ),
+          BlocProvider(
+            create: (context) => FavoritesCubit(),
+          ),
+        ],
+        child: Scaffold(
+          bottomNavigationBar: _bottomNavigationWidget(),
+          body: SafeArea(child: _body()),
+        ),
       );
 
   Widget _bottomNavigationWidget() =>
@@ -39,9 +50,10 @@ class _RootPageState extends State<RootPage> {
                   label: AppStrings.navigationBarLabel02),
               BottomNavigationBarItem(
                   icon: Badge(
-                    label: Text(
-                      favoritesCubit.addressList.length.toString(),
-                    ),
+                    label: Text(BlocProvider.of<FavoritesCubit>(context)
+                        .addressList
+                        .length
+                        .toString()),
                     child: const Icon(
                       Icons.star_border_rounded,
                     ),
@@ -50,11 +62,14 @@ class _RootPageState extends State<RootPage> {
             ],
             onTap: (index) {
               if (index == 0) {
-                navigationCubit.getNavBarItem(NavBarItem.counter);
+                BlocProvider.of<NavigationCubit>(context)
+                    .getNavBarItem(NavBarItem.counter);
               } else if (index == 1) {
-                navigationCubit.getNavBarItem(NavBarItem.search);
+                BlocProvider.of<NavigationCubit>(context)
+                    .getNavBarItem(NavBarItem.search);
               } else if (index == 2) {
-                navigationCubit.getNavBarItem(NavBarItem.saved);
+                BlocProvider.of<NavigationCubit>(context)
+                    .getNavBarItem(NavBarItem.saved);
               }
             },
           );

@@ -1,19 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:zip_search/data/cubits/favorites/favorites_cubit.dart';
-import 'package:zip_search/data/cubits/navigation/navigation_cubit.dart';
-import 'package:zip_search/data/cubits/search_zip/search_zip_cubit.dart';
-import 'package:zip_search/data/via_cep_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zip_search/commons/shared_preferences_keys.dart';
 import 'package:zip_search/pages/root_page/root_page.dart';
+import 'package:zip_search/pages/welcome_page/welcome_page.dart';
 
-void main() {
-  runApp(MainApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  var prefs = await SharedPreferences.getInstance();
+  var isFirstExecution = prefs.getBool(SharedPreferencesKeys.boolKey) ?? true;
+
+  runApp(MainApp(
+    prefs: prefs,
+    isFirstExecution: isFirstExecution,
+  ));
 }
 
 class MainApp extends StatelessWidget {
-  MainApp({super.key});
+  const MainApp({
+    super.key,
+    required this.prefs,
+    required this.isFirstExecution,
+  });
 
-  final ViaCepRepository viaCepRepository = ViaCepRepository();
+  final SharedPreferences prefs;
+
+  final bool isFirstExecution;
 
   @override
   Widget build(BuildContext context) {
@@ -25,20 +37,11 @@ class MainApp extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => SearchZipCubit(),
-          ),
-          BlocProvider(
-            create: (context) => NavigationCubit(),
-          ),
-          BlocProvider(
-            create: (context) => FavoritesCubit(),
-          ),
-        ],
-        child: const RootPage(),
-      ),
+      home: isFirstExecution
+          ? WelcomePage(
+              prefs: prefs,
+            )
+          : const RootPage(),
     );
   }
 }
