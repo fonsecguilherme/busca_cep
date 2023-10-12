@@ -12,8 +12,6 @@ class SearchZipCubit extends Cubit<SearchZipState> {
 
   final ViaCepRepository _viaCepRepository;
   List<AddressModel> addressList = [];
-  //List<AddressModel> get addressList => _addressList;
-  //set addressList(List<AddressModel> addressList) => _addressList = addressList;
   int counterSearchedZips = 0;
   int counterFavZips = 0;
 
