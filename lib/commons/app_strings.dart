@@ -47,6 +47,7 @@ class AppStrings {
   static const String welcomePageItemMessage04 =
       'Nessa tela temos todos os seus CEPs favoritados!'
       'Caso seja desejado, também é possível apagar o endereço favoritado';
+  static const String goToHomeButton = 'Ir para home';
 
   //Cubit messages
 
