@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/commons/app_strings.dart';
+import 'package:zip_search/commons/shared_preferences_keys.dart';
 import 'package:zip_search/data/cubits/search_zip/search_zip_cubit.dart';
-import 'package:zip_search/data/cubits/search_zip/search_zip_state.dart';
+import 'package:zip_search/services/shared_services.dart';
 
 class CounterPage extends StatefulWidget {
   const CounterPage({super.key});
@@ -14,6 +15,36 @@ class CounterPage extends StatefulWidget {
 }
 
 class _CounterPageState extends State<CounterPage> {
+  int counterSearch = 0;
+  int counterFav = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _recoverCounterSearchValue();
+    _recoverCounterFavoritesValue();
+  }
+
+  void _recoverCounterSearchValue() async {
+    int value = await SharedServices.getInt(
+            SharedPreferencesKeys.counterSearchedZipsKeys) ??
+        counterSearch;
+
+    setState(() {
+      counterSearch = value;
+    });
+  }
+
+  void _recoverCounterFavoritesValue() async {
+    int value =
+        await SharedServices.getInt(SharedPreferencesKeys.savedZipKey) ??
+            counterFav;
+
+    setState(() {
+      counterFav = value;
+    });
+  }
+
   SearchZipCubit get searchZipCubit => context.read<SearchZipCubit>();
 
   @override
@@ -27,12 +58,12 @@ class _CounterPageState extends State<CounterPage> {
         children: [
           _greetingsWidget(),
           _counterBarWidgets(
-            counterType: searchZipCubit.counterSearchedZips,
+            value: counterSearch,
             icon: Icons.check,
             text: AppStrings.successfulSearchedZipsText,
           ),
           _counterBarWidgets(
-            counterType: searchZipCubit.counterFavZips,
+            value: counterFav,
             icon: Icons.bookmark_border_rounded,
             text: AppStrings.successfulSavedZipsText,
           ),
@@ -50,31 +81,28 @@ class _CounterPageState extends State<CounterPage> {
       );
 
   Widget _counterBarWidgets({
-    required int counterType,
+    required int value,
     required IconData icon,
     required String text,
-  }) =>
-      Card(
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Row(
-            children: [
-              Icon(icon),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  text,
-                ),
+  }) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Row(
+          children: [
+            Icon(icon),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                text,
               ),
-              BlocBuilder<SearchZipCubit, SearchZipState>(
-                builder: (context, state) {
-                  return Text(
-                    '$counterType',
-                  );
-                },
-              ),
-            ],
-          ),
+            ),
+            Text(
+              value.toString(),
+            ),
+          ],
         ),
-      );
+      ),
+    );
+  }
 }
