@@ -9,7 +9,7 @@ class AppStrings {
   //Counter Page
   static const String greetingsText = 'Olá,\nseja bem vindo!';
   static const String successfulSearchedZipsText = 'CEPs prcurados com sucesso';
-  static const String successfulSavedZipsText = 'CEPs salvos';
+  static const String successfulSavedZipsText = 'CEPs salvos totais';
 
   //Favorites page
   static const String initialZipPageText = 'Nenhum CEP foi favoritado!';
