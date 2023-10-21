@@ -31,7 +31,9 @@ class SharedServices {
   }
 
   static Future<void> saveListString(
-      String key, List<AddressModel> addressList) async {
+    String key,
+    List<AddressModel> addressList,
+  ) async {
     await _getPreferences();
 
     List<String> encodedList =
