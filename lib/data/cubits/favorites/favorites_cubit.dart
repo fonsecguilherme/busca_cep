@@ -14,8 +14,6 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     addressList =
         await SharedServices.getListString(SharedPreferencesKeys.savedAdresses);
 
-    emit(DeletedFavoriteZipState(
-        AppStrings.deletedFavoriteZipText)); //! se remover aqui não funciona
     if (addressList.isEmpty) {
       emit(InitialFavoriteState());
     } else {
