@@ -1,15 +1,22 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zip_search/commons/app_strings.dart';
 import 'package:zip_search/data/cubits/search_zip/search_zip_cubit.dart';
 import 'package:zip_search/data/cubits/search_zip/search_zip_state.dart';
 import 'package:zip_search/model/address_model.dart';
 
-void main() {
-  late SearchZipCubit searchZipCubit;
+class MockSharedPreferences extends Mock implements SharedPreferences {}
 
+late SearchZipCubit searchZipCubit;
+late SharedPreferences sharedPreferences;
+void main() {
   setUp(() {
     searchZipCubit = SearchZipCubit();
+    sharedPreferences = MockSharedPreferences();
+
+    TestWidgetsFlutterBinding.ensureInitialized();
   });
 
   group('Search ZIP tests |', () {

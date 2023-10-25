@@ -44,10 +44,13 @@ class SearchZipCubit extends Cubit<SearchZipState> {
     }
   }
 
-  void addToFavorites(AddressModel address) async {
+  Future<void> addToFavorites(AddressModel address) async {
     counterFavZips =
         await SharedServices.getInt(SharedPreferencesKeys.savedZipKey) ??
             counterFavZips;
+
+    addressList =
+        await SharedServices.getListString(SharedPreferencesKeys.savedAdresses);
 
     if (addressList.contains(address)) {
       emit(ErrorAlreadyAddedZipState(
@@ -59,6 +62,9 @@ class SearchZipCubit extends Cubit<SearchZipState> {
           SharedPreferencesKeys.savedZipKey, counterFavZips);
 
       addressList.add(address);
+
+      await SharedServices.saveListString(
+          SharedPreferencesKeys.savedAdresses, addressList);
       emit(
           FavoritedAddressZipState(message: AppStrings.successZipFavoriteText));
     }

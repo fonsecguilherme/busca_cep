@@ -18,6 +18,12 @@ class FavoritesZipPAge extends StatefulWidget {
 }
 
 class _SavedZipState extends State<FavoritesZipPAge> {
+  @override
+  void initState() {
+    super.initState();
+    favoritesCubit.loadFavoriteAdresses();
+  }
+
   FavoritesCubit get favoritesCubit => context.read<FavoritesCubit>();
 
   @override
