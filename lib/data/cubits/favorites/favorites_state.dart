@@ -12,6 +12,9 @@ class LoadFavoriteZipState extends FavoritesState {
   late final List<AddressModel> addresses;
 
   LoadFavoriteZipState(this.addresses);
+
+  @override
+  List<Object> get props => [addresses];
 }
 
 class DeletedFavoriteZipState extends FavoritesState {
