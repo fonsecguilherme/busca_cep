@@ -46,13 +46,3 @@ API requests: HTTP
   <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/flushbar_success_favorite_android.png" width="350" />
   <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/flushbar_success_favorite_ios.png" width="350" />
 </p>
-
-
-## Melhorias
-
-PT/BR 🇧🇷
-- Implementar persistência de dados tanto dos contadores quanto dos endereços salvos. 
-
-English 🇺🇸
-- Implement data persistance of both counters and saved adresses.
-
