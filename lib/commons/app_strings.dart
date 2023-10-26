@@ -9,7 +9,7 @@ class AppStrings {
   //Counter Page
   static const String greetingsText = 'Olá,\nseja bem vindo!';
   static const String successfulSearchedZipsText = 'CEPs prcurados com sucesso';
-  static const String successfulSavedZipsText = 'CEPs salvos';
+  static const String successfulSavedZipsText = 'CEPs salvos totais';
 
   //Favorites page
   static const String initialZipPageText = 'Nenhum CEP foi favoritado!';
@@ -47,6 +47,7 @@ class AppStrings {
   static const String welcomePageItemMessage04 =
       'Nessa tela temos todos os seus CEPs favoritados!'
       'Caso seja desejado, também é possível apagar o endereço favoritado';
+  static const String goToHomeButton = 'Ir para home';
 
   //Cubit messages
 

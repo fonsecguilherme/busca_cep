@@ -9,9 +9,12 @@ abstract class FavoritesState extends Equatable {
 class InitialFavoriteState extends FavoritesState {}
 
 class LoadFavoriteZipState extends FavoritesState {
-  final List<AddressModel> addresses;
+  late final List<AddressModel> addresses;
 
   LoadFavoriteZipState(this.addresses);
+
+  @override
+  List<Object> get props => [addresses];
 }
 
 class DeletedFavoriteZipState extends FavoritesState {

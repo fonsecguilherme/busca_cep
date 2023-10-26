@@ -96,7 +96,7 @@ class _WelcomeState extends State<WelcomePage> {
                 MaterialPageRoute(builder: (_) => const RootPage()),
               );
             },
-            child: const Text('Ir para home'),
+            child: const Text(AppStrings.goToHomeButton),
           );
   }
 
