@@ -2,14 +2,14 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:zip_search/data/cubits/favorites/favorites_cubit.dart';
-import 'package:zip_search/data/cubits/navigation/navigation_cubit.dart';
-import 'package:zip_search/data/cubits/navigation/navigation_state.dart';
-import 'package:zip_search/data/cubits/search_zip/search_zip_cubit.dart';
-import 'package:zip_search/pages/counter_page/counter_page.dart';
-import 'package:zip_search/pages/favorites_zip_page/favorites_zip_page.dart';
-import 'package:zip_search/pages/root_page/root_page.dart';
-import 'package:zip_search/pages/search_page/search_page.dart';
+import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubit.dart';
+import 'package:zip_search/core/features/navigation_page/cubit/navigation_cubit.dart';
+import 'package:zip_search/core/features/navigation_page/cubit/navigation_state.dart';
+import 'package:zip_search/core/features/counter_page/counter_page.dart';
+import 'package:zip_search/core/features/favorites_zip_page/favorites_zip_page.dart';
+import 'package:zip_search/core/features/navigation_page/navigation_page.dart';
+import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
+import 'package:zip_search/core/features/search_page/search_page.dart';
 
 class MockNavigationCubit extends MockCubit<NavigationState>
     implements NavigationCubit {}
@@ -73,7 +73,7 @@ Future<void> _createWidget(WidgetTester tester) async {
         ),
       ],
       child: const MaterialApp(
-        home: RootPage(),
+        home: NavigationPage(),
       ),
     ),
   );

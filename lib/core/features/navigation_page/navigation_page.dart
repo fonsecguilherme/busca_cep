@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:zip_search/commons/app_strings.dart';
-import 'package:zip_search/data/cubits/favorites/favorites_cubit.dart';
-import 'package:zip_search/data/cubits/navigation/navigation_cubit.dart';
-import 'package:zip_search/data/cubits/navigation/navigation_state.dart';
-import 'package:zip_search/data/cubits/search_zip/search_zip_cubit.dart';
-import 'package:zip_search/pages/counter_page/counter_page.dart';
-import 'package:zip_search/pages/favorites_zip_page/favorites_zip_page.dart';
-import 'package:zip_search/pages/search_page/search_page.dart';
+import 'package:zip_search/core/commons/app_strings.dart';
+import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubit.dart';
+import 'package:zip_search/core/features/navigation_page/cubit/navigation_cubit.dart';
+import 'package:zip_search/core/features/navigation_page/cubit/navigation_state.dart';
+import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
+import 'package:zip_search/core/features/counter_page/counter_page.dart';
+import 'package:zip_search/core/features/favorites_zip_page/favorites_zip_page.dart';
+import 'package:zip_search/core/features/search_page/search_page.dart';
 
-class RootPage extends StatefulWidget {
-  const RootPage({super.key});
+class NavigationPage extends StatefulWidget {
+  const NavigationPage({super.key});
 
   @override
-  State<RootPage> createState() => _RootPageState();
+  State<NavigationPage> createState() => _RootPageState();
 }
 
-class _RootPageState extends State<RootPage> {
+class _RootPageState extends State<NavigationPage> {
   @override
   Widget build(BuildContext context) => MultiBlocProvider(
         providers: [

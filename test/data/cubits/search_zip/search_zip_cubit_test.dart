@@ -2,10 +2,11 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zip_search/commons/app_strings.dart';
-import 'package:zip_search/data/cubits/search_zip/search_zip_cubit.dart';
-import 'package:zip_search/data/cubits/search_zip/search_zip_state.dart';
-import 'package:zip_search/model/address_model.dart';
+import 'package:zip_search/core/commons/app_strings.dart';
+import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
+import 'package:zip_search/core/features/search_page/cubit/search_zip_state.dart';
+
+import 'package:zip_search/core/model/address_model.dart';
 
 class MockSharedPreferences extends Mock implements SharedPreferences {}
 

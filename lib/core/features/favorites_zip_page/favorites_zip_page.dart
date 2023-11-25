@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:zip_search/commons/app_strings.dart';
-import 'package:zip_search/data/cubits/favorites/favorites_cubit.dart';
-import 'package:zip_search/data/cubits/favorites/favorites_state.dart';
-import 'package:zip_search/model/address_model.dart';
+import 'package:zip_search/core/commons/app_strings.dart';
+import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubit.dart';
+import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_state.dart';
+import 'package:zip_search/core/model/address_model.dart';
 
 class FavoritesZipPAge extends StatefulWidget {
   const FavoritesZipPAge({super.key});

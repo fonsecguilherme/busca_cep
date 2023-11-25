@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zip_search/pages/root_page/root_page.dart';
-import 'package:zip_search/pages/welcome_page/welcome_page.dart';
+import 'package:zip_search/core/features/navigation_page/navigation_page.dart';
+import 'package:zip_search/core/features/welcome_page/welcome_page.dart';
 
 class MyApp extends StatelessWidget {
   final SharedPreferences prefs;
@@ -26,6 +26,6 @@ class MyApp extends StatelessWidget {
             ? WelcomePage(
                 prefs: prefs,
               )
-            : const RootPage(),
+            : const NavigationPage(),
       );
 }

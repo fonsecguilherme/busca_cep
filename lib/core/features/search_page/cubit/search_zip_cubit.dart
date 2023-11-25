@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
-import 'package:zip_search/commons/app_strings.dart';
-import 'package:zip_search/commons/shared_preferences_keys.dart';
-import 'package:zip_search/data/cubits/search_zip/search_zip_state.dart';
-import 'package:zip_search/data/via_cep_repository.dart';
-import 'package:zip_search/model/address_model.dart';
-import 'package:zip_search/services/shared_services.dart';
+import 'package:zip_search/core/commons/app_strings.dart';
+import 'package:zip_search/core/commons/shared_preferences_keys.dart';
+import 'package:zip_search/core/features/search_page/cubit/search_zip_state.dart';
+import 'package:zip_search/domain/via_cep_repository.dart';
+import 'package:zip_search/core/model/address_model.dart';
+import 'package:zip_search/data/shared_services.dart';
 
 class SearchZipCubit extends Cubit<SearchZipState> {
   SearchZipCubit({

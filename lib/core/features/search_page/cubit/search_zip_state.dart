@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:zip_search/model/address_model.dart';
+import 'package:zip_search/core/model/address_model.dart';
 
 abstract class SearchZipState extends Equatable {
   @override

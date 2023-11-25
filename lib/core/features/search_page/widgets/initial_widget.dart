@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:zip_search/commons/app_strings.dart';
-import 'package:zip_search/data/cubits/search_zip/search_zip_cubit.dart';
+import 'package:zip_search/core/commons/app_strings.dart';
+import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
 
 class InitialWidget extends StatefulWidget {
   const InitialWidget({super.key});

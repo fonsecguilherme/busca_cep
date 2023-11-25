@@ -1,9 +1,9 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:zip_search/commons/app_strings.dart';
-import 'package:zip_search/data/cubits/favorites/favorites_cubit.dart';
-import 'package:zip_search/data/cubits/favorites/favorites_state.dart';
-import 'package:zip_search/model/address_model.dart';
+import 'package:zip_search/core/commons/app_strings.dart';
+import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubit.dart';
+import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_state.dart';
+import 'package:zip_search/core/model/address_model.dart';
 
 void main() {
   late FavoritesCubit favoritesCubit;

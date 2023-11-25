@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:zip_search/commons/app_strings.dart';
-import 'package:zip_search/commons/shared_preferences_keys.dart';
-import 'package:zip_search/pages/root_page/root_page.dart';
-import 'package:zip_search/pages/welcome_page/widgets/welcome_page_item.dart';
+import 'package:zip_search/core/commons/app_strings.dart';
+import 'package:zip_search/core/commons/shared_preferences_keys.dart';
+import 'package:zip_search/core/features/navigation_page/navigation_page.dart';
+import 'package:zip_search/core/features/welcome_page/widgets/welcome_page_item.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({
@@ -93,7 +93,7 @@ class _WelcomeState extends State<WelcomePage> {
         : ElevatedButton(
             onPressed: () {
               Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (_) => const RootPage()),
+                MaterialPageRoute(builder: (_) => const NavigationPage()),
               );
             },
             child: const Text(AppStrings.goToHomeButton),

@@ -2,12 +2,12 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:zip_search/commons/app_strings.dart';
-import 'package:zip_search/data/cubits/navigation/navigation_cubit.dart';
-import 'package:zip_search/data/cubits/search_zip/search_zip_cubit.dart';
-import 'package:zip_search/data/cubits/search_zip/search_zip_state.dart';
-import 'package:zip_search/model/address_model.dart';
-import 'package:zip_search/pages/counter_page/counter_page.dart';
+import 'package:zip_search/core/commons/app_strings.dart';
+import 'package:zip_search/core/features/counter_page/counter_page.dart';
+import 'package:zip_search/core/features/navigation_page/cubit/navigation_cubit.dart';
+import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
+import 'package:zip_search/core/features/search_page/cubit/search_zip_state.dart';
+import 'package:zip_search/core/model/address_model.dart';
 
 class MockSearchZipCubit extends MockCubit<SearchZipState>
     implements SearchZipCubit {}

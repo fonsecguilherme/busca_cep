@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zip_search/model/address_model.dart';
+import 'package:zip_search/core/model/address_model.dart';
 
 class SharedServices {
   static SharedPreferences? _preferences;

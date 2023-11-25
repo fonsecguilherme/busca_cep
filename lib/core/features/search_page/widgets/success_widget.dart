@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:zip_search/commons/app_strings.dart';
-import 'package:zip_search/model/address_model.dart';
-import 'package:zip_search/pages/search_page/widgets/add_favorites_button.dart';
-import 'package:zip_search/pages/search_page/widgets/initial_widget.dart';
+import 'package:zip_search/core/commons/app_strings.dart';
+import 'package:zip_search/core/model/address_model.dart';
+import 'package:zip_search/core/features/search_page/widgets/add_favorites_button.dart';
+import 'package:zip_search/core/features/search_page/widgets/initial_widget.dart';
 
 class SuccessWidget extends StatelessWidget {
   final AddressModel address;

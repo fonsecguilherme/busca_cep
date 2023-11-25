@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:zip_search/model/address_model.dart';
+import 'package:zip_search/core/model/address_model.dart';
 
 abstract interface class IViaCepRepository {
-  Future<AddressModel?> fetchAddress(String zipCodel);
+  Future<AddressModel?> fetchAddress(String zipCode);
 }
 
 class ViaCepRepository implements IViaCepRepository {

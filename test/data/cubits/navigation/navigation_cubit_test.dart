@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:zip_search/data/cubits/navigation/navigation_cubit.dart';
-import 'package:zip_search/data/cubits/navigation/navigation_state.dart';
+import 'package:zip_search/core/features/navigation_page/cubit/navigation_cubit.dart';
+import 'package:zip_search/core/features/navigation_page/cubit/navigation_state.dart';
 
 void main() {
   blocTest<NavigationCubit, NavigationState>(
