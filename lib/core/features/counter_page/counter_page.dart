@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/shared_preferences_keys.dart';
+import 'package:zip_search/core/features/counter_page/widgets/counter_bar_widget.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
 import 'package:zip_search/data/shared_services.dart';
 
@@ -57,12 +58,12 @@ class _CounterPageState extends State<CounterPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _greetingsWidget(),
-          _counterBarWidgets(
+          CounterBarWidget(
             value: counterSearch,
             icon: Icons.check,
             text: AppStrings.successfulSearchedZipsText,
           ),
-          _counterBarWidgets(
+          CounterBarWidget(
             value: counterFav,
             icon: Icons.bookmark_border_rounded,
             text: AppStrings.successfulSavedZipsText,
@@ -79,30 +80,4 @@ class _CounterPageState extends State<CounterPage> {
           fontWeight: FontWeight.w500,
         ),
       );
-
-  Widget _counterBarWidgets({
-    required int value,
-    required IconData icon,
-    required String text,
-  }) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Row(
-          children: [
-            Icon(icon),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Text(
-                text,
-              ),
-            ),
-            Text(
-              value.toString(),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }
