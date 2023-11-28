@@ -13,7 +13,8 @@ class AdressesBuilderWidget extends StatelessWidget {
 
   const AdressesBuilderWidget({
     super.key,
-    required this.addressList, required this.favoritesCubit,
+    required this.addressList,
+    required this.favoritesCubit,
   });
 
   @override
