@@ -1,4 +1,4 @@
-package com.example.zip_search
+package com.gflabs.zip_search
 
 import io.flutter.embedding.android.FlutterActivity
 
