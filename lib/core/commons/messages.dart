@@ -26,11 +26,12 @@ class Messages {
         shape: const StadiumBorder(),
         behavior: SnackBarBehavior.floating,
         action: SnackBarAction(
-            label: AppStrings.okText,
-            textColor: Colors.white,
-            onPressed: () {
-              scaffoldMessenger.hideCurrentSnackBar();
-            }),
+          label: AppStrings.okText,
+          textColor: Colors.white,
+          onPressed: () {
+            scaffoldMessenger.hideCurrentSnackBar();
+          },
+        ),
       ),
     );
   }
