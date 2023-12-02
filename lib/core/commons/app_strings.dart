@@ -61,4 +61,8 @@ class AppStrings {
 
   //Favorites cubit
   static const deletedFavoriteZipText = 'CEP deletado com sucesso!';
+
+
+  //SnackBar text
+    static const snackBarOkText = 'OK';
 }
