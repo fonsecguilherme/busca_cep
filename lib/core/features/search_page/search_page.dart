@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zip_search/core/commons/messages.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_state.dart';
 import 'package:zip_search/core/features/search_page/widgets/initial_widget.dart';
@@ -31,36 +32,13 @@ class _HomeState extends State<SearchPage> {
 
   void listener(BuildContext context, SearchZipState state) {
     if (state is ErrorSearchZipState) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Theme.of(context).colorScheme.error,
-          content: Text(state.errorMessage),
-          duration: const Duration(seconds: 5),
-        ),
-      );
+      Messages.of(context).showError(state.errorMessage);
     } else if (state is ErrorEmptyZipState) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Theme.of(context).colorScheme.error,
-          content: Text(state.errorEmptyMessage),
-          duration: const Duration(seconds: 5),
-        ),
-      );
+      Messages.of(context).showError(state.errorEmptyMessage);
     } else if (state is ErrorAlreadyAddedZipState) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Theme.of(context).colorScheme.error,
-          content: Text(state.errorMessage),
-          duration: const Duration(seconds: 5),
-        ),
-      );
+      Messages.of(context).showError(state.errorMessage);
     } else if (state is FavoritedAddressZipState) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(state.message),
-          duration: const Duration(seconds: 5),
-        ),
-      );
+      Messages.of(context).showSuccess(state.message);
     }
   }
 
@@ -77,4 +55,6 @@ class _HomeState extends State<SearchPage> {
       return const InitialWidget();
     }
   }
+
+  //SnackBar _snackBarStyleWidget({String message}){}
 }

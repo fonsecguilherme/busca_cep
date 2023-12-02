@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
+import 'package:zip_search/core/commons/messages.dart';
 import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubit.dart';
 import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_state.dart';
 import 'package:zip_search/core/features/favorites_zip_page/widgets/adresses_builder_widget.dart';
@@ -47,12 +48,7 @@ class _SavedZipState extends State<FavoritesZipPAge> {
 
   void listener(BuildContext context, FavoritesState state) {
     if (state is DeletedFavoriteZipState) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(state.deletedMessage),
-          duration: const Duration(seconds: 5),
-        ),
-      );
+      Messages.of(context).showSuccess(state.deletedMessage);
     }
   }
 

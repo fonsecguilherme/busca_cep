@@ -41,8 +41,14 @@ API requests: HTTP
   <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/favorites_screen_populated_ios.png" width="350" />
 </p>
 
-* Success favorite address Android/iOS
+* Success flushbar Android/iOS
 <p float="left">
-  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/flushbar_success_favorite_android.png" width="350" />
-  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/flushbar_success_favorite_ios.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/flushbar_success_android.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/flushbar_success_ios.png" width="350" />
+</p>
+
+* Error flushbar Android/iOS
+<p float="left">
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/flushbar_error_android.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/flushbar_error_ios.png" width="350" />
 </p>
