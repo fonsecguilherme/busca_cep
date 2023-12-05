@@ -1,10 +1,13 @@
 
 # Busca CEP
 PT/BR 🇧🇷
-- App conceito usado para prática de algumas tecnologias que eu venho utilizando. Basicamente o app consiste no uso da api ViaCEP para procurar um endereçoatravés do CEP e se o usuário desejar pode adiciona-lo a uma lista de favoritos ou fazer uma nova busca.
+- App foi criado para prática de algumas tecnologias que eu venho utilizando. Basicamente o app consiste no uso da api ViaCEP para procurar um endereço através do CEP e se o usuário desejar pode adiciona-lo a uma lista de favoritos, fazer uma nova busca, consultar os endereços favoritos ou ver na home quantas vezes o usuário procurou um endereço ou salvou algo.
 
 English 🇺🇸
-- Concept app used for pectice some technologies I have been using. Bacically the app consists using ViaCEP API for the user search an address through it's ZIP code and if user wants, can search again or add the address to a favourites list.
+- The application was created for practice some technologies I have been using. Bacically the app consists using ViaCEP API for the user search an address through it's ZIP code and if user wants, can sadd the address to a favourites list, make a new search, look the favorited adressess or see in home tab how many times searched for an address or how many of them have been saved in total.
+
+## Download 
+Play Store: https://play.google.com/store/apps/details?id=com.gflabs.zip_search
 
 ## Stack utilizada
 
