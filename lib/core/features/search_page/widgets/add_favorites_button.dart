@@ -27,9 +27,9 @@ class _AddFavoritesButtonState extends State<AddFavoritesButton> {
       child: const Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.star_border_rounded),
-          SizedBox(width: 5),
           Text(AppStrings.addToFavoritesButton),
+          SizedBox(width: 5),
+          Icon(Icons.star_border_rounded),
         ],
       ),
     );
