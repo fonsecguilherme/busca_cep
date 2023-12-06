@@ -96,7 +96,14 @@ class _WelcomeState extends State<WelcomePage> {
                 MaterialPageRoute(builder: (_) => const NavigationPage()),
               );
             },
-            child: const Text(AppStrings.goToHomeButton),
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(AppStrings.goToHomeButton),
+                SizedBox(width: 5),
+                Icon(Icons.home_outlined),
+              ],
+            ),
           );
   }
 
