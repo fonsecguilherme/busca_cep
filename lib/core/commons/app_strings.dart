@@ -4,12 +4,12 @@ class AppStrings {
   //Bottom navigation bar
   static const String navigationBarLabel01 = 'Home';
   static const String navigationBarLabel02 = 'Procurar';
-  static const String navigationBarLabel03 = 'Salvos';
+  static const String navigationBarLabel03 = 'Favoritos';
 
   //Counter Page
-  static const String greetingsText = 'Olá,\nseja bem vindo!';
+  static const String greetingsText = 'Olá!\nSeja bem-vindo!';
   static const String successfulSearchedZipsText = 'CEPs prcurados com sucesso';
-  static const String successfulSavedZipsText = 'CEPs salvos totais';
+  static const String successfulSavedZipsText = 'CEPs totais favoritados';
 
   //Favorites page
   static const String initialZipPageText = 'Nenhum CEP foi favoritado!';
@@ -29,24 +29,24 @@ class AppStrings {
   //Welcome page
   static const String welcomePageItemTitle01 = 'Seja bem vindo ao Busca CEP!';
   static const String welcomePageItemMessage01 =
-      'Primeiramente gostaria de agradecer pelo download!\n\nEspero que o app seja útil no seu dia-a-dia.';
+      'Primeiramente gostaria de agradecer pelo download!\nEspero que o app seja útil no seu dia a dia.';
 
   static const String welcomePageItemTitle02 = 'Home Page';
   static const String welcomePageItemMessage02 =
-      'Nessa tela teremos os dois contadores.'
-      '\n• Primeiro representando as quantidades totais de CEPs procurados.'
-      '\n• Segundo representando a quantidade de CEPs totais que foram favoritados.';
+      'Nessa tela temos os dois contadores.'
+      '\n• Primeiro representando a quantidade total de CEPs procurados.'
+      '\n• Segundo representando a quantidade total de CEPs que foram favoritados.';
 
   static const String welcomePageItemTitle03 = 'Tela de Busca';
   static const String welcomePageItemMessage03 =
       'Essa é a tela principal do app!'
-      'Onde você pode realizar suas consultas e caso deseje, '
-      'favoritar seus endereços e consultá-los na tela de favoritos.';
+      '\nAqui você pode realizar suas consultas e caso deseje, '
+      'é possível favoritar o endereço e depois consultá-los na tela de favoritos.';
 
   static const String welcomePageItemTitle04 = 'Tela de Favoritos';
   static const String welcomePageItemMessage04 =
       'Nessa tela temos todos os seus CEPs favoritados!'
-      'Caso seja desejado, também é possível apagar o endereço favoritado';
+      'Caso seja desejado, também é possível apagar o endereço favoritado.';
   static const String goToHomeButton = 'Ir para home';
 
   //Cubit messages
