@@ -55,7 +55,14 @@ class _InitialWidgetState extends State<InitialWidget> {
               cubit.searchZip(zipCode: _zipController.text);
               _zipController.clear();
             },
-            child: const Text(AppStrings.searchPagebuttonText),
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(AppStrings.searchPagebuttonText),
+                SizedBox(width: 5),
+                Icon(Icons.search_rounded),
+              ],
+            ),
           )
         ],
       );
