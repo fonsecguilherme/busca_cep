@@ -55,6 +55,4 @@ class _HomeState extends State<SearchPage> {
       return const InitialWidget();
     }
   }
-
-  //SnackBar _snackBarStyleWidget({String message}){}
 }

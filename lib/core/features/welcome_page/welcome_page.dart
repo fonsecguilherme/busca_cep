@@ -93,7 +93,9 @@ class _WelcomeState extends State<WelcomePage> {
         : ElevatedButton(
             onPressed: () {
               Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (_) => const NavigationPage()),
+                MaterialPageRoute(
+                  builder: (_) => const NavigationPage(),
+                ),
               );
             },
             child: const Row(
