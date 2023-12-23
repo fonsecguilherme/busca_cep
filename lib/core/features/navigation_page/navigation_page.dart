@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
+import 'package:zip_search/core/features/counter_page/counter_page.dart';
 import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubit.dart';
+import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_state.dart';
+import 'package:zip_search/core/features/favorites_zip_page/favorites_zip_page.dart';
 import 'package:zip_search/core/features/navigation_page/cubit/navigation_cubit.dart';
 import 'package:zip_search/core/features/navigation_page/cubit/navigation_state.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
-import 'package:zip_search/core/features/counter_page/counter_page.dart';
-import 'package:zip_search/core/features/favorites_zip_page/favorites_zip_page.dart';
 import 'package:zip_search/core/features/search_page/search_page.dart';
 
 class NavigationPage extends StatefulWidget {
@@ -16,7 +17,11 @@ class NavigationPage extends StatefulWidget {
   State<NavigationPage> createState() => _RootPageState();
 }
 
+//! talvez criar um init state pra quando forinicializada essa tela de navegação já puxar o valor
+
 class _RootPageState extends State<NavigationPage> {
+  FavoritesCubit get favoritesCubit => context.read<FavoritesCubit>();
+
   @override
   Widget build(BuildContext context) => MultiBlocProvider(
         providers: [
@@ -50,10 +55,16 @@ class _RootPageState extends State<NavigationPage> {
                   label: AppStrings.navigationBarLabel02),
               BottomNavigationBarItem(
                   icon: Badge(
-                    label: Text(BlocProvider.of<FavoritesCubit>(context)
-                        .addressList
-                        .length
-                        .toString()),
+                    label: BlocBuilder<FavoritesCubit, FavoritesState>(
+                      builder: (_, state) {
+                        switch (state) {
+                          case LoadFavoriteZipState s:
+                            return Text('${s.addresses.length}');
+                          default:
+                            return const Text('0');
+                        }
+                      },
+                    ),
                     child: const Icon(
                       Icons.star_border_rounded,
                     ),
