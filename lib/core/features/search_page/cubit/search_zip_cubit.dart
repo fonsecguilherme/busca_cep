@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/shared_preferences_keys.dart';
-import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubit.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_state.dart';
 import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/data/shared_services.dart';
@@ -46,7 +45,6 @@ class SearchZipCubit extends Cubit<SearchZipState> {
   }
 
   Future<void> addToFavorites(
-    FavoritesCubit favoritesCubit,
     AddressModel address,
   ) async {
     counterFavZips =
@@ -69,8 +67,6 @@ class SearchZipCubit extends Cubit<SearchZipState> {
 
       await SharedServices.saveListString(
           SharedPreferencesKeys.savedAdresses, addressList);
-
-      await favoritesCubit.loadFavoriteAdresses();
 
       emit(
           FavoritedAddressZipState(message: AppStrings.successZipFavoriteText));
