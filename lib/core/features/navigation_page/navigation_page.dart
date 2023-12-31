@@ -17,9 +17,14 @@ class NavigationPage extends StatefulWidget {
   State<NavigationPage> createState() => _RootPageState();
 }
 
-//! talvez criar um init state pra quando forinicializada essa tela de navegação já puxar o valor
-
 class _RootPageState extends State<NavigationPage> {
+  @override
+  void initState() {
+    super.initState();
+
+    favoritesCubit.loadFavoriteAdresses();
+  }
+
   FavoritesCubit get favoritesCubit => context.read<FavoritesCubit>();
 
   @override
@@ -30,9 +35,6 @@ class _RootPageState extends State<NavigationPage> {
           ),
           BlocProvider(
             create: (context) => NavigationCubit(),
-          ),
-          BlocProvider(
-            create: (context) => FavoritesCubit(),
           ),
         ],
         child: Scaffold(
