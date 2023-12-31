@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubit.dart';
 import 'package:zip_search/core/features/navigation_page/navigation_page.dart';
 import 'package:zip_search/core/features/welcome_page/welcome_page.dart';
 
@@ -26,6 +28,9 @@ class MyApp extends StatelessWidget {
             ? WelcomePage(
                 prefs: prefs,
               )
-            : const NavigationPage(),
+            : BlocProvider(
+                create: (context) => FavoritesCubit(),
+                child: const NavigationPage(),
+              ),
       );
 }
