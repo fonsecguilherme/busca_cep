@@ -21,8 +21,10 @@ class _AddFavoritesButtonState extends State<AddFavoritesButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        searchZipCubit.addToFavorites(widget.address);
+      onPressed: () async {
+        await searchZipCubit.addToFavorites(widget.address);
+
+        favoritesCubit.loadFavoriteAdresses();
       },
       child: const Row(
         mainAxisSize: MainAxisSize.min,
