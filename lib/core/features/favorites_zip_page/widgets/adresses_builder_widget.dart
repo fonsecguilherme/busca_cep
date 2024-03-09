@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubit.dart';
 import 'package:zip_search/core/features/favorites_zip_page/favorites_zip_page.dart';
@@ -53,7 +54,7 @@ class AdressesBuilderWidget extends StatelessWidget {
                             actions: [
                               TextButton(
                                 onPressed: () => Navigator.pop(context),
-                                child: const Text('Cancelar'),
+                                child: const Text(AppStrings.cancelText),
                               ),
                               TextButton(
                                 onPressed: () {
@@ -66,15 +67,31 @@ class AdressesBuilderWidget extends StatelessWidget {
                               ),
                             ],
                           ),
-                          icon: const Icon(Icons.delete),
+                          icon: const InkWell(
+                            child: Icon(Icons.delete),
+                          ),
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: Text(
-                        _addressText(address),
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          _addressText(address),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            Share.share(
+                              _addressText(address),
+                              subject: AppStrings.modalTitle,
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.share,
+                          ),
+                        )
+                      ],
                     ),
                   ],
                 ),
