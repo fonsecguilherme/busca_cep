@@ -17,6 +17,9 @@ class AppStrings {
   static const String dialogTitleText = 'Apagar endereço?';
   static const String dialogContentText = 'Esta ação não poderá ser desfeita.';
   static const String okText = 'OK';
+  static const String cancelText = 'Cancelar';
+  static const String modalTitle =
+      'Olá! Estou compartilhando com você esse endereço!';
 
   //Search page
   static const String textFieldText = 'Somente números =)';
