@@ -22,36 +22,36 @@ API requests: HTTP
 
 * Counter screen Android/iOS
 <p float="left">
-  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/counter_screen_android.png" width="350" />
-  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/counter_screen_ios.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/1_counter_screen_android.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/1_counter_screen_ios.png" width="350" />
 </p>
 
 * Search screen Android/iOS
 <p float="left">
-  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/search_screen_android.png" width="350" />
-  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/search_screen_ios.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/2_searchs_screen_android.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/2_searchs_screen_ios.png" width="350" />
 </p>
 
 * Favorites Screen empty Android/iOS
 <p float="left">
-  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/favorites_screens_android.png" width="350" />
-  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/favorites_screens_ios.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/3_favorites_screen_android.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/3_favorites_screen_ios.png" width="350" />
 </p>
 
 * Favorites Screen populated Android/iOS
 <p float="left">
-  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/favorites_screen_populated_android.png" width="350" />
-  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/favorites_screen_populated_ios.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/4_favorite_screen_favorited_android.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/4_favorite_screen_favorited_ios.png" width="350" />
 </p>
 
 * Success flushbar Android/iOS
 <p float="left">
-  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/flushbar_success_android.png" width="350" />
-  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/flushbar_success_ios.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/5_flushbar_success_android.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/5_flushbar_success_ios.png" width="350" />
 </p>
 
 * Error flushbar Android/iOS
 <p float="left">
-  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/flushbar_error_android.png" width="350" />
-  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/flushbar_error_ios.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/6_flushbar_error_android.png" width="350" />
+  <img src="https://github.com/fonsecguilherme/busca_cep/blob/master/screenshots/6_flushbar_error_ios.png" width="350" />
 </p>
