@@ -13,23 +13,50 @@ class CounterBarWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => Card(
+  Widget build(BuildContext context) => Container(
+        decoration: _containerStyle(context),
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Row(
             children: [
-              Icon(icon),
+              Icon(
+                icon,
+                color: Theme.of(context).colorScheme.onPrimary,
+              ),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
                   text,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
                 ),
               ),
-              Text(
-                value.toString(),
+              Container(
+                height: 30,
+                width: 30,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Theme.of(context).colorScheme.onTertiary,
+                ),
+                child: Center(
+                  child: Text(
+                    value.toString(),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onTertiaryContainer,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
+        ),
+      );
+
+  BoxDecoration _containerStyle(BuildContext context) => BoxDecoration(
+        color: Theme.of(context).colorScheme.primary,
+        borderRadius: const BorderRadius.all(
+          Radius.circular(30),
         ),
       );
 }

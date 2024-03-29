@@ -43,11 +43,7 @@ class _HomeState extends State<SearchPage> {
   }
 
   Widget builder(BuildContext context, SearchZipState state) {
-    if (state is LoadingSearchZipState) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    } else if (state is FetchedSearchZipState) {
+    if (state is FetchedSearchZipState) {
       return SuccessWidget(
         address: state.address,
       );
