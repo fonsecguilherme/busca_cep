@@ -106,9 +106,9 @@ class _WelcomeState extends State<WelcomePage> {
             child: const Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(AppStrings.goToHomeButton),
-                SizedBox(width: 5),
                 Icon(Icons.home_outlined),
+                SizedBox(width: 5),
+                Text(AppStrings.goToHomeButton),
               ],
             ),
           );
