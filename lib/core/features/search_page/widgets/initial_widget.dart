@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
+import 'package:zip_search/core/features/search_page/cubit/search_zip_state.dart';
 
 class InitialWidget extends StatefulWidget {
   const InitialWidget({super.key});
@@ -41,29 +42,39 @@ class _InitialWidgetState extends State<InitialWidget> {
               maxLength: 8,
               controller: _zipController,
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.all(16.0),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
                 filled: true,
-                hintStyle: TextStyle(color: Colors.grey),
+                hintStyle: const TextStyle(color: Colors.grey),
                 hintText: AppStrings.textFieldText,
-                fillColor: Colors.white70,
+                fillColor: Theme.of(context).colorScheme.onPrimary,
               ),
             ),
           ),
-          ElevatedButton(
-            onPressed: () {
-              cubit.searchZip(zipCode: _zipController.text);
-              _zipController.clear();
+          BlocBuilder<SearchZipCubit, SearchZipState>(
+            builder: (BuildContext context, SearchZipState state) {
+              if (state is LoadingSearchZipState) {
+                return const CircularProgressIndicator();
+              }
+              return ElevatedButton(
+                onPressed: () {
+                  cubit.searchZip(zipCode: _zipController.text);
+                  _zipController.clear();
+                },
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Icon(Icons.search_rounded),
+                    SizedBox(width: 5),
+                    Text(AppStrings.searchPagebuttonText),
+                  ],
+                ),
+              );
             },
-            child: const Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(AppStrings.searchPagebuttonText),
-                SizedBox(width: 5),
-                Icon(Icons.search_rounded),
-              ],
-            ),
-          )
+          ),
         ],
       );
 
