@@ -8,7 +8,8 @@ class AppStrings {
 
   //Counter Page
   static const String greetingsText = 'Olá!\nSeja bem-vindo!';
-  static const String successfulSearchedZipsText = 'CEPs prcurados com sucesso';
+  static const String successfulSearchedZipsText =
+      'CEPs procurados com sucesso';
   static const String successfulSavedZipsText = 'CEPs totais favoritados';
 
   //Favorites page
@@ -32,7 +33,8 @@ class AppStrings {
   //Welcome page
   static const String welcomePageItemTitle01 = 'Seja bem vindo ao Busca CEP!';
   static const String welcomePageItemMessage01 =
-      'Primeiramente gostaria de agradecer pelo download!\nEspero que o app seja útil no seu dia a dia.';
+      'Primeiramente gostaria de agradecer pelo download!\n'
+      'Espero que o app seja útil no seu dia a dia.';
 
   static const String welcomePageItemTitle02 = 'Home Page';
   static const String welcomePageItemMessage02 =
@@ -56,10 +58,10 @@ class AppStrings {
 
   //Search zip cubit
   static const zipCodeEmptyErrorMessageText =
-      'Parece não foi digitado nenhum CEP!';
+      'Parece que não foi digitado nenhum CEP!';
   static const zipCodeInvalidErrorMessageText = 'CEP digitado não é válido.';
 
-  static const alreadyFavoritedZipCodeText = 'Ops! Esse cep já foi favoritado';
+  static const alreadyFavoritedZipCodeText = 'Ops! Esse CEP já foi favoritado';
   static const successZipFavoriteText = 'CEP favoritado com sucesso!';
 
   //Favorites cubit
