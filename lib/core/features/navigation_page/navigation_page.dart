@@ -43,37 +43,54 @@ class _RootPageState extends State<NavigationPage> {
         ),
       );
 
+  Widget _body() => BlocBuilder<NavigationCubit, NavigationState>(
+        builder: (context, state) {
+          if (state.navBarItem == NavBarItem.counter) {
+            return const CounterPage();
+          } else if (state.navBarItem == NavBarItem.search) {
+            return const SearchPage();
+          } else if (state.navBarItem == NavBarItem.saved) {
+            return const FavoritesZipPAge();
+          }
+          return const SizedBox();
+        },
+      );
+
   Widget _bottomNavigationWidget() =>
       BlocBuilder<NavigationCubit, NavigationState>(
         builder: (context, state) {
-          return BottomNavigationBar(
-            currentIndex: state.index,
-            items: [
-              const BottomNavigationBarItem(
-                  icon: Icon(Icons.home_outlined),
-                  label: AppStrings.navigationBarLabel01),
-              const BottomNavigationBarItem(
-                  icon: Icon(Icons.search),
-                  label: AppStrings.navigationBarLabel02),
-              BottomNavigationBarItem(
-                  icon: Badge(
-                    label: BlocBuilder<FavoritesCubit, FavoritesState>(
-                      builder: (_, state) {
-                        switch (state) {
-                          case LoadFavoriteZipState s:
-                            return Text('${s.addresses.length}');
-                          default:
-                            return const Text('0');
-                        }
-                      },
-                    ),
-                    child: const Icon(
-                      Icons.star_border_rounded,
-                    ),
+          return NavigationBar(
+            elevation: 1,
+            selectedIndex: state.index,
+            destinations: <Widget>[
+              const NavigationDestination(
+                icon: Icon(Icons.home_outlined),
+                label: AppStrings.navigationBarLabel01,
+              ),
+              const NavigationDestination(
+                icon: Icon(Icons.search),
+                label: AppStrings.navigationBarLabel02,
+              ),
+              NavigationDestination(
+                icon: Badge(
+                  label: BlocBuilder<FavoritesCubit, FavoritesState>(
+                    builder: (_, state) {
+                      switch (state) {
+                        case LoadFavoriteZipState s:
+                          return Text('${s.addresses.length}');
+                        default:
+                          return const Text('0');
+                      }
+                    },
                   ),
-                  label: AppStrings.navigationBarLabel03)
+                  child: const Icon(
+                    Icons.star_border_rounded,
+                  ),
+                ),
+                label: AppStrings.navigationBarLabel03,
+              ),
             ],
-            onTap: (index) {
+            onDestinationSelected: (index) {
               if (index == 0) {
                 BlocProvider.of<NavigationCubit>(context)
                     .getNavBarItem(NavBarItem.counter);
@@ -86,19 +103,6 @@ class _RootPageState extends State<NavigationPage> {
               }
             },
           );
-        },
-      );
-
-  Widget _body() => BlocBuilder<NavigationCubit, NavigationState>(
-        builder: (context, state) {
-          if (state.navBarItem == NavBarItem.counter) {
-            return const CounterPage();
-          } else if (state.navBarItem == NavBarItem.search) {
-            return const SearchPage();
-          } else if (state.navBarItem == NavBarItem.saved) {
-            return const FavoritesZipPAge();
-          }
-          return const SizedBox();
         },
       );
 }
