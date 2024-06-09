@@ -161,16 +161,6 @@ AddressModel _address = const AddressModel(
   uf: 'uf',
   ddd: 'ddd',
 );
-AddressModel _newAddress = const AddressModel(
-  cep: '06053041',
-  logradouro: 'logradouro',
-  complemento: 'complemento',
-  bairro: 'bairro',
-  localidade: 'localidade',
-  uf: 'uf',
-  ddd: 'ddd',
-);
-
 final _addressList = [
   const AddressModel(
     cep: '06053040',
