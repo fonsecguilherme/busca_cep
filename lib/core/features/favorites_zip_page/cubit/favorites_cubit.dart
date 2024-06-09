@@ -6,13 +6,16 @@ import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/data/shared_services.dart';
 
 class FavoritesCubit extends Cubit<FavoritesState> {
-  FavoritesCubit() : super(InitialFavoriteState());
+  FavoritesCubit({
+    required this.sharedServices,
+  }) : super(InitialFavoriteState());
 
+  final SharedServices sharedServices;
   List<AddressModel> addressList = [];
 
   Future<void> loadFavoriteAdresses() async {
     addressList =
-        await SharedServices.getListString(SharedPreferencesKeys.savedAdresses);
+        await sharedServices.getListString(SharedPreferencesKeys.savedAdresses);
 
     if (addressList.isEmpty) {
       emit(InitialFavoriteState());
@@ -23,11 +26,13 @@ class FavoritesCubit extends Cubit<FavoritesState> {
 
   Future<void> deleteAddress(AddressModel address) async {
     addressList =
-        await SharedServices.getListString(SharedPreferencesKeys.savedAdresses);
+        await sharedServices.getListString(SharedPreferencesKeys.savedAdresses);
+
+    print(addressList);
 
     addressList.removeWhere((element) => element.cep == address.cep);
 
-    await SharedServices.saveListString(
+    await sharedServices.saveListString(
         SharedPreferencesKeys.savedAdresses, addressList);
 
     emit(DeletedFavoriteZipState(AppStrings.deletedFavoriteZipText));
