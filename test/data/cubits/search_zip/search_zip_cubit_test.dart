@@ -5,17 +5,26 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_state.dart';
-
 import 'package:zip_search/core/model/address_model.dart';
+import 'package:zip_search/data/shared_services.dart';
+import 'package:zip_search/domain/via_cep_repository.dart';
 
 class MockSharedPreferences extends Mock implements SharedPreferences {}
 
-late SearchZipCubit searchZipCubit;
-late SharedPreferences sharedPreferences;
+class MockSharedServices extends Mock implements SharedServices {}
+
+class MockIViaCepRepository extends Mock implements IViaCepRepository {}
+
 void main() {
+  late SearchZipCubit searchZipCubit;
+  late MockSharedServices sharedServices;
+  late MockIViaCepRepository repository;
+
   setUp(() {
-    searchZipCubit = SearchZipCubit();
-    sharedPreferences = MockSharedPreferences();
+    repository = MockIViaCepRepository();
+    sharedServices = MockSharedServices();
+    searchZipCubit = SearchZipCubit(
+        sharedServices: sharedServices, viaCepRepository: repository);
 
     TestWidgetsFlutterBinding.ensureInitialized();
   });
@@ -23,7 +32,19 @@ void main() {
   group('Search ZIP tests |', () {
     blocTest<SearchZipCubit, SearchZipState>(
       'Should emit FetchedSearchZipState when user search a valid ZIP',
-      build: () => searchZipCubit,
+      build: () {
+        when(() => sharedServices.getInt(any())).thenAnswer(
+          (_) async => Future.value(),
+        );
+        when(() => repository.fetchAddress(any())).thenAnswer(
+          (_) async => _address,
+        );
+        when(() => sharedServices.saveInt(any(), 1)).thenAnswer(
+          (_) => Future.value(),
+        );
+
+        return searchZipCubit;
+      },
       act: (cubit) => cubit.searchZip(zipCode: '06053040'),
       expect: () => <SearchZipState>[
         LoadingSearchZipState(),
@@ -32,7 +53,18 @@ void main() {
     );
     blocTest<SearchZipCubit, SearchZipState>(
       'Should emit ErrorSearchZipState when user search empty ZIP',
-      build: () => searchZipCubit,
+      build: () {
+        when(() => sharedServices.getInt(any())).thenAnswer(
+          (_) async => 0,
+        );
+        when(() => repository.fetchAddress(any())).thenThrow(
+          Exception(),
+        );
+        when(() => sharedServices.saveInt(any(), 0)).thenAnswer(
+          (_) => Future.value(),
+        );
+        return searchZipCubit;
+      },
       act: (cubit) => cubit.searchZip(zipCode: ''),
       expect: () => <SearchZipState>[
         LoadingSearchZipState(),
@@ -44,7 +76,19 @@ void main() {
 
     blocTest<SearchZipCubit, SearchZipState>(
       'Should emit ErrorSearchZipState when user search an invalid ZIP',
-      build: () => searchZipCubit,
+      build: () {
+        when(() => sharedServices.getInt(any())).thenAnswer(
+          (_) async => Future.value(),
+        );
+        when(() => repository.fetchAddress(any())).thenThrow(
+          Exception(),
+        );
+        when(() => sharedServices.saveInt(any(), 1)).thenAnswer(
+          (_) => Future.value(),
+        );
+
+        return searchZipCubit;
+      },
       act: (cubit) => cubit.searchZip(zipCode: 'zipCode'),
       expect: () => <SearchZipState>[
         LoadingSearchZipState(),
@@ -59,7 +103,14 @@ void main() {
     blocTest<SearchZipCubit, SearchZipState>(
       'Should emit ErrorAlreadyAddedZipState when user try to add same address',
       build: () {
-        searchZipCubit.addressList = [_address];
+        when(() => sharedServices.getInt(any())).thenAnswer(
+          (_) async => Future.value(),
+        );
+
+        when(() => sharedServices.getListString(any())).thenAnswer(
+          (invocation) async => _addressList,
+        );
+
         return searchZipCubit;
       },
       act: (cubit) => cubit.addToFavorites(_address),
@@ -73,19 +124,36 @@ void main() {
     blocTest<SearchZipCubit, SearchZipState>(
       'Should emit FavoritedAddressZipState when user try to add a new address',
       build: () {
-        searchZipCubit.addressList = [];
+        when(() => sharedServices.getInt(any())).thenAnswer(
+          (_) async => 0,
+        );
+
+        when(() => sharedServices.getListString(any())).thenAnswer(
+          (_) async => [],
+        );
+
+        when(() => sharedServices.saveInt(any(), 1)).thenAnswer(
+          (_) async => 1,
+        );
+
+        when(() => sharedServices.saveListString(any(), [_address])).thenAnswer(
+          (_) async => [],
+        );
+
         return searchZipCubit;
       },
       act: (cubit) => cubit.addToFavorites(_address),
       expect: () => <SearchZipState>[
-        FavoritedAddressZipState(message: AppStrings.successZipFavoriteText),
+        FavoritedAddressZipState(
+          message: AppStrings.successZipFavoriteText,
+        ),
       ],
     );
   });
 }
 
 AddressModel _address = const AddressModel(
-  cep: '12345678',
+  cep: '06053040',
   logradouro: 'logradouro',
   complemento: 'complemento',
   bairro: 'bairro',
@@ -93,3 +161,24 @@ AddressModel _address = const AddressModel(
   uf: 'uf',
   ddd: 'ddd',
 );
+AddressModel _newAddress = const AddressModel(
+  cep: '06053041',
+  logradouro: 'logradouro',
+  complemento: 'complemento',
+  bairro: 'bairro',
+  localidade: 'localidade',
+  uf: 'uf',
+  ddd: 'ddd',
+);
+
+final _addressList = [
+  const AddressModel(
+    cep: '06053040',
+    logradouro: 'logradouro',
+    complemento: 'complemento',
+    bairro: 'bairro',
+    localidade: 'localidade',
+    uf: 'uf',
+    ddd: 'ddd',
+  ),
+];
