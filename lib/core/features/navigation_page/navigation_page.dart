@@ -9,6 +9,9 @@ import 'package:zip_search/core/features/navigation_page/cubit/navigation_cubit.
 import 'package:zip_search/core/features/navigation_page/cubit/navigation_state.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
 import 'package:zip_search/core/features/search_page/search_page.dart';
+import 'package:zip_search/domain/via_cep_repository.dart';
+
+import '../../../data/shared_services.dart';
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});
@@ -25,23 +28,30 @@ class _RootPageState extends State<NavigationPage> {
     favoritesCubit.loadFavoriteAdresses();
   }
 
+  final repository = ViaCepRepository();
   FavoritesCubit get favoritesCubit => context.read<FavoritesCubit>();
 
   @override
-  Widget build(BuildContext context) => MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => SearchZipCubit(),
+  Widget build(BuildContext context) {
+    final sharedServices = SharedServices();
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => SearchZipCubit(
+            viaCepRepository: repository,
+            sharedServices: sharedServices,
           ),
-          BlocProvider(
-            create: (context) => NavigationCubit(),
-          ),
-        ],
-        child: Scaffold(
-          bottomNavigationBar: _bottomNavigationWidget(),
-          body: SafeArea(child: _body()),
         ),
-      );
+        BlocProvider(
+          create: (context) => NavigationCubit(),
+        ),
+      ],
+      child: Scaffold(
+        bottomNavigationBar: _bottomNavigationWidget(),
+        body: SafeArea(child: _body()),
+      ),
+    );
+  }
 
   Widget _body() => BlocBuilder<NavigationCubit, NavigationState>(
         builder: (context, state) {

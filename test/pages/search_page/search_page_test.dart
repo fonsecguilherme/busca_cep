@@ -16,12 +16,14 @@ import 'package:zip_search/core/features/search_page/widgets/success_widget.dart
 class MockSearchZipCubit extends MockCubit<SearchZipState>
     implements SearchZipCubit {}
 
+class FakeAddressModel extends Fake implements AddressModel {}
+
 late SearchZipCubit searchZipCubit;
 
 AddressModel _addressModel = const AddressModel(
   cep: '57035400',
   logradouro: 'Rua da casinha',
-  complemento: ' ',
+  complemento: '',
   bairro: 'Limoeiro',
   localidade: 'Campinas',
   uf: 'SP',
@@ -31,6 +33,7 @@ AddressModel _addressModel = const AddressModel(
 void main() {
   setUp(() {
     searchZipCubit = MockSearchZipCubit();
+    registerFallbackValue(_addressModel);
   });
 
   testWidgets('Find inital widgets when state is inital', (tester) async {

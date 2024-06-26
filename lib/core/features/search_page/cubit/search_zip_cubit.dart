@@ -8,28 +8,29 @@ import 'package:zip_search/domain/via_cep_repository.dart';
 
 class SearchZipCubit extends Cubit<SearchZipState> {
   SearchZipCubit({
-    ViaCepRepository? viaCepRepository,
-  })  : _viaCepRepository = viaCepRepository ?? ViaCepRepository(),
-        super(InitialSearchZipState());
+    required this.viaCepRepository,
+    required this.sharedServices,
+  }) : super(InitialSearchZipState());
 
-  final ViaCepRepository _viaCepRepository;
+  final SharedServices sharedServices;
+  final IViaCepRepository viaCepRepository;
   List<AddressModel> addressList = [];
   int counterSearchedZips = 0;
   int counterFavZips = 0;
 
   Future<void> searchZip({required String zipCode}) async {
-    counterSearchedZips = await SharedServices.getInt(
-            SharedPreferencesKeys.counterSearchedZipsKeys) ??
+    counterSearchedZips = await sharedServices
+            .getInt(SharedPreferencesKeys.counterSearchedZipsKeys) ??
         counterSearchedZips;
 
     emit(LoadingSearchZipState());
 
     try {
-      final address = await _viaCepRepository.fetchAddress(zipCode);
+      final address = await viaCepRepository.fetchAddress(zipCode);
 
       if (address != null) {
         counterSearchedZips += 1;
-        await SharedServices.saveInt(
+        await sharedServices.saveInt(
             SharedPreferencesKeys.counterSearchedZipsKeys, counterSearchedZips);
         emit(FetchedSearchZipState(address));
       }
@@ -48,11 +49,11 @@ class SearchZipCubit extends Cubit<SearchZipState> {
     AddressModel address,
   ) async {
     counterFavZips =
-        await SharedServices.getInt(SharedPreferencesKeys.savedZipKey) ??
+        await sharedServices.getInt(SharedPreferencesKeys.savedZipKey) ??
             counterFavZips;
 
     addressList =
-        await SharedServices.getListString(SharedPreferencesKeys.savedAdresses);
+        await sharedServices.getListString(SharedPreferencesKeys.savedAdresses);
 
     if (addressList.contains(address)) {
       emit(ErrorAlreadyAddedZipState(
@@ -60,16 +61,17 @@ class SearchZipCubit extends Cubit<SearchZipState> {
     } else {
       counterFavZips++;
 
-      await SharedServices.saveInt(
+      await sharedServices.saveInt(
           SharedPreferencesKeys.savedZipKey, counterFavZips);
 
       addressList.add(address);
 
-      await SharedServices.saveListString(
+      await sharedServices.saveListString(
           SharedPreferencesKeys.savedAdresses, addressList);
 
-      emit(
-          FavoritedAddressZipState(message: AppStrings.successZipFavoriteText));
+      emit(FavoritedAddressZipState(
+        message: AppStrings.successZipFavoriteText,
+      ));
     }
   }
 }

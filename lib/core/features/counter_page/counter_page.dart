@@ -18,6 +18,7 @@ class CounterPage extends StatefulWidget {
 class _CounterPageState extends State<CounterPage> {
   int counterSearch = 0;
   int counterFav = 0;
+  final sharedServices = SharedServices();
 
   @override
   void initState() {
@@ -27,8 +28,8 @@ class _CounterPageState extends State<CounterPage> {
   }
 
   void _recoverCounterSearchValue() async {
-    int value = await SharedServices.getInt(
-            SharedPreferencesKeys.counterSearchedZipsKeys) ??
+    int value = await sharedServices
+            .getInt(SharedPreferencesKeys.counterSearchedZipsKeys) ??
         counterSearch;
 
     setState(() {
@@ -38,7 +39,7 @@ class _CounterPageState extends State<CounterPage> {
 
   void _recoverCounterFavoritesValue() async {
     int value =
-        await SharedServices.getInt(SharedPreferencesKeys.savedZipKey) ??
+        await sharedServices.getInt(SharedPreferencesKeys.savedZipKey) ??
             counterFav;
 
     setState(() {

@@ -8,7 +8,10 @@ import 'package:zip_search/core/model/address_model.dart';
 class AddFavoritesButton extends StatefulWidget {
   final AddressModel address;
 
-  const AddFavoritesButton({super.key, required this.address});
+  const AddFavoritesButton({
+    super.key,
+    required this.address,
+  });
 
   @override
   State<AddFavoritesButton> createState() => _AddFavoritesButtonState();
@@ -24,7 +27,7 @@ class _AddFavoritesButtonState extends State<AddFavoritesButton> {
       onPressed: () async {
         await searchZipCubit.addToFavorites(widget.address);
 
-        favoritesCubit.loadFavoriteAdresses();
+        await favoritesCubit.loadFavoriteAdresses();
       },
       child: const Row(
         mainAxisSize: MainAxisSize.min,

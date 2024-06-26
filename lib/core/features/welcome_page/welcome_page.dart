@@ -8,6 +8,8 @@ import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubi
 import 'package:zip_search/core/features/navigation_page/navigation_page.dart';
 import 'package:zip_search/core/features/welcome_page/widgets/welcome_page_item.dart';
 
+import '../../../data/shared_services.dart';
+
 class WelcomePage extends StatefulWidget {
   const WelcomePage({
     super.key,
@@ -23,6 +25,7 @@ class WelcomePage extends StatefulWidget {
 class _WelcomeState extends State<WelcomePage> {
   bool _isLastPage = false;
   final PageController _pageController = PageController();
+  final sharedServices = SharedServices();
 
   @override
   void initState() {
@@ -97,7 +100,9 @@ class _WelcomeState extends State<WelcomePage> {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (_) => BlocProvider(
-                    create: (context) => FavoritesCubit(),
+                    create: (context) => FavoritesCubit(
+                      sharedServices: sharedServices,
+                    ),
                     child: const NavigationPage(),
                   ),
                 ),
