@@ -8,7 +8,10 @@ import 'package:zip_search/core/model/address_model.dart';
 class AddFavoritesButton extends StatefulWidget {
   final AddressModel address;
 
-  const AddFavoritesButton({super.key, required this.address, });
+  const AddFavoritesButton({
+    super.key,
+    required this.address,
+  });
 
   @override
   State<AddFavoritesButton> createState() => _AddFavoritesButtonState();

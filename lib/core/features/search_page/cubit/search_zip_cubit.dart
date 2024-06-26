@@ -10,8 +10,7 @@ class SearchZipCubit extends Cubit<SearchZipState> {
   SearchZipCubit({
     required this.viaCepRepository,
     required this.sharedServices,
-  })  : 
-        super(InitialSearchZipState());
+  }) : super(InitialSearchZipState());
 
   final SharedServices sharedServices;
   final IViaCepRepository viaCepRepository;
