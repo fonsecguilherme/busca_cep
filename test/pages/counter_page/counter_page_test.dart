@@ -62,7 +62,6 @@ void main() {
     when(() => searchZipCubit.counterSearchedZips)
         .thenReturn(searchZipCubit.counterSearchedZips = 1);
 
-    print(searchZipCubit.counterSearchedZips);
 
     // when(
     //   () => services.saveInt(SharedPreferencesKeys.counterSearchedZipsKeys, 1),

@@ -28,7 +28,6 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     addressList =
         await sharedServices.getListString(SharedPreferencesKeys.savedAdresses);
 
-    print(addressList);
 
     addressList.removeWhere((element) => element.cep == address.cep);
 
