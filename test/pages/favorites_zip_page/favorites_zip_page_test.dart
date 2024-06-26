@@ -74,14 +74,14 @@ void main() {
 
     final okButton = find.text(AppStrings.okText);
 
+    await tester.pumpAndSettle(const Duration(seconds: 2));
+
     await tester.tap(okButton);
 
-    await tester.pump();
-    await tester.pump();
-    await tester.pump();
-    await tester.pumpAndSettle();
+    // await tester.pump();
+    // await tester.pumpAndSettle(Duration(seconds: 2));
 
-    // verify(() => favoritesCubit.deleteAddress(_address)).called(1);
+    //  verify(() => favoritesCubit.deleteAddress(_address)).called(1);
   });
 
   testWidgets('Should show flushbar when delete an address', (tester) async {

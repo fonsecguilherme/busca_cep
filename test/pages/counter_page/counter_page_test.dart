@@ -2,22 +2,37 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
+import 'package:zip_search/core/commons/shared_preferences_keys.dart';
 import 'package:zip_search/core/features/counter_page/counter_page.dart';
 import 'package:zip_search/core/features/navigation_page/cubit/navigation_cubit.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_state.dart';
 import 'package:zip_search/core/model/address_model.dart';
+import 'package:zip_search/data/shared_services.dart';
+import 'package:zip_search/domain/via_cep_repository.dart';
 
 class MockSearchZipCubit extends MockCubit<SearchZipState>
     implements SearchZipCubit {}
 
+class MockSharedServices extends Mock implements SharedServices {}
+
 late SearchZipCubit searchZipCubit;
+late SharedServices services;
 
 void main() {
   setUp(() {
     searchZipCubit = MockSearchZipCubit();
+    services = MockSharedServices();
   });
+
+  tearDown(
+    () {
+      searchZipCubit.close();
+    },
+  );
+
   testWidgets('Find initial widgets', (tester) async {
     await _createWidget(tester);
 
@@ -34,27 +49,42 @@ void main() {
 
   //! TODO: write tests with updated counter value
 
-  // testWidgets('Find correct counter value when a correct zip is returned',
-  //     (tester) async {
-  //   when(() => searchZipCubit.state)
-  //       .thenReturn((FetchedSearchZipState(_addressModel)));
-  //   when(() => searchZipCubit.counterSearchedZips).thenReturn(1);
+  testWidgets('Find correct counter value when a correct zip is returned',
+      (tester) async {
+    when(() => searchZipCubit.state)
+        .thenReturn((FetchedSearchZipState(_addressModel)));
 
-  //   await _createWidget(tester);
+    when(() => services.getInt(
+          SharedPreferencesKeys.counterSearchedZipsKeys,
+        )).thenAnswer(
+      (_) async => null,
+    );
+    when(() => searchZipCubit.counterSearchedZips)
+        .thenReturn(searchZipCubit.counterSearchedZips = 1);
 
-  //   expect(find.byKey(CounterPage.counterPageKey), findsOneWidget);
+    print(searchZipCubit.counterSearchedZips);
 
-  //   expect(find.text(AppStrings.greetingsText), findsOneWidget);
+    // when(
+    //   () => services.saveInt(SharedPreferencesKeys.counterSearchedZipsKeys, 1),
+    // ).thenAnswer(
+    //   (_) async => 1,
+    // );
 
-  //   expect(find.text(AppStrings.successfulSearchedZipsText), findsOneWidget);
+    await _createWidget(tester);
 
-  //   expect(find.text(AppStrings.successfulSavedZipsText), findsOneWidget);
+    expect(find.byKey(CounterPage.counterPageKey), findsOneWidget);
 
-  //   await tester.pump();
-  //   await tester.pumpAndSettle();
+    expect(find.text(AppStrings.greetingsText), findsOneWidget);
 
-  //   expect(find.text('${searchZipCubit.counterSearchedZips}'), findsOneWidget);
-  // });
+    expect(find.text(AppStrings.successfulSearchedZipsText), findsOneWidget);
+
+    expect(find.text(AppStrings.successfulSavedZipsText), findsOneWidget);
+
+    await tester.pump();
+    await tester.pumpAndSettle();
+
+    expect(find.text('${searchZipCubit.counterSearchedZips}'), findsOneWidget);
+  });
 
   // testWidgets('Find correct saved counter value when a favorite zip is saved',
   //     (tester) async {
@@ -86,7 +116,10 @@ Future<void> _createWidget(WidgetTester tester) async {
       home: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => SearchZipCubit(),
+            create: (context) => SearchZipCubit(
+              viaCepRepository: _repository,
+              sharedServices: _sharedServices,
+            ),
           ),
           BlocProvider(
             create: (context) => NavigationCubit(),
@@ -97,6 +130,9 @@ Future<void> _createWidget(WidgetTester tester) async {
     ),
   );
 }
+
+final _repository = ViaCepRepository();
+final _sharedServices = SharedServices();
 
 AddressModel _addressModel = const AddressModel(
   cep: '57035400',

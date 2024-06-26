@@ -10,27 +10,27 @@ class SharedServices {
     _preferences ??= await SharedPreferences.getInstance();
   }
 
-  static Future<void> saveBool(String key, bool value) async {
+  Future<void> saveBool(String key, bool value) async {
     await _getPreferences();
     await _preferences!.setBool(key, value);
   }
 
-  static Future<bool?> getBool(String key) async {
+  Future<bool?> getBool(String key) async {
     await _getPreferences();
     return _preferences!.getBool(key);
   }
 
-  static Future<void> saveInt(String key, int value) async {
+  Future<void> saveInt(String key, int value) async {
     await _getPreferences();
     await _preferences!.setInt(key, value);
   }
 
-  static Future<int?> getInt(String key) async {
+  Future<int?> getInt(String key) async {
     await _getPreferences();
     return _preferences!.getInt(key);
   }
 
-  static Future<void> saveListString(
+  Future<void> saveListString(
     String key,
     List<AddressModel> addressList,
   ) async {
@@ -42,7 +42,7 @@ class SharedServices {
     await _preferences!.setStringList(key, encodedList);
   }
 
-  static Future<List<AddressModel>> getListString(String key) async {
+  Future<List<AddressModel>> getListString(String key) async {
     await _getPreferences();
 
     final jsonList = _preferences!.getStringList(key) ?? [];
