@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "246129882829",
+    "project_id": "busca-cep-gf-labs",
+    "storage_bucket": "busca-cep-gf-labs.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246129882829:android:f03cb157e9a9cc3c621b84",
+        "android_client_info": {
+          "package_name": "com.gflabs.zip_search"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBILlCPIc1JYMMZy1BiCaSl6G3hXZd165g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
