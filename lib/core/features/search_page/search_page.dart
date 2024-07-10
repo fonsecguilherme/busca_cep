@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/messages.dart';
@@ -43,12 +44,17 @@ class _HomeState extends State<SearchPage> {
   }
 
   Widget builder(BuildContext context, SearchZipState state) {
+
+    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
     if (state is FetchedSearchZipState) {
       return SuccessWidget(
         address: state.address,
+        analytics: analytics,
+
       );
     } else {
-      return const InitialWidget();
+      return  InitialWidget(analytics: analytics);
     }
   }
 }

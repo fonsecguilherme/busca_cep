@@ -1,3 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,6 +12,7 @@ import 'package:zip_search/core/features/navigation_page/navigation_page.dart';
 import 'package:zip_search/core/features/welcome_page/widgets/welcome_page_item.dart';
 
 import '../../../data/shared_services.dart';
+import '../../analytics_events.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({
@@ -26,6 +30,7 @@ class _WelcomeState extends State<WelcomePage> {
   bool _isLastPage = false;
   final PageController _pageController = PageController();
   final sharedServices = SharedServices();
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   @override
   void initState() {
@@ -72,7 +77,11 @@ class _WelcomeState extends State<WelcomePage> {
                   ],
                 ),
               ),
-              _lastPageButton(),
+              _LastPageButton(
+                analytics: analytics,
+                isLastPage: _isLastPage,
+                sharedServices: sharedServices,
+              ),
               Flexible(
                 flex: 2,
                 child: Padding(
@@ -92,36 +101,48 @@ class _WelcomeState extends State<WelcomePage> {
         ),
       );
 
-  Widget _lastPageButton() {
-    return _isLastPage == false
-        ? const SizedBox(height: 44)
-        : ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (_) => BlocProvider(
-                    create: (context) => FavoritesCubit(
-                      sharedServices: sharedServices,
-                    ),
-                    child: const NavigationPage(),
-                  ),
-                ),
-              );
-            },
-            child: const Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.home_outlined),
-                SizedBox(width: 5),
-                Text(AppStrings.goToHomeButton),
-              ],
-            ),
-          );
-  }
-
   @override
   void dispose() {
     _pageController.dispose();
     super.dispose();
   }
+}
+
+class _LastPageButton extends StatelessWidget {
+  final FirebaseAnalytics analytics;
+  final bool isLastPage;
+  final SharedServices sharedServices;
+
+  const _LastPageButton({
+    required this.analytics,
+    required this.isLastPage,
+    required this.sharedServices,
+  });
+
+  @override
+  Widget build(BuildContext context) => isLastPage == false
+      ? const SizedBox(height: 44)
+      : ElevatedButton(
+          onPressed: () {
+            analytics.logEvent(name: FirstUseEvents.firstUseToHomePage);
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (_) => BlocProvider(
+                  create: (context) => FavoritesCubit(
+                    sharedServices: sharedServices,
+                  ),
+                  child: const NavigationPage(),
+                ),
+              ),
+            );
+          },
+          child: const Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(CupertinoIcons.home),
+              SizedBox(width: 5),
+              Text(AppStrings.goToHomeButton),
+            ],
+          ),
+        );
 }
