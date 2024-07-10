@@ -4,7 +4,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:zip_search/core/analytics_events.dart';
+import 'package:zip_search/core/commons/analytics_events.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubit.dart';
 import 'package:zip_search/core/features/favorites_zip_page/favorites_zip_page.dart';

@@ -14,7 +14,7 @@ import 'package:zip_search/core/features/search_page/search_page.dart';
 import 'package:zip_search/domain/via_cep_repository.dart';
 
 import '../../../data/shared_services.dart';
-import '../../analytics_events.dart';
+import '../../commons/analytics_events.dart';
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});

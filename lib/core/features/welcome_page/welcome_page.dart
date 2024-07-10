@@ -12,7 +12,7 @@ import 'package:zip_search/core/features/navigation_page/navigation_page.dart';
 import 'package:zip_search/core/features/welcome_page/widgets/welcome_page_item.dart';
 
 import '../../../data/shared_services.dart';
-import '../../analytics_events.dart';
+import '../../commons/analytics_events.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({

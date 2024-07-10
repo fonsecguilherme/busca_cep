@@ -7,7 +7,7 @@ import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubi
 import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
 import 'package:zip_search/core/model/address_model.dart';
 
-import '../../../analytics_events.dart';
+import '../../../commons/analytics_events.dart';
 
 class AddFavoritesButton extends StatefulWidget {
   final AddressModel address;
