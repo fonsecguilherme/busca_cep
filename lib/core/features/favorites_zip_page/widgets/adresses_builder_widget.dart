@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:zip_search/core/commons/analytics_events.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
+import 'package:zip_search/core/commons/extensions.dart';
 import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubit.dart';
 import 'package:zip_search/core/features/favorites_zip_page/favorites_zip_page.dart';
 import 'package:zip_search/core/model/address_model.dart';
@@ -95,7 +96,7 @@ class AdressesBuilderWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        _addressText(address),
+                       ''.favoriteCardAddressFormat(address),
                       ),
                       IconButton(
                         onPressed: () {
@@ -110,7 +111,7 @@ class AdressesBuilderWidget extends StatelessWidget {
                               });
 
                           Share.share(
-                            _addressText(address),
+                           ''.favoriteCardAddressFormat(address),
                             subject: AppStrings.modalTitle,
                           );
                         },
