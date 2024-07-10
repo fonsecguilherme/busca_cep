@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,6 +13,8 @@ import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/core/features/search_page/search_page.dart';
 import 'package:zip_search/core/features/search_page/widgets/initial_widget.dart';
 import 'package:zip_search/core/features/search_page/widgets/success_widget.dart';
+
+import '../../firebase_mock.dart';
 
 class MockSearchZipCubit extends MockCubit<SearchZipState>
     implements SearchZipCubit {}
@@ -31,7 +34,10 @@ AddressModel _addressModel = const AddressModel(
 );
 
 void main() {
-  setUp(() {
+  setupFirebaseAnalyticsMocks();
+
+  setUp(() async {
+    await Firebase.initializeApp();
     searchZipCubit = MockSearchZipCubit();
     registerFallbackValue(_addressModel);
   });

@@ -127,16 +127,7 @@ class AdressesBuilderWidget extends StatelessWidget {
       },
     );
   }
-
-  String _addressText(AddressModel address) =>
-      '${address.logradouro},\n${_complementField(address.complemento)},'
-      '\nBairro: ${address.bairro},'
-      '\n${address.localidade}, ${address.uf}';
-
-  String _complementField(String complement) {
-    return complement.isEmpty ? AppStrings.emptyComplementText : complement;
-  }
-
+  
   void _showAdaptiveDialog(
     context, {
     required Text title,

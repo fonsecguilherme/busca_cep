@@ -19,6 +19,8 @@ import '../../commons/analytics_events.dart';
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});
 
+  static const navigationBarStarIcon = Key('navigationBarStarIcon');
+
   @override
   State<NavigationPage> createState() => _RootPageState();
 }
@@ -104,7 +106,10 @@ class _BottomNaVigationBarWidget extends StatelessWidget {
                     }
                   },
                 ),
-                child: const Icon(CupertinoIcons.star),
+                child: const Icon(
+                  CupertinoIcons.star,
+                  key: NavigationPage.navigationBarStarIcon,
+                ),
               ),
               label: AppStrings.navigationBarLabel03,
             ),
