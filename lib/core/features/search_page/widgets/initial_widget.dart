@@ -1,11 +1,16 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zip_search/core/commons/analytics_events.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_state.dart';
 
 class InitialWidget extends StatefulWidget {
-  const InitialWidget({super.key});
+  final FirebaseAnalytics analytics;
+
+  const InitialWidget({super.key, required this.analytics});
 
   static const initialWidgetKey = Key('initialWidgetKey');
 
@@ -61,13 +66,16 @@ class _InitialWidgetState extends State<InitialWidget> {
               }
               return ElevatedButton(
                 onPressed: () {
+                  widget.analytics.logEvent(
+                    name: SearchPageEvents.searchPageButton,
+                  );
                   cubit.searchZip(zipCode: _zipController.text);
                   _zipController.clear();
                 },
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Icon(Icons.search_rounded),
+                    Icon(CupertinoIcons.search),
                     SizedBox(width: 5),
                     Text(AppStrings.searchPagebuttonText),
                   ],

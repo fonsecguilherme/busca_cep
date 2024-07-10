@@ -1,17 +1,21 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
+import 'package:zip_search/core/commons/extensions.dart';
 import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/core/features/search_page/widgets/add_favorites_button.dart';
 import 'package:zip_search/core/features/search_page/widgets/initial_widget.dart';
 
 class SuccessWidget extends StatelessWidget {
   final AddressModel address;
+  final FirebaseAnalytics analytics;
 
   static const addressFoundWidgetKey = Key('addressFoundWidgetKey');
 
   const SuccessWidget({
     super.key,
     required this.address,
+    required this.analytics,
   });
 
   @override
@@ -20,9 +24,12 @@ class SuccessWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const InitialWidget(),
+            InitialWidget(analytics: analytics),
             _addressWidget(),
-            AddFavoritesButton(address: address),
+            AddFavoritesButton(
+              address: address,
+              analytics: analytics,
+            ),
           ],
         ),
       );
@@ -46,15 +53,10 @@ class SuccessWidget extends StatelessWidget {
               ),
             ),
             Text(
-              '${address.logradouro} ${_complementFormat()}'
-              ' - ${address.bairro} \n${address.localidade} ${address.uf}'
-              ' - CEP ${address.cep}',
+              ''.formatAddress(address),
               textAlign: TextAlign.left,
             ),
           ],
         ),
       );
-
-  String _complementFormat() =>
-      address.complemento.isEmpty ? '' : '- ${address.complemento}';
 }

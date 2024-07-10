@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,6 +14,8 @@ import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/data/shared_services.dart';
 import 'package:zip_search/domain/via_cep_repository.dart';
 
+import '../../firebase_mock.dart';
+
 class MockSearchZipCubit extends MockCubit<SearchZipState>
     implements SearchZipCubit {}
 
@@ -22,7 +25,11 @@ late SearchZipCubit searchZipCubit;
 late SharedServices services;
 
 void main() {
-  setUp(() {
+  setupFirebaseAnalyticsMocks();
+
+  setUp(() async {
+    await Firebase.initializeApp();
+
     searchZipCubit = MockSearchZipCubit();
     services = MockSharedServices();
   });

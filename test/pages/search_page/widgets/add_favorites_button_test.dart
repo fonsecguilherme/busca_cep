@@ -1,4 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -21,8 +23,11 @@ class MockFavoritesCubit extends MockCubit<FavoritesState>
 
 class FakeAddressModel extends Fake implements AddressModel {}
 
+class MockTracker extends Mock implements FirebaseAnalytics {}
+
 late FavoritesCubit favoritesCubit;
 late SearchZipCubit searchZipCubit;
+late FirebaseAnalytics analytics;
 
 AddressModel _address = FakeAddressModel();
 
@@ -30,6 +35,7 @@ void main() {
   setUp(() {
     favoritesCubit = MockFavoritesCubit();
     searchZipCubit = MockSearchZipCubit();
+    analytics = MockTracker();
     registerFallbackValue(_address);
   });
 
@@ -42,7 +48,7 @@ void main() {
     await _createWidget(tester);
 
     expect(find.text(AppStrings.addToFavoritesButton), findsOneWidget);
-    expect(find.byIcon(Icons.star_border_rounded), findsOneWidget);
+    expect(find.byIcon(CupertinoIcons.star), findsOneWidget);
   });
 
   // TODO: verify if functions were called
@@ -97,6 +103,7 @@ Future<void> _createWidget(WidgetTester tester) async {
         ],
         child: AddFavoritesButton(
           address: _address,
+          analytics: analytics,
         ),
       ),
     ),

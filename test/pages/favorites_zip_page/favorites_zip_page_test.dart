@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,13 +12,18 @@ import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_stat
 import 'package:zip_search/core/features/favorites_zip_page/favorites_zip_page.dart';
 import 'package:zip_search/core/model/address_model.dart';
 
+import '../../firebase_mock.dart';
+
 class MockFavoritesCubit extends MockCubit<FavoritesState>
     implements FavoritesCubit {}
 
 late FavoritesCubit favoritesCubit;
 
 void main() {
-  setUp(() {
+  setupFirebaseAnalyticsMocks();
+
+  setUp(() async {
+    await Firebase.initializeApp();
     favoritesCubit = MockFavoritesCubit();
   });
 

@@ -1,10 +1,13 @@
-import 'package:flutter/material.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/shared_preferences_keys.dart';
 import 'package:zip_search/core/features/counter_page/widgets/counter_bar_widget.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
 import 'package:zip_search/data/shared_services.dart';
+
+import '../../commons/analytics_events.dart';
 
 class CounterPage extends StatefulWidget {
   const CounterPage({super.key});
@@ -19,6 +22,9 @@ class _CounterPageState extends State<CounterPage> {
   int counterSearch = 0;
   int counterFav = 0;
   final sharedServices = SharedServices();
+
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  SearchZipCubit get searchZipCubit => context.read<SearchZipCubit>();
 
   @override
   void initState() {
@@ -47,8 +53,6 @@ class _CounterPageState extends State<CounterPage> {
     });
   }
 
-  SearchZipCubit get searchZipCubit => context.read<SearchZipCubit>();
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -58,27 +62,29 @@ class _CounterPageState extends State<CounterPage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _greetingsWidget(),
+          const Text(
+            AppStrings.greetingsText,
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
           CounterBarWidget(
             value: counterSearch,
-            icon: Icons.check,
+            icon: CupertinoIcons.checkmark,
             text: AppStrings.successfulSearchedZipsText,
+            onTap: () =>
+                analytics.logEvent(name: CounterPageEvents.searchedZipCard),
           ),
           CounterBarWidget(
             value: counterFav,
-            icon: Icons.bookmark_border_rounded,
+            icon: CupertinoIcons.star,
             text: AppStrings.successfulSavedZipsText,
+            onTap: () =>
+                analytics.logEvent(name: CounterPageEvents.favoritedZipCard),
           ),
         ],
       ),
     );
   }
-
-  Widget _greetingsWidget() => const Text(
-        AppStrings.greetingsText,
-        style: TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.w500,
-        ),
-      );
 }

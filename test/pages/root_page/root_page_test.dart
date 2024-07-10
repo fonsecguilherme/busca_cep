@@ -1,4 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,13 +15,18 @@ import 'package:zip_search/core/features/search_page/search_page.dart';
 import 'package:zip_search/data/shared_services.dart';
 import 'package:zip_search/domain/via_cep_repository.dart';
 
+import '../../firebase_mock.dart';
+
 class MockNavigationCubit extends MockCubit<NavigationState>
     implements NavigationCubit {}
 
 late NavigationCubit navigationCubit;
 
 void main() {
-  setUp(() {
+  setupFirebaseAnalyticsMocks();
+
+  setUp(() async {
+    await Firebase.initializeApp();
     navigationCubit = MockNavigationCubit();
   });
 
@@ -35,7 +42,7 @@ void main() {
   testWidgets('Go to search page', (tester) async {
     await _createWidget(tester);
 
-    final iconButton = find.byIcon(Icons.search);
+    final iconButton = find.byIcon(CupertinoIcons.search);
 
     await tester.tap(iconButton);
 
@@ -49,7 +56,7 @@ void main() {
     (tester) async {
       await _createWidget(tester);
 
-      final iconButton = find.byIcon(Icons.star_border_rounded);
+      final iconButton = find.byKey(NavigationPage.navigationBarStarIcon);
 
       await tester.tap(iconButton);
 
