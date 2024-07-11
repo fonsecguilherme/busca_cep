@@ -1,11 +1,11 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubit.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
 import 'package:zip_search/core/model/address_model.dart';
+import 'package:zip_search/core/widgets/custom_elevated_button.dart';
 
 import '../../../commons/analytics_events.dart';
 
@@ -29,24 +29,24 @@ class _AddFavoritesButtonState extends State<AddFavoritesButton> {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () async {
+    return CustomElevatedButton(
+      icon: CupertinoIcons.star,
+      title: AppStrings.addToFavoritesButton,
+      onTap: () async {
         await searchZipCubit.addToFavorites(widget.address);
 
         await favoritesCubit.loadFavoriteAdresses();
 
         widget.analytics.logEvent(
           name: SearchPageEvents.searchPageAddFavoriteButton,
+          parameters: <String, String>{
+            'zip': widget.address.cep,
+            'ddd': widget.address.ddd,
+            'address': widget.address.logradouro,
+            'state': widget.address.uf,
+          },
         );
       },
-      child: const Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(CupertinoIcons.star),
-          SizedBox(width: 5),
-          Text(AppStrings.addToFavoritesButton),
-        ],
-      ),
     );
   }
 }

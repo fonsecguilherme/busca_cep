@@ -6,6 +6,7 @@ import 'package:zip_search/core/commons/analytics_events.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_state.dart';
+import 'package:zip_search/core/widgets/custom_elevated_button.dart';
 
 class InitialWidget extends StatefulWidget {
   final FirebaseAnalytics analytics;
@@ -46,6 +47,13 @@ class _InitialWidgetState extends State<InitialWidget> {
             child: TextField(
               maxLength: 8,
               controller: _zipController,
+              onEditingComplete: () {
+                widget.analytics.logEvent(
+                  name: SearchPageEvents.searchPageButton,
+                );
+                cubit.searchZip(zipCode: _zipController.text);
+                _zipController.clear();
+              },
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(16.0),
@@ -64,22 +72,16 @@ class _InitialWidgetState extends State<InitialWidget> {
               if (state is LoadingSearchZipState) {
                 return const CircularProgressIndicator();
               }
-              return ElevatedButton(
-                onPressed: () {
+              return CustomElevatedButton(
+                onTap: () {
                   widget.analytics.logEvent(
                     name: SearchPageEvents.searchPageButton,
                   );
                   cubit.searchZip(zipCode: _zipController.text);
                   _zipController.clear();
                 },
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Icon(CupertinoIcons.search),
-                    SizedBox(width: 5),
-                    Text(AppStrings.searchPagebuttonText),
-                  ],
-                ),
+                icon: CupertinoIcons.search,
+                title: AppStrings.searchPagebuttonText,
               );
             },
           ),
