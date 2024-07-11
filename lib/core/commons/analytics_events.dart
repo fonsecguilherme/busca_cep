@@ -14,11 +14,14 @@ class CounterPageEvents {
 }
 
 class SearchPageEvents {
-  static const String searchPageButton= 'SEARCH_PAGE_BUTTON';
-  static const String searchPageAddFavoriteButton= 'SEARCH_PAGE_ADD_FAVORITE_BUTTON';
+  static const String searchPageButton = 'SEARCH_PAGE_BUTTON';
+  static const String searchPageAddFavoriteButton =
+      'SEARCH_PAGE_ADD_FAVORITE_BUTTON';
 }
 
 class FavoritesPageEvents {
-  static const String favoritesPageDeleteButton= 'FAVORITES_PAGE_DELETE_BUTTON';
-  static const String favoritesPageShareButton= 'FAVORITES_PAGE_SHARE_FAVORITE_BUTTON';
+  static const String favoritesPageDeleteButton =
+      'FAVORITES_PAGE_DELETE_BUTTON';
+  static const String favoritesPageShareButton =
+      'FAVORITES_PAGE_SHARE_FAVORITE_BUTTON';
 }
