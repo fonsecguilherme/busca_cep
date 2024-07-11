@@ -10,6 +10,7 @@ import 'package:zip_search/core/commons/shared_preferences_keys.dart';
 import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubit.dart';
 import 'package:zip_search/core/features/navigation_page/navigation_page.dart';
 import 'package:zip_search/core/features/welcome_page/widgets/welcome_page_item.dart';
+import 'package:zip_search/core/widgets/custom_elevated_button.dart';
 
 import '../../../data/shared_services.dart';
 import '../../commons/analytics_events.dart';
@@ -122,8 +123,10 @@ class _LastPageButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => isLastPage == false
       ? const SizedBox(height: 44)
-      : ElevatedButton(
-          onPressed: () {
+      : CustomElevatedButton(
+          icon: CupertinoIcons.home,
+          title: AppStrings.goToHomeButton,
+          onTap: () {
             analytics.logEvent(name: FirstUseEvents.firstUseToHomePage);
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
@@ -136,13 +139,5 @@ class _LastPageButton extends StatelessWidget {
               ),
             );
           },
-          child: const Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(CupertinoIcons.home),
-              SizedBox(width: 5),
-              Text(AppStrings.goToHomeButton),
-            ],
-          ),
         );
 }

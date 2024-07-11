@@ -96,7 +96,7 @@ class AdressesBuilderWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                       ''.favoriteCardAddressFormat(address),
+                        ''.favoriteCardAddressFormat(address),
                       ),
                       IconButton(
                         onPressed: () {
@@ -111,7 +111,7 @@ class AdressesBuilderWidget extends StatelessWidget {
                               });
 
                           Share.share(
-                           ''.favoriteCardAddressFormat(address),
+                            ''.favoriteCardAddressFormat(address),
                             subject: AppStrings.modalTitle,
                           );
                         },
@@ -127,7 +127,7 @@ class AdressesBuilderWidget extends StatelessWidget {
       },
     );
   }
-  
+
   void _showAdaptiveDialog(
     context, {
     required Text title,
