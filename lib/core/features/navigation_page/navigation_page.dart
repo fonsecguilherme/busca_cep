@@ -33,6 +33,7 @@ class _RootPageState extends State<NavigationPage> {
     favoritesCubit.loadFavoriteAdresses();
   }
 
+ //TODO: Ao invés de criar essa instância, injetar via o bloc provider
   final repository = ViaCepRepository();
   FavoritesCubit get favoritesCubit => context.read<FavoritesCubit>();
 
