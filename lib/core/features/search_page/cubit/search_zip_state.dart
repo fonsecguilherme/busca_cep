@@ -1,41 +1,40 @@
 import 'package:equatable/equatable.dart';
 import 'package:zip_search/core/model/address_model.dart';
 
-abstract class SearchZipState extends Equatable {
-  @override
+sealed class SearchZipState extends Equatable {
   @override
   List<Object> get props => [];
 }
 
-class InitialSearchZipState extends SearchZipState {}
+final class InitialSearchZipState extends SearchZipState {}
 
-class LoadingSearchZipState extends SearchZipState {}
+final class LoadingSearchZipState extends SearchZipState {}
 
-class FetchedSearchZipState extends SearchZipState {
+final class FetchedSearchZipState extends SearchZipState {
   final AddressModel address;
 
   FetchedSearchZipState(this.address);
 }
 
-class FavoritedAddressZipState extends SearchZipState {
+final class FavoritedAddressZipState extends SearchZipState {
   final String message;
 
   FavoritedAddressZipState({required this.message});
 }
 
-class ErrorSearchZipState extends SearchZipState {
+final class ErrorSearchZipState extends SearchZipState {
   final String errorMessage;
 
   ErrorSearchZipState({required this.errorMessage});
 }
 
-class ErrorEmptyZipState extends SearchZipState {
+final class ErrorEmptyZipState extends SearchZipState {
   final String errorEmptyMessage;
 
   ErrorEmptyZipState({required this.errorEmptyMessage});
 }
 
-class ErrorAlreadyAddedZipState extends SearchZipState {
+final class ErrorAlreadyAddedZipState extends SearchZipState {
   final String errorMessage;
 
   ErrorAlreadyAddedZipState({required this.errorMessage});
