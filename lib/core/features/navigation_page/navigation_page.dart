@@ -33,13 +33,14 @@ class _RootPageState extends State<NavigationPage> {
     favoritesCubit.loadFavoriteAdresses();
   }
 
- //TODO: Ao invés de criar essa instância, injetar via o bloc provider
-  final repository = ViaCepRepository();
+  //TODO: Ao invés de criar essa instância, injetar via o bloc provider
+  ViaCepRepository get repository => context.read<ViaCepRepository>();
   FavoritesCubit get favoritesCubit => context.read<FavoritesCubit>();
+  SharedServices get sharedServices => context.read<SharedServices>();
+  FirebaseAnalytics get analytics => context.read<FirebaseAnalytics>();
 
   @override
   Widget build(BuildContext context) {
-    final sharedServices = SharedServices();
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -53,7 +54,9 @@ class _RootPageState extends State<NavigationPage> {
         ),
       ],
       child: Scaffold(
-        bottomNavigationBar: _BottomNaVigationBarWidget(),
+        bottomNavigationBar: _BottomNaVigationBarWidget(
+          analytics: analytics,
+        ),
         body: SafeArea(child: _body()),
       ),
     );
@@ -74,9 +77,9 @@ class _RootPageState extends State<NavigationPage> {
 }
 
 class _BottomNaVigationBarWidget extends StatelessWidget {
-  _BottomNaVigationBarWidget();
+  final FirebaseAnalytics analytics;
 
-  final analytics = FirebaseAnalytics.instance;
+  const _BottomNaVigationBarWidget({required this.analytics});
 
   @override
   Widget build(BuildContext context) {

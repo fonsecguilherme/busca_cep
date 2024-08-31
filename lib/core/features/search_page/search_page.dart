@@ -16,11 +16,7 @@ class SearchPage extends StatefulWidget {
 
 class _HomeState extends State<SearchPage> {
   SearchZipCubit get searchZipCubit => context.read<SearchZipCubit>();
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  FirebaseAnalytics get analytics => context.read<FirebaseAnalytics>();
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -44,8 +40,6 @@ class _HomeState extends State<SearchPage> {
   }
 
   Widget builder(BuildContext context, SearchZipState state) {
-    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-
     if (state is FetchedSearchZipState) {
       return SuccessWidget(
         address: state.address,

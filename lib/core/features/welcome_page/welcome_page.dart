@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,8 +29,7 @@ class WelcomePage extends StatefulWidget {
 class _WelcomeState extends State<WelcomePage> {
   bool _isLastPage = false;
   final PageController _pageController = PageController();
-  final sharedServices = SharedServices();
-  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  FirebaseAnalytics get analytics => context.read<FirebaseAnalytics>(); 
 
   @override
   void initState() {
@@ -81,7 +79,7 @@ class _WelcomeState extends State<WelcomePage> {
               _LastPageButton(
                 analytics: analytics,
                 isLastPage: _isLastPage,
-                sharedServices: sharedServices,
+                sharedServices: context.read<SharedServices>(),
               ),
               Flexible(
                 flex: 2,

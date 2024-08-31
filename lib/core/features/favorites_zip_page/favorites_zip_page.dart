@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
@@ -23,6 +24,7 @@ class _SavedZipState extends State<FavoritesZipPAge> {
   }
 
   FavoritesCubit get favoritesCubit => context.read<FavoritesCubit>();
+  FirebaseAnalytics get analytics => context.read<FirebaseAnalytics>();
 
   @override
   Widget build(BuildContext context) => Container(
@@ -62,6 +64,7 @@ class _SavedZipState extends State<FavoritesZipPAge> {
       return AdressesBuilderWidget(
         addressList: state.addresses,
         favoritesCubit: favoritesCubit,
+        analytics: analytics,
       );
     }
     return const SizedBox();

@@ -21,9 +21,9 @@ class CounterPage extends StatefulWidget {
 class _CounterPageState extends State<CounterPage> {
   int counterSearch = 0;
   int counterFav = 0;
-  final sharedServices = SharedServices();
 
-  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  SharedServices get sharedServices => context.read<SharedServices>();
+  FirebaseAnalytics get analytics => context.read<FirebaseAnalytics>();
   SearchZipCubit get searchZipCubit => context.read<SearchZipCubit>();
 
   @override
