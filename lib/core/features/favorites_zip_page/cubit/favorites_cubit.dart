@@ -25,6 +25,8 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   }
 
   Future<void> deleteAddress(AddressModel address) async {
+
+    //fazer mock shared preferences
     addressList =
         await sharedServices.getListString(SharedPreferencesKeys.savedAdresses);
 

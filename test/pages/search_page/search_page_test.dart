@@ -9,10 +9,10 @@ import 'package:mocktail/mocktail.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_state.dart';
-import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/core/features/search_page/search_page.dart';
 import 'package:zip_search/core/features/search_page/widgets/initial_widget.dart';
 import 'package:zip_search/core/features/search_page/widgets/success_widget.dart';
+import 'package:zip_search/core/model/address_model.dart';
 
 import '../../firebase_mock.dart';
 
