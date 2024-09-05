@@ -75,8 +75,6 @@ void main() {
     expect(find.text('1'), findsWidgets);
   });
 
-
-
   // testWidgets('Find correct saved counter value when a favorite zip is saved',
   //     (tester) async {
   //   when(() => searchZipCubit.state).thenReturn(

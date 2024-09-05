@@ -29,7 +29,7 @@ class WelcomePage extends StatefulWidget {
 class _WelcomeState extends State<WelcomePage> {
   bool _isLastPage = false;
   final PageController _pageController = PageController();
-  FirebaseAnalytics get analytics => context.read<FirebaseAnalytics>(); 
+  FirebaseAnalytics get analytics => context.read<FirebaseAnalytics>();
 
   @override
   void initState() {
