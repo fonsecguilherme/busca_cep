@@ -1,15 +1,15 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubit.dart';
 import 'package:zip_search/core/features/navigation_page/navigation_page.dart';
 import 'package:zip_search/core/features/welcome_page/welcome_page.dart';
 import 'package:zip_search/data/shared_services.dart';
 import 'package:zip_search/domain/via_cep_repository.dart';
+import 'package:zip_search/setup_locator.dart';
 
 class MyApp extends StatelessWidget {
-  final SharedPreferences prefs;
+  final SharedServices prefs;
   final bool isFirstExecution;
 
   const MyApp({
@@ -31,13 +31,13 @@ class MyApp extends StatelessWidget {
       home: MultiRepositoryProvider(
         providers: [
           RepositoryProvider<SharedServices>(
-            create: (_) => SharedServices(),
+            create: (_) => getIt<SharedServices>(),
           ),
           RepositoryProvider<FirebaseAnalytics>(
-            create: (_) => FirebaseAnalytics.instance,
+            create: (_) => getIt<FirebaseAnalytics>(),
           ),
-          RepositoryProvider<ViaCepRepository>(
-            create: (_) => ViaCepRepository(),
+          RepositoryProvider<IViaCepRepository>(
+            create: (_) => getIt<IViaCepRepository>(),
           )
         ],
         child: isFirstExecution
@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
               )
             : BlocProvider(
                 create: (context) => FavoritesCubit(
-                  sharedServices: context.read<SharedServices>(),
+                  sharedServices: getIt<SharedServices>(),
                 ),
                 child: const NavigationPage(),
               ),

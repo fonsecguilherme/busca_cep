@@ -12,6 +12,7 @@ import 'package:zip_search/core/features/navigation_page/cubit/navigation_state.
 import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
 import 'package:zip_search/core/features/search_page/search_page.dart';
 import 'package:zip_search/domain/via_cep_repository.dart';
+import 'package:zip_search/setup_locator.dart';
 
 import '../../../data/shared_services.dart';
 import '../../commons/analytics_events.dart';
@@ -34,11 +35,10 @@ class _RootPageState extends State<NavigationPage> {
   }
 
   //TODO: Ao invés de criar essa instância, injetar via o bloc provider
-  ViaCepRepository get repository => context.read<ViaCepRepository>();
+  final repository = getIt<IViaCepRepository>();
   FavoritesCubit get favoritesCubit => context.read<FavoritesCubit>();
-  SharedServices get sharedServices => context.read<SharedServices>();
-  FirebaseAnalytics get analytics => context.read<FirebaseAnalytics>();
-
+  final sharedServices = getIt<SharedServices>();
+  final analytics = getIt<FirebaseAnalytics>();
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(

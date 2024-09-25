@@ -6,6 +6,7 @@ import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart
 import 'package:zip_search/core/features/search_page/cubit/search_zip_state.dart';
 import 'package:zip_search/core/features/search_page/widgets/initial_widget.dart';
 import 'package:zip_search/core/features/search_page/widgets/success_widget.dart';
+import 'package:zip_search/setup_locator.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -16,7 +17,7 @@ class SearchPage extends StatefulWidget {
 
 class _HomeState extends State<SearchPage> {
   SearchZipCubit get searchZipCubit => context.read<SearchZipCubit>();
-  FirebaseAnalytics get analytics => context.read<FirebaseAnalytics>();
+  final analytics = getIt<FirebaseAnalytics>();
 
   @override
   Widget build(BuildContext context) => Scaffold(

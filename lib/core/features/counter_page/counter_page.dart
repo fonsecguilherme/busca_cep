@@ -6,6 +6,7 @@ import 'package:zip_search/core/commons/shared_preferences_keys.dart';
 import 'package:zip_search/core/features/counter_page/widgets/counter_bar_widget.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
 import 'package:zip_search/data/shared_services.dart';
+import 'package:zip_search/setup_locator.dart';
 
 import '../../commons/analytics_events.dart';
 
@@ -22,8 +23,9 @@ class _CounterPageState extends State<CounterPage> {
   int counterSearch = 0;
   int counterFav = 0;
 
-  SharedServices get sharedServices => context.read<SharedServices>();
-  FirebaseAnalytics get analytics => context.read<FirebaseAnalytics>();
+  final sharedServices = getIt<SharedServices>();
+  final analytics = getIt<FirebaseAnalytics>();
+
   SearchZipCubit get searchZipCubit => context.read<SearchZipCubit>();
 
   @override

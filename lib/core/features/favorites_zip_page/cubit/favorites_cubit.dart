@@ -14,14 +14,17 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   List<AddressModel> addressList = [];
 
   Future<void> loadFavoriteAdresses() async {
+    print(addressList);
+
     addressList =
         await sharedServices.getListString(SharedPreferencesKeys.savedAdresses);
 
     if (addressList.isEmpty) {
       emit(InitialFavoriteState());
-    } else {
-      emit(LoadFavoriteZipState(addressList));
+      return;
     }
+
+    emit(LoadFavoriteZipState(addressList));
   }
 
   Future<void> deleteAddress(AddressModel address) async {
@@ -37,8 +40,8 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     emit(DeletedFavoriteZipState(AppStrings.deletedFavoriteZipText));
     if (addressList.isEmpty) {
       emit(InitialFavoriteState());
-    } else {
-      emit(LoadFavoriteZipState(addressList));
+      return;
     }
+    emit(LoadFavoriteZipState(addressList));
   }
 }

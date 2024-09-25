@@ -6,6 +6,7 @@ import 'package:zip_search/core/commons/messages.dart';
 import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubit.dart';
 import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_state.dart';
 import 'package:zip_search/core/features/favorites_zip_page/widgets/adresses_builder_widget.dart';
+import 'package:zip_search/setup_locator.dart';
 
 class FavoritesZipPAge extends StatefulWidget {
   const FavoritesZipPAge({super.key});
@@ -24,7 +25,7 @@ class _SavedZipState extends State<FavoritesZipPAge> {
   }
 
   FavoritesCubit get favoritesCubit => context.read<FavoritesCubit>();
-  FirebaseAnalytics get analytics => context.read<FirebaseAnalytics>();
+  final analytics = getIt<FirebaseAnalytics>();
 
   @override
   Widget build(BuildContext context) => Container(

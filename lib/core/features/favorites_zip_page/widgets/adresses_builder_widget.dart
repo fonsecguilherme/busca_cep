@@ -29,7 +29,7 @@ class AdressesBuilderWidget extends StatelessWidget {
       key: FavoritesZipPAge.loadedFavoriteAdressesKey,
       itemCount: addressList.length,
       itemBuilder: (context, index) {
-        final address = addressList[index];
+        final address = addressList.elementAt(index);
         return Padding(
           padding: const EdgeInsets.symmetric(
             vertical: 8.0,
@@ -95,8 +95,10 @@ class AdressesBuilderWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(
-                        ''.favoriteCardAddressFormat(address),
+                      Expanded(
+                        child: Text(
+                          ''.favoriteCardAddressFormat(address),
+                        ),
                       ),
                       IconButton(
                         onPressed: () {
