@@ -1,8 +1,10 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/features/counter_page/counter_page.dart';
@@ -25,12 +27,15 @@ late SharedServices services;
 
 void main() {
   setupFirebaseAnalyticsMocks();
+  final getItTest = GetIt.instance;
 
   setUp(() async {
     await Firebase.initializeApp();
 
     searchZipCubit = MockSearchZipCubit();
     services = MockSharedServices();
+    getItTest.registerLazySingleton(() => services);
+    getItTest.registerLazySingleton(() => FirebaseAnalytics.instance);
   });
 
   tearDown(
@@ -40,6 +45,8 @@ void main() {
   );
 
   testWidgets('Find initial widgets', (tester) async {
+    when(() => services.getInt(any())).thenAnswer((_) async => 1);
+
     await _createWidget(tester);
 
     expect(find.byKey(CounterPage.counterPageKey), findsOneWidget);

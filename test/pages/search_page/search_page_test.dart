@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
@@ -13,6 +15,7 @@ import 'package:zip_search/core/features/search_page/search_page.dart';
 import 'package:zip_search/core/features/search_page/widgets/initial_widget.dart';
 import 'package:zip_search/core/features/search_page/widgets/success_widget.dart';
 import 'package:zip_search/core/model/address_model.dart';
+import 'package:zip_search/data/shared_services.dart';
 
 import '../../firebase_mock.dart';
 
@@ -35,12 +38,21 @@ AddressModel _addressModel = const AddressModel(
 
 void main() {
   setupFirebaseAnalyticsMocks();
+  final getItTest = GetIt.instance;
 
   setUp(() async {
     await Firebase.initializeApp();
     searchZipCubit = MockSearchZipCubit();
+    getItTest.registerLazySingleton<SharedServices>(
+      () => SharedServices(),
+    );
+    getItTest.registerLazySingleton(() => FirebaseAnalytics.instance);
     registerFallbackValue(_addressModel);
   });
+
+  tearDown(
+    () => getItTest.reset(),
+  );
 
   testWidgets('Find inital widgets when state is inital', (tester) async {
     when(() => searchZipCubit.state).thenReturn(InitialSearchZipState());
