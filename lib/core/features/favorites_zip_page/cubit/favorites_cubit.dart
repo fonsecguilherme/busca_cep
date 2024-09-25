@@ -14,8 +14,6 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   List<AddressModel> addressList = [];
 
   Future<void> loadFavoriteAdresses() async {
-    print(addressList);
-
     addressList =
         await sharedServices.getListString(SharedPreferencesKeys.savedAdresses);
 
