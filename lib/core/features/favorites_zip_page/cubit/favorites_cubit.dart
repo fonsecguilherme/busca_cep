@@ -19,12 +19,14 @@ class FavoritesCubit extends Cubit<FavoritesState> {
 
     if (addressList.isEmpty) {
       emit(InitialFavoriteState());
-    } else {
-      emit(LoadFavoriteZipState(addressList));
+      return;
     }
+
+    emit(LoadFavoriteZipState(addressList));
   }
 
   Future<void> deleteAddress(AddressModel address) async {
+    //fazer mock shared preferences
     addressList =
         await sharedServices.getListString(SharedPreferencesKeys.savedAdresses);
 
@@ -36,8 +38,8 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     emit(DeletedFavoriteZipState(AppStrings.deletedFavoriteZipText));
     if (addressList.isEmpty) {
       emit(InitialFavoriteState());
-    } else {
-      emit(LoadFavoriteZipState(addressList));
+      return;
     }
+    emit(LoadFavoriteZipState(addressList));
   }
 }

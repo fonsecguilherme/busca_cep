@@ -12,9 +12,9 @@ extension AddressExtension on String {
       ' - CEP ${address.cep}';
 
   String favoriteCardAddressFormat(AddressModel address) =>
-      '${address.logradouro},\n${_complementField(address.complemento)},'
+      'Logradouro: ${address.logradouro},\n${_complementField(address.complemento)},'
       '\nBairro: ${address.bairro},'
-      '\n${address.localidade}, ${address.uf}';
+      '\nCidade: ${address.localidade}, ${address.uf}';
 
   String _complementField(String complement) {
     return complement.isEmpty ? AppStrings.emptyComplementText : complement;

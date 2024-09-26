@@ -1,9 +1,7 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/shared_preferences_keys.dart';
@@ -11,6 +9,7 @@ import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubi
 import 'package:zip_search/core/features/navigation_page/navigation_page.dart';
 import 'package:zip_search/core/features/welcome_page/widgets/welcome_page_item.dart';
 import 'package:zip_search/core/widgets/custom_elevated_button.dart';
+import 'package:zip_search/setup_locator.dart';
 
 import '../../../data/shared_services.dart';
 import '../../commons/analytics_events.dart';
@@ -21,7 +20,7 @@ class WelcomePage extends StatefulWidget {
     required this.prefs,
   });
 
-  final SharedPreferences prefs;
+  final SharedServices prefs;
 
   @override
   State<WelcomePage> createState() => _WelcomeState();
@@ -30,13 +29,12 @@ class WelcomePage extends StatefulWidget {
 class _WelcomeState extends State<WelcomePage> {
   bool _isLastPage = false;
   final PageController _pageController = PageController();
-  final sharedServices = SharedServices();
-  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  final analytics = getIt<FirebaseAnalytics>();
 
   @override
   void initState() {
     super.initState();
-    widget.prefs.setBool(SharedPreferencesKeys.boolKey, false);
+    widget.prefs.saveBool(SharedPreferencesKeys.boolKey, false);
   }
 
   @override
@@ -79,9 +77,9 @@ class _WelcomeState extends State<WelcomePage> {
                 ),
               ),
               _LastPageButton(
-                analytics: analytics,
+                analytics: getIt<FirebaseAnalytics>(),
                 isLastPage: _isLastPage,
-                sharedServices: sharedServices,
+                sharedServices: getIt<SharedServices>(),
               ),
               Flexible(
                 flex: 2,

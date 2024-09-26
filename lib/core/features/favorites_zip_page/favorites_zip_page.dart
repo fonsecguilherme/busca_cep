@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
@@ -5,6 +6,7 @@ import 'package:zip_search/core/commons/messages.dart';
 import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubit.dart';
 import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_state.dart';
 import 'package:zip_search/core/features/favorites_zip_page/widgets/adresses_builder_widget.dart';
+import 'package:zip_search/setup_locator.dart';
 
 class FavoritesZipPAge extends StatefulWidget {
   const FavoritesZipPAge({super.key});
@@ -23,6 +25,7 @@ class _SavedZipState extends State<FavoritesZipPAge> {
   }
 
   FavoritesCubit get favoritesCubit => context.read<FavoritesCubit>();
+  final analytics = getIt<FirebaseAnalytics>();
 
   @override
   Widget build(BuildContext context) => Container(
@@ -62,6 +65,7 @@ class _SavedZipState extends State<FavoritesZipPAge> {
       return AdressesBuilderWidget(
         addressList: state.addresses,
         favoritesCubit: favoritesCubit,
+        analytics: analytics,
       );
     }
     return const SizedBox();

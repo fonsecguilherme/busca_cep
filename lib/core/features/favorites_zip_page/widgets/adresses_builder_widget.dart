@@ -14,22 +14,22 @@ import 'package:zip_search/core/model/address_model.dart';
 class AdressesBuilderWidget extends StatelessWidget {
   final List<AddressModel> addressList;
   final FavoritesCubit favoritesCubit;
+  final FirebaseAnalytics analytics;
 
   const AdressesBuilderWidget({
     super.key,
     required this.addressList,
     required this.favoritesCubit,
+    required this.analytics,
   });
 
   @override
   Widget build(BuildContext context) {
-    final analytics = FirebaseAnalytics.instance;
-
     return ListView.builder(
       key: FavoritesZipPAge.loadedFavoriteAdressesKey,
       itemCount: addressList.length,
       itemBuilder: (context, index) {
-        final address = addressList[index];
+        final address = addressList.elementAt(index);
         return Padding(
           padding: const EdgeInsets.symmetric(
             vertical: 8.0,
@@ -95,8 +95,10 @@ class AdressesBuilderWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(
-                        ''.favoriteCardAddressFormat(address),
+                      Expanded(
+                        child: Text(
+                          ''.favoriteCardAddressFormat(address),
+                        ),
                       ),
                       IconButton(
                         onPressed: () {

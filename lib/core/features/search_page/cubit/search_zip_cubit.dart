@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/shared_preferences_keys.dart';
@@ -5,6 +7,8 @@ import 'package:zip_search/core/features/search_page/cubit/search_zip_state.dart
 import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/data/shared_services.dart';
 import 'package:zip_search/domain/via_cep_repository.dart';
+
+import '../../../exceptions/custom_exceptions.dart';
 
 class SearchZipCubit extends Cubit<SearchZipState> {
   SearchZipCubit({
@@ -34,14 +38,21 @@ class SearchZipCubit extends Cubit<SearchZipState> {
             SharedPreferencesKeys.counterSearchedZipsKeys, counterSearchedZips);
         emit(FetchedSearchZipState(address));
       }
-    } on Exception {
-      if (zipCode.isEmpty) {
-        emit(ErrorEmptyZipState(
-            errorEmptyMessage: AppStrings.zipCodeEmptyErrorMessageText));
-      } else {
-        emit(ErrorSearchZipState(
-            errorMessage: AppStrings.zipCodeInvalidErrorMessageText));
-      }
+    } on EmptyZipException catch (e) {
+      log(e.toString());
+
+      emit(ErrorEmptyZipState(
+          errorEmptyMessage: AppStrings.zipCodeEmptyErrorMessageText));
+    } on InvalidZipException catch (e) {
+      log(e.toString());
+
+      emit(ErrorSearchZipState(
+          errorMessage: AppStrings.zipCodeInvalidErrorMessageText));
+    } on Exception catch (e, stacktrace) {
+      log(stacktrace.toString());
+      log(e.toString());
+
+      emit(ErrorSearchZipState(errorMessage: e.toString()));
     }
   }
 

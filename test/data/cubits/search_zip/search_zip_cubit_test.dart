@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
+import 'package:zip_search/core/exceptions/custom_exceptions.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_state.dart';
 import 'package:zip_search/core/model/address_model.dart';
@@ -58,7 +59,7 @@ void main() {
           (_) async => 0,
         );
         when(() => repository.fetchAddress(any())).thenThrow(
-          Exception(),
+          EmptyZipException('User did not type a CEP.'),
         );
         when(() => sharedServices.saveInt(any(), 0)).thenAnswer(
           (_) => Future.value(),
@@ -69,8 +70,7 @@ void main() {
       expect: () => <SearchZipState>[
         LoadingSearchZipState(),
         ErrorEmptyZipState(
-          errorEmptyMessage: AppStrings.zipCodeEmptyErrorMessageText,
-        )
+            errorEmptyMessage: AppStrings.zipCodeEmptyErrorMessageText)
       ],
     );
 

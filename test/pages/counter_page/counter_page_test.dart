@@ -1,11 +1,12 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
-import 'package:zip_search/core/commons/shared_preferences_keys.dart';
 import 'package:zip_search/core/features/counter_page/counter_page.dart';
 import 'package:zip_search/core/features/navigation_page/cubit/navigation_cubit.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
@@ -26,12 +27,15 @@ late SharedServices services;
 
 void main() {
   setupFirebaseAnalyticsMocks();
+  final getItTest = GetIt.instance;
 
   setUp(() async {
     await Firebase.initializeApp();
 
     searchZipCubit = MockSearchZipCubit();
     services = MockSharedServices();
+    getItTest.registerLazySingleton(() => services);
+    getItTest.registerLazySingleton(() => FirebaseAnalytics.instance);
   });
 
   tearDown(
@@ -41,6 +45,8 @@ void main() {
   );
 
   testWidgets('Find initial widgets', (tester) async {
+    when(() => services.getInt(any())).thenAnswer((_) async => 1);
+
     await _createWidget(tester);
 
     expect(find.byKey(CounterPage.counterPageKey), findsOneWidget);
@@ -54,28 +60,16 @@ void main() {
     expect(find.text('0'), findsWidgets);
   });
 
-  //! TODO: write tests with updated counter value
+  // TODO: write tests with updated counter value
 
   testWidgets('Find correct counter value when a correct zip is returned',
       (tester) async {
-    when(() => searchZipCubit.state)
-        .thenReturn((FetchedSearchZipState(_addressModel)));
-
-    when(() => services.getInt(
-          SharedPreferencesKeys.counterSearchedZipsKeys,
-        )).thenAnswer(
-      (_) async => null,
-    );
-    when(() => searchZipCubit.counterSearchedZips)
-        .thenReturn(searchZipCubit.counterSearchedZips = 1);
-
-    // when(
-    //   () => services.saveInt(SharedPreferencesKeys.counterSearchedZipsKeys, 1),
-    // ).thenAnswer(
-    //   (_) async => 1,
-    // );
+    when(() => services.getInt(any())).thenAnswer((_) async => 1);
 
     await _createWidget(tester);
+
+    await tester.pump();
+    await tester.pumpAndSettle();
 
     expect(find.byKey(CounterPage.counterPageKey), findsOneWidget);
 
@@ -85,10 +79,7 @@ void main() {
 
     expect(find.text(AppStrings.successfulSavedZipsText), findsOneWidget);
 
-    await tester.pump();
-    await tester.pumpAndSettle();
-
-    expect(find.text('${searchZipCubit.counterSearchedZips}'), findsOneWidget);
+    expect(find.text('1'), findsWidgets);
   });
 
   // testWidgets('Find correct saved counter value when a favorite zip is saved',

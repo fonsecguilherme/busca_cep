@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubit.dart';
@@ -21,14 +24,17 @@ late FavoritesCubit favoritesCubit;
 
 void main() {
   setupFirebaseAnalyticsMocks();
+  final getItTest = GetIt.instance;
 
   setUp(() async {
     await Firebase.initializeApp();
     favoritesCubit = MockFavoritesCubit();
+    getItTest.registerLazySingleton(() => FirebaseAnalytics.instance);
   });
 
   tearDown(() {
     favoritesCubit.close();
+    getItTest.reset();
   });
 
   testWidgets('Find initial page', (tester) async {
@@ -63,16 +69,16 @@ void main() {
       (_) async => Future.value(),
     );
 
-    // when(() => favoritesCubit.loadFavoriteAdresses()).thenAnswer(
-    //   (_) async => favoritesCubit,
-    // );
+    when(() => favoritesCubit.loadFavoriteAdresses()).thenAnswer(
+      (_) async => favoritesCubit,
+    );
 
     when(() => favoritesCubit.state)
         .thenReturn(LoadFavoriteZipState(_addressList));
 
     await _createWidget(tester);
 
-    final deleteButton = find.byIcon(Icons.delete);
+    final deleteButton = find.byIcon(CupertinoIcons.delete);
 
     await tester.tap(deleteButton);
 

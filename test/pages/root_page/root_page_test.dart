@@ -1,9 +1,11 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
 import 'package:zip_search/core/features/counter_page/counter_page.dart';
 import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubit.dart';
 import 'package:zip_search/core/features/favorites_zip_page/favorites_zip_page.dart';
@@ -24,11 +26,23 @@ late NavigationCubit navigationCubit;
 
 void main() {
   setupFirebaseAnalyticsMocks();
+  final getItTest = GetIt.instance;
 
   setUp(() async {
     await Firebase.initializeApp();
     navigationCubit = MockNavigationCubit();
+    getItTest.registerLazySingleton<IViaCepRepository>(
+      () => ViaCepRepository(),
+    );
+    getItTest.registerLazySingleton<SharedServices>(
+      () => SharedServices(),
+    );
+    getItTest.registerLazySingleton(() => FirebaseAnalytics.instance);
   });
+
+  tearDown(
+    () => getItTest.reset(),
+  );
 
   testWidgets(
     'Find counter page',

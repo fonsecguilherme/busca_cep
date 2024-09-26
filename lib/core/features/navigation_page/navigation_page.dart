@@ -12,6 +12,7 @@ import 'package:zip_search/core/features/navigation_page/cubit/navigation_state.
 import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
 import 'package:zip_search/core/features/search_page/search_page.dart';
 import 'package:zip_search/domain/via_cep_repository.dart';
+import 'package:zip_search/setup_locator.dart';
 
 import '../../../data/shared_services.dart';
 import '../../commons/analytics_events.dart';
@@ -33,12 +34,13 @@ class _RootPageState extends State<NavigationPage> {
     favoritesCubit.loadFavoriteAdresses();
   }
 
-  final repository = ViaCepRepository();
+  //TODO: Ao invés de criar essa instância, injetar via o bloc provider
+  final repository = getIt<IViaCepRepository>();
   FavoritesCubit get favoritesCubit => context.read<FavoritesCubit>();
-
+  final sharedServices = getIt<SharedServices>();
+  final analytics = getIt<FirebaseAnalytics>();
   @override
   Widget build(BuildContext context) {
-    final sharedServices = SharedServices();
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -52,7 +54,9 @@ class _RootPageState extends State<NavigationPage> {
         ),
       ],
       child: Scaffold(
-        bottomNavigationBar: _BottomNaVigationBarWidget(),
+        bottomNavigationBar: _BottomNaVigationBarWidget(
+          analytics: analytics,
+        ),
         body: SafeArea(child: _body()),
       ),
     );
@@ -73,9 +77,9 @@ class _RootPageState extends State<NavigationPage> {
 }
 
 class _BottomNaVigationBarWidget extends StatelessWidget {
-  _BottomNaVigationBarWidget();
+  final FirebaseAnalytics analytics;
 
-  final analytics = FirebaseAnalytics.instance;
+  const _BottomNaVigationBarWidget({required this.analytics});
 
   @override
   Widget build(BuildContext context) {
