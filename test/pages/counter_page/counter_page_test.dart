@@ -41,6 +41,7 @@ void main() {
   tearDown(
     () {
       searchZipCubit.close();
+      getItTest.reset();
     },
   );
 
