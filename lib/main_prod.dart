@@ -14,9 +14,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  final prefs = getIt<SharedServices>();
 
-  var prefs = getIt<SharedServices>();
-  var isFirstExecution =
+  final isFirstExecution =
       await prefs.getBool(SharedPreferencesKeys.boolKey) ?? true;
 
   runApp(
