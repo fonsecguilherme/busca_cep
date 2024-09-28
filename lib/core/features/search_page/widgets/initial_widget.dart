@@ -35,11 +35,9 @@ class _InitialWidgetState extends State<InitialWidget> {
         key: InitialWidget.initialWidgetKey,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
+          Text(
             AppStrings.searchPageMessage,
-            style: TextStyle(
-              fontSize: 16,
-            ),
+            style: Theme.of(context).textTheme.titleSmall,
           ),
           const SizedBox(height: 12),
           Padding(
@@ -57,13 +55,27 @@ class _InitialWidgetState extends State<InitialWidget> {
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(16.0),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30), // Borda circular
+                  borderSide: BorderSide(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .outline, // Cor da borda quando o TextField não está em foco
+                    width: 2.0,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30), // Borda circular
+                  borderSide: BorderSide(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .outline, // Cor da borda quando o TextField está em foco
+                    width: 2.0,
+                  ),
                 ),
                 filled: true,
                 hintStyle: const TextStyle(color: Colors.grey),
                 hintText: AppStrings.textFieldText,
-                fillColor: Theme.of(context).colorScheme.onPrimary,
               ),
             ),
           ),

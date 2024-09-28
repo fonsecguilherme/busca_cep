@@ -35,10 +35,12 @@ class _RootPageState extends State<NavigationPage> {
   }
 
   //TODO: Ao invés de criar essa instância, injetar via o bloc provider
-  final repository = getIt<IViaCepRepository>();
   FavoritesCubit get favoritesCubit => context.read<FavoritesCubit>();
+
+  final repository = getIt<IViaCepRepository>();
   final sharedServices = getIt<SharedServices>();
   final analytics = getIt<FirebaseAnalytics>();
+  
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -54,6 +56,7 @@ class _RootPageState extends State<NavigationPage> {
         ),
       ],
       child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         bottomNavigationBar: _BottomNaVigationBarWidget(
           analytics: analytics,
         ),

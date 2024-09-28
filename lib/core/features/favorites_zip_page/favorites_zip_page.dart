@@ -28,24 +28,12 @@ class _SavedZipState extends State<FavoritesZipPAge> {
   final analytics = getIt<FirebaseAnalytics>();
 
   @override
-  Widget build(BuildContext context) => Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Theme.of(context).colorScheme.primaryContainer,
-              Colors.white,
-            ],
-          ),
-        ),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: BlocConsumer<FavoritesCubit, FavoritesState>(
-            bloc: favoritesCubit,
-            listener: listener,
-            builder: builder,
-          ),
+  Widget build(BuildContext context) => Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        body: BlocConsumer<FavoritesCubit, FavoritesState>(
+          bloc: favoritesCubit,
+          listener: listener,
+          builder: builder,
         ),
       );
 

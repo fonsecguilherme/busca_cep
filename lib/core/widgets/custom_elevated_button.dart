@@ -15,13 +15,22 @@ class CustomElevatedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
+      
       onPressed: onTap,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon),
+          Icon(
+            icon,
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
           const SizedBox(width: 5),
-          Text(title),
+          Text(
+            title,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
+          ),
         ],
       ),
     );
