@@ -4,4 +4,5 @@ class SharedPreferencesKeys {
   static String counterFavZips = 'counterFavZips';
   static String savedZipKey = 'savedZipKey';
   static String savedAdresses = 'savedAdresses';
+  static String isDarkThemeEnable = 'isDarkThemeEnable';
 }

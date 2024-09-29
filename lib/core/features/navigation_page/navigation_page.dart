@@ -40,7 +40,7 @@ class _RootPageState extends State<NavigationPage> {
   final repository = getIt<IViaCepRepository>();
   final sharedServices = getIt<SharedServices>();
   final analytics = getIt<FirebaseAnalytics>();
-  
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(

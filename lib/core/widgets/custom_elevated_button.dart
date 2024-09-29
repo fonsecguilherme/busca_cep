@@ -15,7 +15,6 @@ class CustomElevatedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      
       onPressed: onTap,
       child: Row(
         mainAxisSize: MainAxisSize.min,
