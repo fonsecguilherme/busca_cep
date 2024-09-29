@@ -27,27 +27,31 @@ class ThemeCubit extends Cubit<AppTheme> {
   final sharedServices = getIt<SharedServices>();
 
   Future<void> _getThemeFromPrefs() async {
-    final isDarkTheme =
+    final isDarkThemeEnable =
         await sharedServices.getBool(SharedPreferencesKeys.isDarkThemeEnable) ??
             false;
-    final savedTheme = isDarkTheme ? AppTheme.dark : AppTheme.light;
+    final savedTheme = isDarkThemeEnable ? AppTheme.dark : AppTheme.light;
+
     emit(savedTheme);
   }
 
-  void toggleTheme() {
+  Future<void> toggleTheme() async {
     switch (state) {
       case AppTheme.light:
+        sharedServices.saveBool(
+          SharedPreferencesKeys.isDarkThemeEnable,
+          true,
+        );
+
         emit(AppTheme.dark);
-        sharedServices.saveBool(
-          SharedPreferencesKeys.isDarkThemeEnable,
-          state.isDark,
-        );
+
       case AppTheme.dark:
-        emit(AppTheme.light);
         sharedServices.saveBool(
           SharedPreferencesKeys.isDarkThemeEnable,
-          state.isLight,
+          false,
         );
+
+        emit(AppTheme.light);
     }
   }
 
