@@ -14,6 +14,7 @@ import 'package:zip_search/core/features/navigation_page/cubit/navigation_state.
 import 'package:zip_search/core/features/navigation_page/navigation_page.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
 import 'package:zip_search/core/features/search_page/search_page.dart';
+import 'package:zip_search/core/features/theme/cubit/theme_cubit.dart';
 import 'package:zip_search/data/shared_services.dart';
 import 'package:zip_search/domain/via_cep_repository.dart';
 
@@ -102,6 +103,9 @@ Future<void> _createWidget(WidgetTester tester) async {
             sharedServices: _sharedServices,
           ),
         ),
+        BlocProvider(
+          create: (context) => ThemeCubit(),
+        )
       ],
       child: const MaterialApp(
         home: NavigationPage(),

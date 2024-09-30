@@ -56,7 +56,6 @@ void main() {
 
   testWidgets('Find inital widgets when state is inital', (tester) async {
     when(() => searchZipCubit.state).thenReturn(InitialSearchZipState());
-    when(() => searchZipCubit.counterSearchedZips).thenReturn(0);
 
     await _createWidget(tester);
 
@@ -74,7 +73,6 @@ void main() {
   testWidgets('Find success screen widgets', (tester) async {
     when(() => searchZipCubit.state)
         .thenReturn(FetchedSearchZipState(_addressModel));
-    when(() => searchZipCubit.counterSearchedZips).thenReturn(1);
 
     await _createWidget(tester);
 
