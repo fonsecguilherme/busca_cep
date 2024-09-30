@@ -21,6 +21,7 @@ class _HomeState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         body: BlocConsumer<SearchZipCubit, SearchZipState>(
           bloc: searchZipCubit,
           listener: listener,

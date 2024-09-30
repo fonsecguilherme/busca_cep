@@ -6,12 +6,13 @@ class CounterBarWidget extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
 
-  const CounterBarWidget(
-      {super.key,
-      required this.value,
-      required this.icon,
-      required this.text,
-      required this.onTap});
+  const CounterBarWidget({
+    super.key,
+    required this.value,
+    required this.icon,
+    required this.text,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) => GestureDetector(
@@ -24,15 +25,17 @@ class CounterBarWidget extends StatelessWidget {
               children: [
                 Icon(
                   icon,
-                  color: Theme.of(context).colorScheme.onPrimary,
+                  color: Theme.of(context).colorScheme.onTertiary,
                 ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
                     text,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Theme.of(context).colorScheme.onTertiary,
+                          fontWeight: FontWeight.w400,
+                        ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 Container(
@@ -45,10 +48,7 @@ class CounterBarWidget extends StatelessWidget {
                   child: Center(
                     child: Text(
                       value.toString(),
-                      style: TextStyle(
-                        color:
-                            Theme.of(context).colorScheme.onTertiaryContainer,
-                      ),
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
                 ),

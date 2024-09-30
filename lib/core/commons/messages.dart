@@ -13,7 +13,7 @@ class Messages {
       _showMessage(message, context.colorScheme.error);
 
   void showSuccess(String message) =>
-      _showMessage(message, context.colorScheme.primary);
+      _showMessage(message, context.colorScheme.primaryFixed);
 
   void _showMessage(String message, Color color) {
     var scaffoldMessenger = ScaffoldMessenger.of(context);
@@ -27,7 +27,7 @@ class Messages {
         behavior: SnackBarBehavior.floating,
         action: SnackBarAction(
           label: AppStrings.okText,
-          textColor: Colors.white,
+          textColor: Theme.of(context).colorScheme.onError,
           onPressed: () {
             scaffoldMessenger.hideCurrentSnackBar();
           },

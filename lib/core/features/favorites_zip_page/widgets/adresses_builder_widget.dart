@@ -36,8 +36,9 @@ class AdressesBuilderWidget extends StatelessWidget {
             horizontal: 16.0,
           ),
           child: Card(
+            elevation: 8,
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -48,6 +49,7 @@ class AdressesBuilderWidget extends StatelessWidget {
                         address.cep,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
+                          fontSize: 16,
                         ),
                       ),
                       IconButton(
@@ -85,8 +87,11 @@ class AdressesBuilderWidget extends StatelessWidget {
                             ],
                           );
                         },
-                        icon: const InkWell(
-                          child: Icon(CupertinoIcons.delete),
+                        icon: InkWell(
+                          child: Icon(
+                            CupertinoIcons.delete,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                         ),
                       ),
                     ],
@@ -117,7 +122,10 @@ class AdressesBuilderWidget extends StatelessWidget {
                             subject: AppStrings.modalTitle,
                           );
                         },
-                        icon: const Icon(CupertinoIcons.share),
+                        icon: Icon(
+                          CupertinoIcons.share,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
                       )
                     ],
                   ),

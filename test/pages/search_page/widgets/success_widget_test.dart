@@ -39,8 +39,6 @@ void main() {
   });
 }
 
-// TODO: fix test
-
 Future<void> _createWidget(WidgetTester tester) async {
   await tester.pumpWidget(
     BlocProvider<SearchZipCubit>.value(

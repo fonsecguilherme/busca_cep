@@ -35,17 +35,18 @@ class SuccessWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     AppStrings.addressText,
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.purple,
+                      color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                   Text(
                     ''.formatAddress(address),
                     textAlign: TextAlign.left,
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
                 ],
               ),

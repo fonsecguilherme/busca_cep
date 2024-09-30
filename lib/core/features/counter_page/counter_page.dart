@@ -1,10 +1,12 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/shared_preferences_keys.dart';
 import 'package:zip_search/core/features/counter_page/widgets/counter_bar_widget.dart';
 import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
+import 'package:zip_search/core/features/theme/cubit/theme_cubit.dart';
 import 'package:zip_search/data/shared_services.dart';
 import 'package:zip_search/setup_locator.dart';
 
@@ -27,6 +29,7 @@ class _CounterPageState extends State<CounterPage> {
   final analytics = getIt<FirebaseAnalytics>();
 
   SearchZipCubit get searchZipCubit => context.read<SearchZipCubit>();
+  ThemeCubit get themeCubit => context.read<ThemeCubit>();
 
   @override
   void initState() {
@@ -57,35 +60,54 @@ class _CounterPageState extends State<CounterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      key: CounterPage.counterPageKey,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            AppStrings.greetingsText,
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w500,
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(
+              right: 8.0,
+            ),
+            child: BlocBuilder<ThemeCubit, AppTheme>(
+              builder: (context, state) {
+                return Switch.adaptive(
+                  inactiveTrackColor: Colors.grey,
+                  inactiveThumbColor: Colors.white,
+                  value: state.isLight,
+                  thumbIcon: themeCubit.thumbIcon,
+                  onChanged: (_) => themeCubit.toggleTheme(),
+                );
+              },
             ),
           ),
-          CounterBarWidget(
-            value: counterSearch,
-            icon: CupertinoIcons.checkmark,
-            text: AppStrings.successfulSearchedZipsText,
-            onTap: () =>
-                analytics.logEvent(name: CounterPageEvents.searchedZipCard),
-          ),
-          CounterBarWidget(
-            value: counterFav,
-            icon: CupertinoIcons.star,
-            text: AppStrings.successfulSavedZipsText,
-            onTap: () =>
-                analytics.logEvent(name: CounterPageEvents.favoritedZipCard),
-          ),
         ],
+      ),
+      body: Padding(
+        key: CounterPage.counterPageKey,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              AppStrings.greetingsText,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            CounterBarWidget(
+              value: counterSearch,
+              icon: CupertinoIcons.checkmark,
+              text: AppStrings.successfulSearchedZipsText,
+              onTap: () =>
+                  analytics.logEvent(name: CounterPageEvents.searchedZipCard),
+            ),
+            CounterBarWidget(
+              value: counterFav,
+              icon: CupertinoIcons.star,
+              text: AppStrings.successfulSavedZipsText,
+              onTap: () =>
+                  analytics.logEvent(name: CounterPageEvents.favoritedZipCard),
+            ),
+          ],
+        ),
       ),
     );
   }

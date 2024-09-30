@@ -1,10 +1,12 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:zip_search/core/commons/analytics_events.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubit.dart';
 import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_state.dart';
@@ -15,27 +17,38 @@ import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/data/shared_services.dart';
 import 'package:zip_search/domain/via_cep_repository.dart';
 
+import '../../../firebase_mock.dart';
+
 class MockSearchZipCubit extends MockCubit<SearchZipState>
     implements SearchZipCubit {}
 
 class MockFavoritesCubit extends MockCubit<FavoritesState>
     implements FavoritesCubit {}
 
-class FakeAddressModel extends Fake implements AddressModel {}
+class MockSharedServices extends Mock implements SharedServices {}
+
+class MockViaCepRepository extends Mock implements ViaCepRepository {}
 
 class MockTracker extends Mock implements FirebaseAnalytics {}
 
 late FavoritesCubit favoritesCubit;
 late SearchZipCubit searchZipCubit;
 late FirebaseAnalytics analytics;
-
-AddressModel _address = FakeAddressModel();
+late SharedServices services;
+late ViaCepRepository repository;
 
 void main() {
-  setUp(() {
+  setupFirebaseAnalyticsMocks();
+
+  setUp(() async {
+    await Firebase.initializeApp();
+
     favoritesCubit = MockFavoritesCubit();
     searchZipCubit = MockSearchZipCubit();
+    services = MockSharedServices();
+    repository = MockViaCepRepository();
     analytics = MockTracker();
+
     registerFallbackValue(_address);
   });
 
@@ -53,7 +66,10 @@ void main() {
 
   // TODO: verify if functions were called
   testWidgets('Find if functions were called after tap button', (tester) async {
-    when(() => searchZipCubit.addToFavorites(any())).thenAnswer(
+    when(() => searchZipCubit.state)
+        .thenReturn(FetchedSearchZipState(_address));
+
+    when(() => searchZipCubit.addToFavorites(_address)).thenAnswer(
       (_) async => Future.value(),
     );
 
@@ -61,20 +77,24 @@ void main() {
       (_) async => Future.value(),
     );
 
+    when(
+      () => analytics.logEvent(
+        name: SearchPageEvents.searchPageAddFavoriteButton,
+        parameters: any(named: 'parameters'),
+      ),
+    ).thenAnswer((_) async => Future.value());
+
     await _createWidget(tester);
 
     final buttonText = find.text(AppStrings.addToFavoritesButton);
 
     await tester.tap(buttonText);
-    await tester.pumpAndSettle();
-    // await tester.pumpAndSettle();
-    // await tester.pumpAndSettle();
 
-    //! o erro está acontecendo aqui
-    verify(() => searchZipCubit.addToFavorites(any()));
-    verify(() => favoritesCubit.loadFavoriteAdresses());
-    verifyNoMoreInteractions(searchZipCubit);
-    verifyNoMoreInteractions(favoritesCubit);
+    await tester.pump();
+    await tester.pumpAndSettle(const Duration(seconds: 2));
+
+    verify(() => searchZipCubit.addToFavorites(_address)).called(1);
+    verify(() => favoritesCubit.loadFavoriteAdresses()).called(1);
   });
 }
 
@@ -83,22 +103,11 @@ Future<void> _createWidget(WidgetTester tester) async {
     MaterialApp(
       home: MultiBlocProvider(
         providers: [
-          RepositoryProvider<IViaCepRepository>(
-            create: (context) => ViaCepRepository(),
-          ),
-          RepositoryProvider(
-            create: (context) => SharedServices(),
+          BlocProvider(
+            create: (context) => searchZipCubit,
           ),
           BlocProvider(
-            create: (context) => SearchZipCubit(
-              viaCepRepository: context.read(),
-              sharedServices: context.read(),
-            ),
-          ),
-          BlocProvider(
-            create: (context) => FavoritesCubit(
-              sharedServices: context.read(),
-            ),
+            create: (context) => favoritesCubit,
           ),
         ],
         child: AddFavoritesButton(
@@ -109,3 +118,13 @@ Future<void> _createWidget(WidgetTester tester) async {
     ),
   );
 }
+
+const _address = AddressModel(
+  cep: '12345678',
+  logradouro: 'logradouro',
+  complemento: 'complemento',
+  bairro: 'bairro',
+  localidade: 'localidade',
+  uf: 'uf',
+  ddd: 'ddd',
+);
