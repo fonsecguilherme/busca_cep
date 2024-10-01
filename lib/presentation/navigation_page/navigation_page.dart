@@ -1,0 +1,149 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zip_search/core/commons/app_strings.dart';
+import 'package:zip_search/presentation/counter_page/counter_page.dart';
+import 'package:zip_search/presentation/favorite_page/cubit/favorite_cubit.dart';
+import 'package:zip_search/presentation/favorite_page/cubit/favorite_state.dart';
+import 'package:zip_search/presentation/favorite_page/favorite_page.dart';
+import 'package:zip_search/presentation/navigation_page/cubit/navigation_cubit.dart';
+import 'package:zip_search/presentation/navigation_page/cubit/navigation_state.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
+import 'package:zip_search/presentation/search_page/search_page.dart';
+import 'package:zip_search/domain/repositories/via_cep_repository.dart';
+
+import '../../data/shared_services.dart';
+import '../../core/commons/analytics_events.dart';
+import '../../core/di/setup_locator.dart';
+
+class NavigationPage extends StatefulWidget {
+  const NavigationPage({super.key});
+
+  static const navigationBarStarIcon = Key('navigationBarStarIcon');
+
+  @override
+  State<NavigationPage> createState() => _NavigationPageState();
+}
+
+class _NavigationPageState extends State<NavigationPage> {
+  @override
+  void initState() {
+    super.initState();
+
+    favoritesCubit.loadFavoriteAdresses();
+  }
+
+  //TODO: Ao invés de criar essa instância, injetar via o bloc provider
+  FavoriteCubit get favoritesCubit => context.read<FavoriteCubit>();
+
+  final repository = getIt<IViaCepRepository>();
+  final sharedServices = getIt<SharedServices>();
+  final analytics = getIt<FirebaseAnalytics>();
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => SearchCubit(
+            viaCepRepository: repository,
+            sharedServices: sharedServices,
+          ),
+        ),
+        BlocProvider(
+          create: (context) => NavigationCubit(),
+        ),
+      ],
+      child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        bottomNavigationBar: _BottomNaVigationBarWidget(
+          analytics: analytics,
+        ),
+        body: SafeArea(child: _body()),
+      ),
+    );
+  }
+
+  Widget _body() => BlocBuilder<NavigationCubit, NavigationState>(
+        builder: (context, state) {
+          if (state.navBarItem == NavBarItem.counter) {
+            return const CounterPage();
+          } else if (state.navBarItem == NavBarItem.search) {
+            return const SearchPage();
+          } else if (state.navBarItem == NavBarItem.saved) {
+            return const FavoritePage();
+          }
+          return const SizedBox();
+        },
+      );
+}
+
+class _BottomNaVigationBarWidget extends StatelessWidget {
+  final FirebaseAnalytics analytics;
+
+  const _BottomNaVigationBarWidget({required this.analytics});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<NavigationCubit, NavigationState>(
+      builder: (context, state) {
+        return NavigationBar(
+          animationDuration: const Duration(seconds: 1),
+          elevation: 1,
+          selectedIndex: state.index,
+          destinations: <Widget>[
+            const NavigationDestination(
+              icon: Icon(CupertinoIcons.home),
+              label: AppStrings.navigationBarLabel01,
+            ),
+            const NavigationDestination(
+              icon: Icon(CupertinoIcons.search),
+              label: AppStrings.navigationBarLabel02,
+            ),
+            NavigationDestination(
+              icon: Badge(
+                label: BlocBuilder<FavoriteCubit, FavoritesState>(
+                  builder: (_, state) {
+                    switch (state) {
+                      case LoadFavoriteZipState s:
+                        return Text('${s.addresses.length}');
+                      default:
+                        return const Text('0');
+                    }
+                  },
+                ),
+                child: const Icon(
+                  CupertinoIcons.star,
+                  key: NavigationPage.navigationBarStarIcon,
+                ),
+              ),
+              label: AppStrings.navigationBarLabel03,
+            ),
+          ],
+          onDestinationSelected: (index) {
+            if (index == 0) {
+              analytics.logEvent(
+                  name: NavigationBarEvents.navigationToHomePage);
+
+              BlocProvider.of<NavigationCubit>(context)
+                  .getNavBarItem(NavBarItem.counter);
+            } else if (index == 1) {
+              analytics.logEvent(
+                  name: NavigationBarEvents.navigationToSearchPage);
+
+              BlocProvider.of<NavigationCubit>(context)
+                  .getNavBarItem(NavBarItem.search);
+            } else if (index == 2) {
+              analytics.logEvent(
+                  name: NavigationBarEvents.navigationToFavoritePage);
+
+              BlocProvider.of<NavigationCubit>(context)
+                  .getNavBarItem(NavBarItem.saved);
+            }
+          },
+        );
+      },
+    );
+  }
+}
