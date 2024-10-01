@@ -23,10 +23,10 @@ class NavigationPage extends StatefulWidget {
   static const navigationBarStarIcon = Key('navigationBarStarIcon');
 
   @override
-  State<NavigationPage> createState() => _RootPageState();
+  State<NavigationPage> createState() => _NavigationPageState();
 }
 
-class _RootPageState extends State<NavigationPage> {
+class _NavigationPageState extends State<NavigationPage> {
   @override
   void initState() {
     super.initState();
