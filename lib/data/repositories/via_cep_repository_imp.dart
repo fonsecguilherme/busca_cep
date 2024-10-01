@@ -1,15 +1,12 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:zip_search/core/model/address_model.dart';
 
-import '../core/exceptions/custom_exceptions.dart';
+import '../../core/exceptions/custom_exceptions.dart';
+import '../../core/model/address_model.dart';
+import '../../domain/repositories/via_cep_repository.dart';
 
-abstract interface class IViaCepRepository {
-  Future<AddressModel?> fetchAddress(String zipCode);
-}
-
-class ViaCepRepository implements IViaCepRepository {
+class ViaCepRepositoryImp implements IViaCepRepository {
   @override
   Future<AddressModel?> fetchAddress(String zipCode) async {
     final String url = 'https://viacep.com.br/ws/$zipCode/json/';
