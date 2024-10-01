@@ -7,13 +7,13 @@ import 'package:share_plus/share_plus.dart';
 import 'package:zip_search/core/commons/analytics_events.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/extensions.dart';
-import 'package:zip_search/presentation/favorites_zip_page/cubit/favorites_cubit.dart';
-import 'package:zip_search/presentation/favorites_zip_page/favorites_zip_page.dart';
+import 'package:zip_search/presentation/favorite_page/cubit/favorite_cubit.dart';
+import 'package:zip_search/presentation/favorite_page/favorite_page.dart';
 import 'package:zip_search/core/model/address_model.dart';
 
 class AdressesBuilderWidget extends StatelessWidget {
   final List<AddressModel> addressList;
-  final FavoritesCubit favoritesCubit;
+  final FavoriteCubit favoritesCubit;
   final FirebaseAnalytics analytics;
 
   const AdressesBuilderWidget({
@@ -26,7 +26,7 @@ class AdressesBuilderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      key: FavoritesZipPAge.loadedFavoriteAdressesKey,
+      key: FavoritePage.loadedFavoriteAdressesKey,
       itemCount: addressList.length,
       itemBuilder: (context, index) {
         final address = addressList.elementAt(index);

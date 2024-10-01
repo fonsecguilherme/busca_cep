@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:zip_search/presentation/favorites_zip_page/cubit/favorites_cubit.dart';
+import 'package:zip_search/presentation/favorite_page/cubit/favorite_cubit.dart';
 import 'package:zip_search/presentation/navigation_page/navigation_page.dart';
 import 'package:zip_search/presentation/welcome_page/welcome_page.dart';
 import 'package:zip_search/data/shared_services.dart';
@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
           create: (context) => ThemeCubit(),
         ),
         BlocProvider(
-          create: (context) => FavoritesCubit(
+          create: (context) => FavoriteCubit(
             sharedServices: getIt<SharedServices>(),
           ),
         ),

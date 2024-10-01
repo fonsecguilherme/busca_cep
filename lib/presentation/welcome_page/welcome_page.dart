@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/shared_preferences_keys.dart';
-import 'package:zip_search/presentation/favorites_zip_page/cubit/favorites_cubit.dart';
+import 'package:zip_search/presentation/favorite_page/cubit/favorite_cubit.dart';
 import 'package:zip_search/presentation/navigation_page/navigation_page.dart';
 import 'package:zip_search/presentation/welcome_page/widgets/welcome_page_item.dart';
 import 'package:zip_search/core/widgets/custom_elevated_button.dart';
@@ -129,7 +129,7 @@ class _LastPageButton extends StatelessWidget {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (_) => BlocProvider(
-                  create: (context) => FavoritesCubit(
+                  create: (context) => FavoriteCubit(
                     sharedServices: sharedServices,
                   ),
                   child: const NavigationPage(),

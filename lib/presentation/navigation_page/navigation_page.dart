@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/presentation/counter_page/counter_page.dart';
-import 'package:zip_search/presentation/favorites_zip_page/cubit/favorites_cubit.dart';
-import 'package:zip_search/presentation/favorites_zip_page/cubit/favorites_state.dart';
-import 'package:zip_search/presentation/favorites_zip_page/favorites_zip_page.dart';
+import 'package:zip_search/presentation/favorite_page/cubit/favorite_cubit.dart';
+import 'package:zip_search/presentation/favorite_page/cubit/favorite_state.dart';
+import 'package:zip_search/presentation/favorite_page/favorite_page.dart';
 import 'package:zip_search/presentation/navigation_page/cubit/navigation_cubit.dart';
 import 'package:zip_search/presentation/navigation_page/cubit/navigation_state.dart';
 import 'package:zip_search/presentation/search_page/cubit/search_zip_cubit.dart';
@@ -35,7 +35,7 @@ class _NavigationPageState extends State<NavigationPage> {
   }
 
   //TODO: Ao invés de criar essa instância, injetar via o bloc provider
-  FavoritesCubit get favoritesCubit => context.read<FavoritesCubit>();
+  FavoriteCubit get favoritesCubit => context.read<FavoriteCubit>();
 
   final repository = getIt<IViaCepRepository>();
   final sharedServices = getIt<SharedServices>();
@@ -72,7 +72,7 @@ class _NavigationPageState extends State<NavigationPage> {
           } else if (state.navBarItem == NavBarItem.search) {
             return const SearchPage();
           } else if (state.navBarItem == NavBarItem.saved) {
-            return const FavoritesZipPAge();
+            return const FavoritePage();
           }
           return const SizedBox();
         },
@@ -103,7 +103,7 @@ class _BottomNaVigationBarWidget extends StatelessWidget {
             ),
             NavigationDestination(
               icon: Badge(
-                label: BlocBuilder<FavoritesCubit, FavoritesState>(
+                label: BlocBuilder<FavoriteCubit, FavoritesState>(
                   builder: (_, state) {
                     switch (state) {
                       case LoadFavoriteZipState s:

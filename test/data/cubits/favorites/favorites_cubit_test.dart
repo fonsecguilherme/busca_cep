@@ -3,8 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
-import 'package:zip_search/presentation/favorites_zip_page/cubit/favorites_cubit.dart';
-import 'package:zip_search/presentation/favorites_zip_page/cubit/favorites_state.dart';
+import 'package:zip_search/presentation/favorite_page/cubit/favorite_cubit.dart';
+import 'package:zip_search/presentation/favorite_page/cubit/favorite_state.dart';
 import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/data/shared_services.dart';
 
@@ -12,20 +12,20 @@ class MockSharedServices extends Mock implements SharedServices {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  late FavoritesCubit favoritesCubit;
+  late FavoriteCubit favoritesCubit;
   late MockSharedServices sharedServices;
 
   setUp(() {
     SharedPreferences.setMockInitialValues({});
     sharedServices = MockSharedServices();
-    favoritesCubit = FavoritesCubit(sharedServices: sharedServices);
+    favoritesCubit = FavoriteCubit(sharedServices: sharedServices);
   });
 
   tearDown(
     () => favoritesCubit.close(),
   );
 
-  blocTest<FavoritesCubit, FavoritesState>(
+  blocTest<FavoriteCubit, FavoritesState>(
     'If user has not favorited no adressess, shoudl emit InitialFavoriteState',
     build: () {
       favoritesCubit.addressList = [];
@@ -42,7 +42,7 @@ void main() {
     ],
   );
 
-  blocTest<FavoritesCubit, FavoritesState>(
+  blocTest<FavoriteCubit, FavoritesState>(
     ' If user favorites one address, should emit LoadFavoriteZipState // When favorites page has one address',
     build: () {
       when(() => sharedServices.getListString(any())).thenAnswer(
@@ -57,7 +57,7 @@ void main() {
     ],
   );
 
-  blocTest<FavoritesCubit, FavoritesState>(
+  blocTest<FavoriteCubit, FavoritesState>(
     'Show initial favorites page after delete one address',
     build: () {
       when(() => sharedServices.getListString(any())).thenAnswer(
@@ -77,7 +77,7 @@ void main() {
     ],
   );
 
-  blocTest<FavoritesCubit, FavoritesState>(
+  blocTest<FavoriteCubit, FavoritesState>(
     'Show remaining addresses after delete one',
     build: () {
       when(() => sharedServices.getListString(any())).thenAnswer(

@@ -7,8 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:zip_search/presentation/counter_page/counter_page.dart';
-import 'package:zip_search/presentation/favorites_zip_page/cubit/favorites_cubit.dart';
-import 'package:zip_search/presentation/favorites_zip_page/favorites_zip_page.dart';
+import 'package:zip_search/presentation/favorite_page/cubit/favorite_cubit.dart';
+import 'package:zip_search/presentation/favorite_page/favorite_page.dart';
 import 'package:zip_search/presentation/navigation_page/cubit/navigation_cubit.dart';
 import 'package:zip_search/presentation/navigation_page/cubit/navigation_state.dart';
 import 'package:zip_search/presentation/navigation_page/navigation_page.dart';
@@ -77,7 +77,7 @@ void main() {
 
       await tester.pump();
 
-      expect(find.byType(FavoritesZipPAge), findsOneWidget);
+      expect(find.byType(FavoritePage), findsOneWidget);
     },
   );
 }
@@ -93,7 +93,7 @@ Future<void> _createWidget(WidgetTester tester) async {
           create: (context) => NavigationCubit(),
         ),
         BlocProvider(
-          create: (context) => FavoritesCubit(
+          create: (context) => FavoriteCubit(
             sharedServices: _sharedServices,
           ),
         ),

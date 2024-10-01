@@ -24,7 +24,7 @@ class MockFavoritesCubit extends MockCubit<FavoritesState>
 
 class MockSharedServices extends Mock implements SharedServices {}
 
-late FavoriteCubit favoritesCubit;
+late FavoriteCubit favoriteCubit;
 late SharedServices services;
 
 void main() {
@@ -33,23 +33,23 @@ void main() {
 
   setUp(() async {
     await Firebase.initializeApp();
-    favoritesCubit = MockFavoritesCubit();
+    favoriteCubit = MockFavoritesCubit();
     services = MockSharedServices();
     getItTest.registerLazySingleton(() => FirebaseAnalytics.instance);
   });
 
   tearDown(() {
-    favoritesCubit.close();
+    favoriteCubit.close();
     getItTest.reset();
   });
 
   group('Page state tests', () {
     testWidgets('Find initial page', (tester) async {
-      when(() => favoritesCubit.loadFavoriteAdresses()).thenAnswer(
+      when(() => favoriteCubit.loadFavoriteAdresses()).thenAnswer(
         (_) async => Future.value(),
       );
 
-      when(() => favoritesCubit.state).thenReturn(InitialFavoriteState());
+      when(() => favoriteCubit.state).thenReturn(InitialFavoriteState());
 
       await _createWidget(tester);
 
@@ -57,11 +57,11 @@ void main() {
     });
 
     testWidgets('Find favorited adresses', (tester) async {
-      when(() => favoritesCubit.loadFavoriteAdresses()).thenAnswer(
+      when(() => favoriteCubit.loadFavoriteAdresses()).thenAnswer(
         (_) async => Future.value(),
       );
 
-      when(() => favoritesCubit.state)
+      when(() => favoriteCubit.state)
           .thenReturn(LoadFavoriteZipState(_addressList));
 
       await _createWidget(tester);
@@ -74,11 +74,11 @@ void main() {
   group('Delete address', () {
     testWidgets('Check if delete address from function is called',
         (tester) async {
-      when(() => favoritesCubit.loadFavoriteAdresses()).thenAnswer(
+      when(() => favoriteCubit.loadFavoriteAdresses()).thenAnswer(
         (_) async => Future.value(),
       );
 
-      when(() => favoritesCubit.deleteAddress(_address)).thenAnswer(
+      when(() => favoriteCubit.deleteAddress(_address)).thenAnswer(
         (_) async => Future.value(),
       );
       when(() => services.getListString(SharedPreferencesKeys.savedAdresses))
@@ -86,7 +86,7 @@ void main() {
         (_) async => any(),
       );
 
-      when(() => favoritesCubit.state)
+      when(() => favoriteCubit.state)
           .thenReturn(LoadFavoriteZipState(_addressList));
 
       await _createWidget(tester);
@@ -106,13 +106,13 @@ void main() {
       await tester.pump();
       await tester.pumpAndSettle(const Duration(seconds: 2));
 
-      verify(() => favoritesCubit.deleteAddress(_address)).called(1);
+      verify(() => favoriteCubit.deleteAddress(_address)).called(1);
     });
   });
 
   group('Flushbar Test', () {
     testWidgets('Should show flushbar when delete an address', (tester) async {
-      when(() => favoritesCubit.loadFavoriteAdresses()).thenAnswer(
+      when(() => favoriteCubit.loadFavoriteAdresses()).thenAnswer(
         (_) async => Future.value(),
       );
 
@@ -120,7 +120,7 @@ void main() {
         final state = StreamController<FavoritesState>();
 
         whenListen<FavoritesState>(
-          favoritesCubit,
+          favoriteCubit,
           state.stream,
           initialState: InitialFavoriteState(),
         );
@@ -161,32 +161,11 @@ List<AddressModel> _addressList = [
   ),
 ];
 
-List<AddressModel> _addressList2 = [
-  const AddressModel(
-    cep: '12345688',
-    logradouro: 'logradouro',
-    complemento: 'complemento',
-    bairro: 'bairro',
-    localidade: 'localidade',
-    uf: 'uf',
-    ddd: 'ddd',
-  ),
-  const AddressModel(
-    cep: '12345678',
-    logradouro: 'logradouro',
-    complemento: 'complemento',
-    bairro: 'bairro',
-    localidade: 'localidade',
-    uf: 'uf',
-    ddd: 'ddd',
-  ),
-];
-
 Future<void> _createWidget(WidgetTester tester) async {
   await tester.pumpWidget(
     MaterialApp(
       home: BlocProvider.value(
-        value: favoritesCubit,
+        value: favoriteCubit,
         child: const FavoritePage(),
       ),
     ),

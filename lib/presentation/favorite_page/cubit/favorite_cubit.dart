@@ -1,12 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/shared_preferences_keys.dart';
-import 'package:zip_search/presentation/favorites_zip_page/cubit/favorites_state.dart';
+import 'package:zip_search/presentation/favorite_page/cubit/favorite_state.dart';
 import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/data/shared_services.dart';
 
-class FavoritesCubit extends Cubit<FavoritesState> {
-  FavoritesCubit({
+class FavoriteCubit extends Cubit<FavoritesState> {
+  FavoriteCubit({
     required this.sharedServices,
   }) : super(InitialFavoriteState());
 
@@ -26,7 +26,6 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   }
 
   Future<void> deleteAddress(AddressModel address) async {
-    //fazer mock shared preferences
     addressList =
         await sharedServices.getListString(SharedPreferencesKeys.savedAdresses);
 

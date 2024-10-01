@@ -8,8 +8,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:zip_search/core/commons/analytics_events.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
-import 'package:zip_search/presentation/favorites_zip_page/cubit/favorites_cubit.dart';
-import 'package:zip_search/presentation/favorites_zip_page/cubit/favorites_state.dart';
+import 'package:zip_search/presentation/favorite_page/cubit/favorite_cubit.dart';
+import 'package:zip_search/presentation/favorite_page/cubit/favorite_state.dart';
 import 'package:zip_search/presentation/search_page/cubit/search_zip_cubit.dart';
 import 'package:zip_search/presentation/search_page/cubit/search_zip_state.dart';
 import 'package:zip_search/presentation/search_page/widgets/add_favorites_button.dart';
@@ -23,7 +23,7 @@ class MockSearchZipCubit extends MockCubit<SearchZipState>
     implements SearchZipCubit {}
 
 class MockFavoritesCubit extends MockCubit<FavoritesState>
-    implements FavoritesCubit {}
+    implements FavoriteCubit {}
 
 class MockSharedServices extends Mock implements SharedServices {}
 
@@ -31,7 +31,7 @@ class MockViaCepRepository extends Mock implements ViaCepRepository {}
 
 class MockTracker extends Mock implements FirebaseAnalytics {}
 
-late FavoritesCubit favoritesCubit;
+late FavoriteCubit favoritesCubit;
 late SearchZipCubit searchZipCubit;
 late FirebaseAnalytics analytics;
 late SharedServices services;
