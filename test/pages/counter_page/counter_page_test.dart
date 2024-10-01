@@ -10,8 +10,8 @@ import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/shared_preferences_keys.dart';
 import 'package:zip_search/presentation/counter_page/counter_page.dart';
 import 'package:zip_search/presentation/navigation_page/cubit/navigation_cubit.dart';
-import 'package:zip_search/presentation/search_page/cubit/search_zip_cubit.dart';
-import 'package:zip_search/presentation/search_page/cubit/search_zip_state.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_state.dart';
 import 'package:zip_search/presentation/theme/cubit/theme_cubit.dart';
 import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/data/shared_services.dart';
@@ -19,12 +19,12 @@ import 'package:zip_search/domain/via_cep_repository.dart';
 
 import '../../firebase_mock.dart';
 
-class MockSearchZipCubit extends MockCubit<SearchZipState>
-    implements SearchZipCubit {}
+class MockSearchZipCubit extends MockCubit<SearchState>
+    implements SearchCubit {}
 
 class MockSharedServices extends Mock implements SharedServices {}
 
-late SearchZipCubit searchZipCubit;
+late SearchCubit searchZipCubit;
 late SharedServices services;
 
 void main() {
@@ -106,7 +106,7 @@ void main() {
         .thenAnswer((_) async => 2);
 
     when(() => searchZipCubit.state).thenReturn(
-        (FavoritedAddressZipState(message: 'CEP favoritado com sucesso!')));
+        (FavoriteAddressState(message: 'CEP favoritado com sucesso!')));
     when(() => searchZipCubit.counterFavZips).thenReturn(1);
     when(() => searchZipCubit.counterSearchedZips).thenReturn(2);
 
@@ -135,7 +135,7 @@ Future<void> _createWidget(WidgetTester tester) async {
       home: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => SearchZipCubit(
+            create: (context) => SearchCubit(
               viaCepRepository: _repository,
               sharedServices: _sharedServices,
             ),

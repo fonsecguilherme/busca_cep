@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/presentation/favorite_page/cubit/favorite_cubit.dart';
-import 'package:zip_search/presentation/search_page/cubit/search_zip_cubit.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
 import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/core/widgets/custom_elevated_button.dart';
 
@@ -25,7 +25,7 @@ class AddFavoritesButton extends StatefulWidget {
 
 class _AddFavoritesButtonState extends State<AddFavoritesButton> {
   FavoriteCubit get favoritesCubit => context.read<FavoriteCubit>();
-  SearchZipCubit get searchZipCubit => context.read<SearchZipCubit>();
+  SearchCubit get searchZipCubit => context.read<SearchCubit>();
 
   @override
   Widget build(BuildContext context) {

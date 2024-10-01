@@ -12,7 +12,7 @@ import 'package:zip_search/presentation/favorite_page/favorite_page.dart';
 import 'package:zip_search/presentation/navigation_page/cubit/navigation_cubit.dart';
 import 'package:zip_search/presentation/navigation_page/cubit/navigation_state.dart';
 import 'package:zip_search/presentation/navigation_page/navigation_page.dart';
-import 'package:zip_search/presentation/search_page/cubit/search_zip_cubit.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
 import 'package:zip_search/presentation/search_page/search_page.dart';
 import 'package:zip_search/presentation/theme/cubit/theme_cubit.dart';
 import 'package:zip_search/data/shared_services.dart';
@@ -98,7 +98,7 @@ Future<void> _createWidget(WidgetTester tester) async {
           ),
         ),
         BlocProvider(
-          create: (context) => SearchZipCubit(
+          create: (context) => SearchCubit(
             viaCepRepository: _repository,
             sharedServices: _sharedServices,
           ),

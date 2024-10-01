@@ -4,19 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:zip_search/presentation/search_page/cubit/search_zip_cubit.dart';
-import 'package:zip_search/presentation/search_page/cubit/search_zip_state.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_state.dart';
 import 'package:zip_search/presentation/search_page/widgets/success_widget.dart';
 import 'package:zip_search/core/model/address_model.dart';
 
 import '../../../firebase_mock.dart';
 
-class MockSearchZipCubit extends MockCubit<SearchZipState>
-    implements SearchZipCubit {}
+class MockSearchZipCubit extends MockCubit<SearchState>
+    implements SearchCubit {}
 
 class MockTracker extends Mock implements FirebaseAnalytics {}
 
-late SearchZipCubit searchZipCubit;
+late SearchCubit searchZipCubit;
 late FirebaseAnalytics analytics;
 
 void main() {
@@ -28,8 +28,7 @@ void main() {
   });
 
   testWidgets('Should show address after', (tester) async {
-    when(() => searchZipCubit.state)
-        .thenReturn(FetchedSearchZipState(_address));
+    when(() => searchZipCubit.state).thenReturn(SuccessSearchState(_address));
 
     when(() => searchZipCubit.counterSearchedZips).thenReturn(1);
 
@@ -41,7 +40,7 @@ void main() {
 
 Future<void> _createWidget(WidgetTester tester) async {
   await tester.pumpWidget(
-    BlocProvider<SearchZipCubit>.value(
+    BlocProvider<SearchCubit>.value(
       value: searchZipCubit,
       child: MaterialApp(
         home: Scaffold(

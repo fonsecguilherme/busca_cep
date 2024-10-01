@@ -10,8 +10,8 @@ import 'package:zip_search/core/commons/analytics_events.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/presentation/favorite_page/cubit/favorite_cubit.dart';
 import 'package:zip_search/presentation/favorite_page/cubit/favorite_state.dart';
-import 'package:zip_search/presentation/search_page/cubit/search_zip_cubit.dart';
-import 'package:zip_search/presentation/search_page/cubit/search_zip_state.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_state.dart';
 import 'package:zip_search/presentation/search_page/widgets/add_favorites_button.dart';
 import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/data/shared_services.dart';
@@ -19,8 +19,8 @@ import 'package:zip_search/domain/via_cep_repository.dart';
 
 import '../../../firebase_mock.dart';
 
-class MockSearchZipCubit extends MockCubit<SearchZipState>
-    implements SearchZipCubit {}
+class MockSearchZipCubit extends MockCubit<SearchState>
+    implements SearchCubit {}
 
 class MockFavoritesCubit extends MockCubit<FavoritesState>
     implements FavoriteCubit {}
@@ -32,7 +32,7 @@ class MockViaCepRepository extends Mock implements ViaCepRepository {}
 class MockTracker extends Mock implements FirebaseAnalytics {}
 
 late FavoriteCubit favoritesCubit;
-late SearchZipCubit searchZipCubit;
+late SearchCubit searchZipCubit;
 late FirebaseAnalytics analytics;
 late SharedServices services;
 late ViaCepRepository repository;
@@ -66,8 +66,7 @@ void main() {
 
   // TODO: verify if functions were called
   testWidgets('Find if functions were called after tap button', (tester) async {
-    when(() => searchZipCubit.state)
-        .thenReturn(FetchedSearchZipState(_address));
+    when(() => searchZipCubit.state).thenReturn(SuccessSearchState(_address));
 
     when(() => searchZipCubit.addToFavorites(_address)).thenAnswer(
       (_) async => Future.value(),

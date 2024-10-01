@@ -9,7 +9,7 @@ import 'package:zip_search/presentation/favorite_page/cubit/favorite_state.dart'
 import 'package:zip_search/presentation/favorite_page/favorite_page.dart';
 import 'package:zip_search/presentation/navigation_page/cubit/navigation_cubit.dart';
 import 'package:zip_search/presentation/navigation_page/cubit/navigation_state.dart';
-import 'package:zip_search/presentation/search_page/cubit/search_zip_cubit.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
 import 'package:zip_search/presentation/search_page/search_page.dart';
 import 'package:zip_search/domain/via_cep_repository.dart';
 
@@ -46,7 +46,7 @@ class _NavigationPageState extends State<NavigationPage> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => SearchZipCubit(
+          create: (context) => SearchCubit(
             viaCepRepository: repository,
             sharedServices: sharedServices,
           ),

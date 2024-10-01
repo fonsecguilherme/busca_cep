@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/analytics_events.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
-import 'package:zip_search/presentation/search_page/cubit/search_zip_cubit.dart';
-import 'package:zip_search/presentation/search_page/cubit/search_zip_state.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_state.dart';
 import 'package:zip_search/core/widgets/custom_elevated_button.dart';
 
 class InitialWidget extends StatefulWidget {
@@ -20,7 +20,7 @@ class InitialWidget extends StatefulWidget {
 }
 
 class _InitialWidgetState extends State<InitialWidget> {
-  SearchZipCubit get cubit => context.read<SearchZipCubit>();
+  SearchCubit get cubit => context.read<SearchCubit>();
 
   late TextEditingController _zipController;
 
@@ -79,9 +79,9 @@ class _InitialWidgetState extends State<InitialWidget> {
               ),
             ),
           ),
-          BlocBuilder<SearchZipCubit, SearchZipState>(
-            builder: (BuildContext context, SearchZipState state) {
-              if (state is LoadingSearchZipState) {
+          BlocBuilder<SearchCubit, SearchState>(
+            builder: (BuildContext context, SearchState state) {
+              if (state is LoadingSearchState) {
                 return const CircularProgressIndicator();
               }
               return CustomElevatedButton(

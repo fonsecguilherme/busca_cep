@@ -3,18 +3,18 @@ import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/shared_preferences_keys.dart';
-import 'package:zip_search/presentation/search_page/cubit/search_zip_state.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_state.dart';
 import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/data/shared_services.dart';
 import 'package:zip_search/domain/via_cep_repository.dart';
 
 import '../../../core/exceptions/custom_exceptions.dart';
 
-class SearchZipCubit extends Cubit<SearchZipState> {
-  SearchZipCubit({
+class SearchCubit extends Cubit<SearchState> {
+  SearchCubit({
     required this.viaCepRepository,
     required this.sharedServices,
-  }) : super(InitialSearchZipState());
+  }) : super(InitialSearchState());
 
   final SharedServices sharedServices;
   final IViaCepRepository viaCepRepository;
@@ -27,7 +27,7 @@ class SearchZipCubit extends Cubit<SearchZipState> {
             .getInt(SharedPreferencesKeys.counterSearchedZipsKeys) ??
         counterSearchedZips;
 
-    emit(LoadingSearchZipState());
+    emit(LoadingSearchState());
 
     try {
       final address = await viaCepRepository.fetchAddress(zipCode);
@@ -36,7 +36,7 @@ class SearchZipCubit extends Cubit<SearchZipState> {
         counterSearchedZips += 1;
         await sharedServices.saveInt(
             SharedPreferencesKeys.counterSearchedZipsKeys, counterSearchedZips);
-        emit(FetchedSearchZipState(address));
+        emit(SuccessSearchState(address));
       }
     } on EmptyZipException catch (e) {
       log(e.toString());
@@ -67,7 +67,7 @@ class SearchZipCubit extends Cubit<SearchZipState> {
         await sharedServices.getListString(SharedPreferencesKeys.savedAdresses);
 
     if (addressList.contains(address)) {
-      emit(ErrorAlreadyAddedZipState(
+      emit(ErrorAlreadyFavotiteZipState(
           errorMessage: AppStrings.alreadyFavoritedZipCodeText));
     } else {
       counterFavZips++;
@@ -80,7 +80,7 @@ class SearchZipCubit extends Cubit<SearchZipState> {
       await sharedServices.saveListString(
           SharedPreferencesKeys.savedAdresses, addressList);
 
-      emit(FavoritedAddressZipState(
+      emit(FavoriteAddressState(
         message: AppStrings.successZipFavoriteText,
       ));
     }

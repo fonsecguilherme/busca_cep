@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/shared_preferences_keys.dart';
 import 'package:zip_search/presentation/counter_page/widgets/counter_bar_widget.dart';
-import 'package:zip_search/presentation/search_page/cubit/search_zip_cubit.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
 import 'package:zip_search/presentation/theme/cubit/theme_cubit.dart';
 import 'package:zip_search/data/shared_services.dart';
 
@@ -28,7 +28,7 @@ class _CounterPageState extends State<CounterPage> {
   final sharedServices = getIt<SharedServices>();
   final analytics = getIt<FirebaseAnalytics>();
 
-  SearchZipCubit get searchZipCubit => context.read<SearchZipCubit>();
+  SearchCubit get searchZipCubit => context.read<SearchCubit>();
   ThemeCubit get themeCubit => context.read<ThemeCubit>();
 
   @override
