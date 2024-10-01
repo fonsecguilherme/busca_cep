@@ -4,8 +4,8 @@ import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubi
 import 'package:zip_search/core/features/navigation_page/navigation_page.dart';
 import 'package:zip_search/core/features/welcome_page/welcome_page.dart';
 import 'package:zip_search/data/shared_services.dart';
-import 'package:zip_search/setup_locator.dart';
 
+import 'core/di/setup_locator.dart';
 import 'core/features/theme/cubit/theme_cubit.dart';
 
 class MyApp extends StatefulWidget {

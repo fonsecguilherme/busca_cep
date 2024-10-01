@@ -6,7 +6,8 @@ import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart
 import 'package:zip_search/core/features/search_page/cubit/search_zip_state.dart';
 import 'package:zip_search/core/features/search_page/widgets/initial_widget.dart';
 import 'package:zip_search/core/features/search_page/widgets/success_widget.dart';
-import 'package:zip_search/setup_locator.dart';
+
+import '../../di/setup_locator.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});

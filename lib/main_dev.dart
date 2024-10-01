@@ -5,7 +5,8 @@ import 'package:zip_search/app.dart';
 import 'package:zip_search/core/commons/shared_preferences_keys.dart';
 import 'package:zip_search/data/shared_services.dart';
 import 'package:zip_search/firebase_options.dart';
-import 'package:zip_search/setup_locator.dart';
+
+import 'core/di/setup_locator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

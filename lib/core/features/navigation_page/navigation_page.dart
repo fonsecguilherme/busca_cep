@@ -12,10 +12,10 @@ import 'package:zip_search/core/features/navigation_page/cubit/navigation_state.
 import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
 import 'package:zip_search/core/features/search_page/search_page.dart';
 import 'package:zip_search/domain/via_cep_repository.dart';
-import 'package:zip_search/setup_locator.dart';
 
 import '../../../data/shared_services.dart';
 import '../../commons/analytics_events.dart';
+import '../../di/setup_locator.dart';
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});

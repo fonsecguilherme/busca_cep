@@ -9,10 +9,10 @@ import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubi
 import 'package:zip_search/core/features/navigation_page/navigation_page.dart';
 import 'package:zip_search/core/features/welcome_page/widgets/welcome_page_item.dart';
 import 'package:zip_search/core/widgets/custom_elevated_button.dart';
-import 'package:zip_search/setup_locator.dart';
 
 import '../../../data/shared_services.dart';
 import '../../commons/analytics_events.dart';
+import '../../di/setup_locator.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({

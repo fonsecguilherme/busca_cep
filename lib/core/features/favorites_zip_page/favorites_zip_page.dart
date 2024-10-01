@@ -6,7 +6,8 @@ import 'package:zip_search/core/commons/messages.dart';
 import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubit.dart';
 import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_state.dart';
 import 'package:zip_search/core/features/favorites_zip_page/widgets/adresses_builder_widget.dart';
-import 'package:zip_search/setup_locator.dart';
+
+import '../../di/setup_locator.dart';
 
 class FavoritesZipPAge extends StatefulWidget {
   const FavoritesZipPAge({super.key});
