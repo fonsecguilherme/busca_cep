@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
+import 'package:zip_search/data/repositories/via_cep_repository_imp.dart';
 import 'package:zip_search/presentation/counter_page/counter_page.dart';
 import 'package:zip_search/presentation/favorite_page/cubit/favorite_cubit.dart';
 import 'package:zip_search/presentation/favorite_page/favorite_page.dart';
@@ -16,7 +17,7 @@ import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
 import 'package:zip_search/presentation/search_page/search_page.dart';
 import 'package:zip_search/presentation/theme/cubit/theme_cubit.dart';
 import 'package:zip_search/data/shared_services.dart';
-import 'package:zip_search/domain/via_cep_repository.dart';
+import 'package:zip_search/domain/repositories/via_cep_repository.dart';
 
 import '../../firebase_mock.dart';
 
@@ -33,7 +34,7 @@ void main() {
     await Firebase.initializeApp();
     navigationCubit = MockNavigationCubit();
     getItTest.registerLazySingleton<IViaCepRepository>(
-      () => ViaCepRepository(),
+      () => ViaCepRepositoryImp(),
     );
     getItTest.registerLazySingleton<SharedServices>(
       () => SharedServices(),
@@ -83,7 +84,7 @@ void main() {
 }
 
 final _sharedServices = SharedServices();
-final _repository = ViaCepRepository();
+final _repository = ViaCepRepositoryImp();
 
 Future<void> _createWidget(WidgetTester tester) async {
   await tester.pumpWidget(

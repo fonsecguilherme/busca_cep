@@ -8,7 +8,7 @@ import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
 import 'package:zip_search/presentation/search_page/cubit/search_state.dart';
 import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/data/shared_services.dart';
-import 'package:zip_search/domain/via_cep_repository.dart';
+import 'package:zip_search/domain/repositories/via_cep_repository.dart';
 
 class MockSharedPreferences extends Mock implements SharedPreferences {}
 

@@ -11,7 +11,7 @@ import 'package:zip_search/presentation/navigation_page/cubit/navigation_cubit.d
 import 'package:zip_search/presentation/navigation_page/cubit/navigation_state.dart';
 import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
 import 'package:zip_search/presentation/search_page/search_page.dart';
-import 'package:zip_search/domain/via_cep_repository.dart';
+import 'package:zip_search/domain/repositories/via_cep_repository.dart';
 
 import '../../data/shared_services.dart';
 import '../../core/commons/analytics_events.dart';

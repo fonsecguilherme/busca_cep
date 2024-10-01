@@ -6,7 +6,7 @@ import 'package:zip_search/core/commons/shared_preferences_keys.dart';
 import 'package:zip_search/presentation/search_page/cubit/search_state.dart';
 import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/data/shared_services.dart';
-import 'package:zip_search/domain/via_cep_repository.dart';
+import 'package:zip_search/domain/repositories/via_cep_repository.dart';
 
 import '../../../core/exceptions/custom_exceptions.dart';
 

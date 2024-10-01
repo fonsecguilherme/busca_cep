@@ -8,14 +8,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:zip_search/core/commons/analytics_events.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
+import 'package:zip_search/core/model/address_model.dart';
+import 'package:zip_search/data/repositories/via_cep_repository_imp.dart';
+import 'package:zip_search/data/shared_services.dart';
 import 'package:zip_search/presentation/favorite_page/cubit/favorite_cubit.dart';
 import 'package:zip_search/presentation/favorite_page/cubit/favorite_state.dart';
 import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
 import 'package:zip_search/presentation/search_page/cubit/search_state.dart';
 import 'package:zip_search/presentation/search_page/widgets/add_favorites_button.dart';
-import 'package:zip_search/core/model/address_model.dart';
-import 'package:zip_search/data/shared_services.dart';
-import 'package:zip_search/domain/via_cep_repository.dart';
 
 import '../../../firebase_mock.dart';
 
@@ -27,7 +27,7 @@ class MockFavoritesCubit extends MockCubit<FavoritesState>
 
 class MockSharedServices extends Mock implements SharedServices {}
 
-class MockViaCepRepository extends Mock implements ViaCepRepository {}
+class MockViaCepRepository extends Mock implements ViaCepRepositoryImp {}
 
 class MockTracker extends Mock implements FirebaseAnalytics {}
 
@@ -35,7 +35,7 @@ late FavoriteCubit favoritesCubit;
 late SearchCubit searchZipCubit;
 late FirebaseAnalytics analytics;
 late SharedServices services;
-late ViaCepRepository repository;
+late ViaCepRepositoryImp repository;
 
 void main() {
   setupFirebaseAnalyticsMocks();
