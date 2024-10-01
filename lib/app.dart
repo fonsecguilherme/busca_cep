@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubit.dart';
-import 'package:zip_search/core/features/navigation_page/navigation_page.dart';
-import 'package:zip_search/core/features/welcome_page/welcome_page.dart';
+import 'package:zip_search/presentation/favorites_zip_page/cubit/favorites_cubit.dart';
+import 'package:zip_search/presentation/navigation_page/navigation_page.dart';
+import 'package:zip_search/presentation/welcome_page/welcome_page.dart';
 import 'package:zip_search/data/shared_services.dart';
 
 import 'core/di/setup_locator.dart';
-import 'core/features/theme/cubit/theme_cubit.dart';
+import 'presentation/theme/cubit/theme_cubit.dart';
 
 class MyApp extends StatefulWidget {
   final SharedServices prefs;

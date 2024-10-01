@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:zip_search/core/di/setup_locator.dart';
-import 'package:zip_search/core/features/theme/theme_colors.dart';
+import 'package:zip_search/presentation/theme/theme_colors.dart';
 import 'package:zip_search/data/shared_services.dart';
 
-import '../../../commons/shared_preferences_keys.dart';
+import '../../../core/commons/shared_preferences_keys.dart';
 
 enum AppTheme {
   light,

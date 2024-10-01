@@ -3,19 +3,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
-import 'package:zip_search/core/features/counter_page/counter_page.dart';
-import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubit.dart';
-import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_state.dart';
-import 'package:zip_search/core/features/favorites_zip_page/favorites_zip_page.dart';
-import 'package:zip_search/core/features/navigation_page/cubit/navigation_cubit.dart';
-import 'package:zip_search/core/features/navigation_page/cubit/navigation_state.dart';
-import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
-import 'package:zip_search/core/features/search_page/search_page.dart';
+import 'package:zip_search/presentation/counter_page/counter_page.dart';
+import 'package:zip_search/presentation/favorites_zip_page/cubit/favorites_cubit.dart';
+import 'package:zip_search/presentation/favorites_zip_page/cubit/favorites_state.dart';
+import 'package:zip_search/presentation/favorites_zip_page/favorites_zip_page.dart';
+import 'package:zip_search/presentation/navigation_page/cubit/navigation_cubit.dart';
+import 'package:zip_search/presentation/navigation_page/cubit/navigation_state.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_zip_cubit.dart';
+import 'package:zip_search/presentation/search_page/search_page.dart';
 import 'package:zip_search/domain/via_cep_repository.dart';
 
-import '../../../data/shared_services.dart';
-import '../../commons/analytics_events.dart';
-import '../../di/setup_locator.dart';
+import '../../data/shared_services.dart';
+import '../../core/commons/analytics_events.dart';
+import '../../core/di/setup_locator.dart';
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});

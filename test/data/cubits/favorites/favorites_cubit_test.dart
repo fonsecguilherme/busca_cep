@@ -3,8 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
-import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubit.dart';
-import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_state.dart';
+import 'package:zip_search/presentation/favorites_zip_page/cubit/favorites_cubit.dart';
+import 'package:zip_search/presentation/favorites_zip_page/cubit/favorites_state.dart';
 import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/data/shared_services.dart';
 

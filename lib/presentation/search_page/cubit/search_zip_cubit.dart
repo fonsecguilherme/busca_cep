@@ -3,12 +3,12 @@ import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/shared_preferences_keys.dart';
-import 'package:zip_search/core/features/search_page/cubit/search_zip_state.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_zip_state.dart';
 import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/data/shared_services.dart';
 import 'package:zip_search/domain/via_cep_repository.dart';
 
-import '../../../exceptions/custom_exceptions.dart';
+import '../../../core/exceptions/custom_exceptions.dart';
 
 class SearchZipCubit extends Cubit<SearchZipState> {
   SearchZipCubit({

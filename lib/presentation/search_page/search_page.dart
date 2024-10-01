@@ -2,12 +2,12 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/messages.dart';
-import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
-import 'package:zip_search/core/features/search_page/cubit/search_zip_state.dart';
-import 'package:zip_search/core/features/search_page/widgets/initial_widget.dart';
-import 'package:zip_search/core/features/search_page/widgets/success_widget.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_zip_cubit.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_zip_state.dart';
+import 'package:zip_search/presentation/search_page/widgets/initial_widget.dart';
+import 'package:zip_search/presentation/search_page/widgets/success_widget.dart';
 
-import '../../di/setup_locator.dart';
+import '../../core/di/setup_locator.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});

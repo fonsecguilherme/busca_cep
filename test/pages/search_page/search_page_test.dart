@@ -9,11 +9,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
-import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
-import 'package:zip_search/core/features/search_page/cubit/search_zip_state.dart';
-import 'package:zip_search/core/features/search_page/search_page.dart';
-import 'package:zip_search/core/features/search_page/widgets/initial_widget.dart';
-import 'package:zip_search/core/features/search_page/widgets/success_widget.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_zip_cubit.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_zip_state.dart';
+import 'package:zip_search/presentation/search_page/search_page.dart';
+import 'package:zip_search/presentation/search_page/widgets/initial_widget.dart';
+import 'package:zip_search/presentation/search_page/widgets/success_widget.dart';
 import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/data/shared_services.dart';
 

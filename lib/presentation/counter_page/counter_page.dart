@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/shared_preferences_keys.dart';
-import 'package:zip_search/core/features/counter_page/widgets/counter_bar_widget.dart';
-import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
-import 'package:zip_search/core/features/theme/cubit/theme_cubit.dart';
+import 'package:zip_search/presentation/counter_page/widgets/counter_bar_widget.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_zip_cubit.dart';
+import 'package:zip_search/presentation/theme/cubit/theme_cubit.dart';
 import 'package:zip_search/data/shared_services.dart';
 
-import '../../commons/analytics_events.dart';
-import '../../di/setup_locator.dart';
+import '../../core/commons/analytics_events.dart';
+import '../../core/di/setup_locator.dart';
 
 class CounterPage extends StatefulWidget {
   const CounterPage({super.key});

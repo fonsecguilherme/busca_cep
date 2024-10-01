@@ -5,14 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/shared_preferences_keys.dart';
-import 'package:zip_search/core/features/favorites_zip_page/cubit/favorites_cubit.dart';
-import 'package:zip_search/core/features/navigation_page/navigation_page.dart';
-import 'package:zip_search/core/features/welcome_page/widgets/welcome_page_item.dart';
+import 'package:zip_search/presentation/favorites_zip_page/cubit/favorites_cubit.dart';
+import 'package:zip_search/presentation/navigation_page/navigation_page.dart';
+import 'package:zip_search/presentation/welcome_page/widgets/welcome_page_item.dart';
 import 'package:zip_search/core/widgets/custom_elevated_button.dart';
 
-import '../../../data/shared_services.dart';
-import '../../commons/analytics_events.dart';
-import '../../di/setup_locator.dart';
+import '../../data/shared_services.dart';
+import '../../core/commons/analytics_events.dart';
+import '../../core/di/setup_locator.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({

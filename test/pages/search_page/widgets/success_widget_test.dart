@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:zip_search/core/features/search_page/cubit/search_zip_cubit.dart';
-import 'package:zip_search/core/features/search_page/cubit/search_zip_state.dart';
-import 'package:zip_search/core/features/search_page/widgets/success_widget.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_zip_cubit.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_zip_state.dart';
+import 'package:zip_search/presentation/search_page/widgets/success_widget.dart';
 import 'package:zip_search/core/model/address_model.dart';
 
 import '../../../firebase_mock.dart';
