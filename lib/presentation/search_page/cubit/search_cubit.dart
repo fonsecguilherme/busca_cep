@@ -3,12 +3,12 @@ import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/shared_preferences_keys.dart';
-import 'package:zip_search/presentation/search_page/cubit/search_state.dart';
 import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/data/shared_services.dart';
 import 'package:zip_search/domain/repositories/via_cep_repository.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_state.dart';
 
-import '../../../core/exceptions/custom_exceptions.dart';
+import '../../../core/exceptions/error.dart';
 
 class SearchCubit extends Cubit<SearchState> {
   SearchCubit({
@@ -30,29 +30,32 @@ class SearchCubit extends Cubit<SearchState> {
     emit(LoadingSearchState());
 
     try {
-      final address = await viaCepRepository.fetchAddress(zipCode);
+      final (data: result, error: error) =
+          await viaCepRepository.fetchAddress(zipCode);
 
-      if (address != null) {
-        counterSearchedZips += 1;
-        await sharedServices.saveInt(
-            SharedPreferencesKeys.counterSearchedZipsKeys, counterSearchedZips);
-        emit(SuccessSearchState(address));
+      if (error is EmptyZipFailure) {
+        log(error.message);
+        emit(ErrorEmptyZipState(
+            errorEmptyMessage: AppStrings.zipCodeEmptyErrorMessageText));
+        return;
       }
-    } on EmptyZipException catch (e) {
-      log(e.toString());
 
-      emit(ErrorEmptyZipState(
-          errorEmptyMessage: AppStrings.zipCodeEmptyErrorMessageText));
-    } on InvalidZipException catch (e) {
-      log(e.toString());
+      if (error is InvalidZipFailure) {
+        log(error.message);
+        emit(ErrorSearchZipState(
+            errorMessage: AppStrings.zipCodeInvalidErrorMessageText));
+        return;
+      }
+      counterSearchedZips += 1;
+      await sharedServices.saveInt(
+          SharedPreferencesKeys.counterSearchedZipsKeys, counterSearchedZips);
 
-      emit(ErrorSearchZipState(
-          errorMessage: AppStrings.zipCodeInvalidErrorMessageText));
-    } on Exception catch (e, stacktrace) {
+      return emit(SuccessSearchState(result!));
+    } catch (error, stacktrace) {
       log(stacktrace.toString());
-      log(e.toString());
+      log(error.toString());
 
-      emit(ErrorSearchZipState(errorMessage: e.toString()));
+      emit(ErrorSearchZipState(errorMessage: error.toString()));
     }
   }
 
