@@ -3,12 +3,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
-import 'package:zip_search/core/exceptions/custom_exceptions.dart';
-import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
-import 'package:zip_search/presentation/search_page/cubit/search_state.dart';
+import 'package:zip_search/core/exceptions/error.dart';
 import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/data/shared_services.dart';
 import 'package:zip_search/domain/repositories/via_cep_repository.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_state.dart';
 
 class MockSharedPreferences extends Mock implements SharedPreferences {}
 
@@ -37,8 +37,10 @@ void main() {
         when(() => sharedServices.getInt(any())).thenAnswer(
           (_) async => Future.value(),
         );
-        when(() => repository.fetchAddress(any())).thenAnswer(
-          (_) async => _address,
+        when(
+          () => repository.fetchAddress(any()),
+        ).thenAnswer(
+          (_) async => (data: _address, error: Empty()),
         );
         when(() => sharedServices.saveInt(any(), 1)).thenAnswer(
           (_) => Future.value(),
@@ -50,51 +52,114 @@ void main() {
       expect: () =>
           <SearchState>[LoadingSearchState(), SuccessSearchState(_address)],
     );
-    blocTest<SearchCubit, SearchState>(
-      'Should emit ErrorSearchZipState when user search empty ZIP',
-      build: () {
-        when(() => sharedServices.getInt(any())).thenAnswer(
-          (_) async => 0,
-        );
-        when(() => repository.fetchAddress(any())).thenThrow(
-          EmptyZipException('User did not type a CEP.'),
-        );
-        when(() => sharedServices.saveInt(any(), 0)).thenAnswer(
-          (_) => Future.value(),
-        );
-        return searchZipCubit;
-      },
-      act: (cubit) => cubit.searchZip(zipCode: ''),
-      expect: () => <SearchState>[
-        LoadingSearchState(),
-        ErrorEmptyZipState(
-            errorEmptyMessage: AppStrings.zipCodeEmptyErrorMessageText)
-      ],
-    );
 
-    blocTest<SearchCubit, SearchState>(
-      'Should emit ErrorSearchZipState when user search an invalid ZIP',
-      build: () {
-        when(() => sharedServices.getInt(any())).thenAnswer(
-          (_) async => Future.value(),
-        );
-        when(() => repository.fetchAddress(any())).thenThrow(
-          Exception(),
-        );
-        when(() => sharedServices.saveInt(any(), 1)).thenAnswer(
-          (_) => Future.value(),
-        );
+    group('Error tests | ', () {
+      blocTest<SearchCubit, SearchState>(
+        'Should emit ErrorSearchZipState when user search empty ZIP',
+        build: () {
+          when(() => sharedServices.getInt(any())).thenAnswer(
+            (_) async => 0,
+          );
+          when(
+            () => repository.fetchAddress(any()),
+          ).thenAnswer((_) async => (
+                data: null,
+                error: EmptyZipFailure(message: 'User did not type any CEP')
+              ));
 
-        return searchZipCubit;
-      },
-      act: (cubit) => cubit.searchZip(zipCode: 'zipCode'),
-      expect: () => <SearchState>[
-        LoadingSearchState(),
-        ErrorSearchZipState(
-          errorMessage: AppStrings.zipCodeInvalidErrorMessageText,
-        )
-      ],
-    );
+          when(() => sharedServices.saveInt(any(), 0)).thenAnswer(
+            (_) => Future.value(),
+          );
+          return searchZipCubit;
+        },
+        act: (cubit) => cubit.searchZip(zipCode: ''),
+        expect: () => <SearchState>[
+          LoadingSearchState(),
+          ErrorEmptyZipState(
+              errorEmptyMessage: AppStrings.zipCodeEmptyErrorMessageText)
+        ],
+      );
+
+      blocTest<SearchCubit, SearchState>(
+        'Should emit ErrorSearchZipState when user search an invalid ZIP',
+        build: () {
+          when(() => sharedServices.getInt(any())).thenAnswer(
+            (_) async => Future.value(),
+          );
+          when(() => repository.fetchAddress(any())).thenThrow(
+            Exception(),
+          );
+          when(() => sharedServices.saveInt(any(), 1)).thenAnswer(
+            (_) => Future.value(),
+          );
+
+          return searchZipCubit;
+        },
+        act: (cubit) => cubit.searchZip(zipCode: 'zipCode'),
+        expect: () => <SearchState>[
+          LoadingSearchState(),
+          ErrorSearchZipState(
+            errorMessage: AppStrings.zipCodeInvalidErrorMessageText,
+          )
+        ],
+      );
+
+      blocTest<SearchCubit, SearchState>(
+        'Should emit Failure when Api return an unexpected Error',
+        build: () {
+          when(() => sharedServices.getInt(any())).thenAnswer(
+            (_) async => Future.value(),
+          );
+          when(
+            () => repository.fetchAddress(any()),
+          ).thenAnswer((_) async =>
+              (data: null, error: Failure(message: 'Unexpected Error')));
+
+          when(() => sharedServices.saveInt(any(), 1)).thenAnswer(
+            (_) => Future.value(),
+          );
+
+          return searchZipCubit;
+        },
+        act: (cubit) => cubit.searchZip(zipCode: 'zipCode'),
+        expect: () => <SearchState>[
+          LoadingSearchState(),
+          ErrorSearchZipState(
+            errorMessage: 'Unexpected Error',
+          )
+        ],
+      );
+
+      blocTest<SearchCubit, SearchState>(
+        'Should emit Failure when Api return an exception',
+        build: () {
+          when(() => sharedServices.getInt(any())).thenAnswer(
+            (_) async => Future.value(),
+          );
+          when(
+            () => repository.fetchAddress(any()),
+          ).thenThrow((_) async => (
+                data: null,
+                error: Failure(
+                  message: 'Exception',
+                ),
+              ));
+
+          when(() => sharedServices.saveInt(any(), 1)).thenAnswer(
+            (_) => Future.value(),
+          );
+
+          return searchZipCubit;
+        },
+        act: (cubit) => cubit.searchZip(zipCode: 'zipCode'),
+        expect: () => <SearchState>[
+          LoadingSearchState(),
+          ErrorSearchZipState(
+            errorMessage: 'Exception',
+          )
+        ],
+      );
+    });
   });
 
   group('Add favorites tests |', () {
