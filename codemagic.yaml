@@ -66,4 +66,5 @@ workflows:
           genhtml coverage/lcov.info -o coverage/html
       - name: Build Production App Bundle
         script: |
+          flutter pub get
           flutter build appbundle --release --flavor prod -t lib/main_prod.dart
