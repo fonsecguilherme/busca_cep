@@ -1,0 +1,66 @@
+workflows:
+  develop:
+    name: Develop Branch Workflow
+    triggers:
+      - push
+    branch: develop
+    environment:
+      vars:
+        FLUTTER_VERSION: stable
+    scripts:
+      - name: Set up Flutter SDK
+        script: |
+          git clone https://github.com/flutter/flutter.git
+          export PATH="$PATH:`pwd`/flutter/bin"
+          flutter --version
+      - name: Clean the project
+        script: |
+          flutter clean
+      - name: Install dependencies
+        script: |
+          flutter pub get
+      - name: Check Code Formatting
+        script: |
+          flutter format . --set-exit-if-changed
+      - name: Run Flutter Tests
+        script: |
+          flutter test --coverage
+      - name: Run Dart Analyze
+        script: |
+          flutter analyze
+      - name: Generate Code Coverage Report
+        script: |
+          genhtml coverage/lcov.info -o coverage/html
+  
+  master:
+    name: Master Branch Workflow
+    triggers:
+      - push
+    branch: master
+    environment:
+      vars:
+        FLUTTER_VERSION: stable
+    scripts:
+      - name: Set up Flutter SDK
+        script: |
+          git clone https://github.com/flutter/flutter.git
+          export PATH="$PATH:`pwd`/flutter/bin"
+          flutter --version
+      - name: Clean the project
+        script: |
+          flutter clean
+      - name: Install dependencies
+        script: |
+          flutter pub get
+      - name: Check Code Formatting
+        script: |
+          flutter format . --set-exit-if-changed
+      - name: Run Flutter Tests
+        script: |
+          flutter test
+      - name: Run Dart Analyze
+        script: |
+          flutter analyze
+      - name: Build Production App Bundle
+        script: |
+          flutter build appbundle --release --flavor prod -t lib/main_prod.dart
