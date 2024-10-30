@@ -7,10 +7,13 @@ workflows:
     environment:
       vars:
         FLUTTER_VERSION: stable
+    cache:
+      cache_paths:
+        - $FLUTTER_ROOT
     scripts:
       - name: Set up Flutter SDK
         script: |
-          git clone https://github.com/flutter/flutter.git
+          git clone https://github.com/flutter/flutter.git --depth 1 -b stable
           export PATH="$PATH:`pwd`/flutter/bin"
           flutter --version
       - name: Clean the project
@@ -40,10 +43,13 @@ workflows:
     environment:
       vars:
         FLUTTER_VERSION: stable
+    cache:
+      cache_paths:
+        - $FLUTTER_ROOT
     scripts:
       - name: Set up Flutter SDK
         script: |
-          git clone https://github.com/flutter/flutter.git
+          git clone https://github.com/flutter/flutter.git --depth 1 -b stable
           export PATH="$PATH:`pwd`/flutter/bin"
           flutter --version
       - name: Clean the project
