@@ -7,9 +7,6 @@ workflows:
     environment:
       vars:
         FLUTTER_VERSION: stable
-    cache:
-      cache_paths:
-        - $FLUTTER_ROOT
     scripts:
       - name: Set up Flutter SDK
         script: |
@@ -25,7 +22,7 @@ workflows:
       - name: Check Code Formatting
         script: |
           flutter format . --set-exit-if-changed
-      - name: Run Flutter Tests
+      - name: Run Flutter Tests with Coverage
         script: |
           flutter test --coverage
       - name: Run Dart Analyze
@@ -34,7 +31,7 @@ workflows:
       - name: Generate Code Coverage Report
         script: |
           genhtml coverage/lcov.info -o coverage/html
-  
+
   master:
     name: Master Branch Workflow
     triggers:
@@ -43,9 +40,6 @@ workflows:
     environment:
       vars:
         FLUTTER_VERSION: stable
-    cache:
-      cache_paths:
-        - $FLUTTER_ROOT
     scripts:
       - name: Set up Flutter SDK
         script: |
@@ -61,12 +55,15 @@ workflows:
       - name: Check Code Formatting
         script: |
           flutter format . --set-exit-if-changed
-      - name: Run Flutter Tests
+      - name: Run Flutter Tests with Coverage
         script: |
-          flutter test
+          flutter test --coverage
       - name: Run Dart Analyze
         script: |
           flutter analyze
+      - name: Generate Code Coverage Report
+        script: |
+          genhtml coverage/lcov.info -o coverage/html
       - name: Build Production App Bundle
         script: |
           flutter build appbundle --release --flavor prod -t lib/main_prod.dart
