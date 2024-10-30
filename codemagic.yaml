@@ -3,7 +3,6 @@ workflows:
     name: Develop Branch Workflow
     triggers:
       - push
-    branch: develop
     environment:
       vars:
         FLUTTER_VERSION: stable
@@ -32,7 +31,6 @@ workflows:
     name: Master Branch Workflow
     triggers:
       - push
-    branch: master
     environment:
       vars:
         FLUTTER_VERSION: stable
@@ -58,5 +56,4 @@ workflows:
           flutter analyze
       - name: Build Production App Bundle
         script: |
-          flutter pub get
           flutter build appbundle --release --flavor prod -t lib/main_prod.dart
