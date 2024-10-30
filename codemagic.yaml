@@ -17,7 +17,7 @@ workflows:
           flutter pub get
       - name: Check Code Formatting
         script: |
-          flutter format . --set-exit-if-changed
+          dart format . --set-exit-if-changed
       - name: Run Flutter Tests with Coverage
         script: |
           flutter test --coverage
@@ -43,7 +43,7 @@ workflows:
           flutter pub get
       - name: Check Code Formatting
         script: |
-          flutter format . --set-exit-if-changed
+          dart format . --set-exit-if-changed
       - name: Run Flutter Tests with Coverage
         script: |
           flutter test --coverage
