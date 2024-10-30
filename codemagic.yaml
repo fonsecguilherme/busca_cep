@@ -10,7 +10,7 @@ workflows:
     scripts:
       - name: Set up Flutter SDK
         script: |
-          export PATH="$PATH:`pwd`/flutter/bin"
+          export PATH="$PATH:/opt/flutter/bin"
           flutter --version
       - name: Clean the project
         script: |
@@ -27,9 +27,6 @@ workflows:
       - name: Run Dart Analyze
         script: |
           flutter analyze
-      - name: Generate Code Coverage Report
-        script: |
-          genhtml coverage/lcov.info -o coverage/html
 
   master:
     name: Master Branch Workflow
@@ -42,7 +39,7 @@ workflows:
     scripts:
       - name: Set up Flutter SDK
         script: |
-          export PATH="$PATH:`pwd`/flutter/bin"
+          export PATH="$PATH:/opt/flutter/bin"
           flutter --version
       - name: Clean the project
         script: |
@@ -59,9 +56,6 @@ workflows:
       - name: Run Dart Analyze
         script: |
           flutter analyze
-      - name: Generate Code Coverage Report
-        script: |
-          genhtml coverage/lcov.info -o coverage/html
       - name: Build Production App Bundle
         script: |
           flutter pub get
