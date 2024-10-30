@@ -1,8 +1,6 @@
 workflows:
   develop:
     name: Develop Branch Workflow
-    triggers:
-      - push
     environment:
       vars:
         FLUTTER_VERSION: stable
@@ -29,8 +27,6 @@ workflows:
 
   master:
     name: Master Branch Workflow
-    triggers:
-      - push
     environment:
       vars:
         FLUTTER_VERSION: stable
