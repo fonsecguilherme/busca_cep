@@ -7,9 +7,10 @@ import 'package:share_plus/share_plus.dart';
 import 'package:zip_search/core/commons/analytics_events.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/extensions.dart';
+import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/presentation/favorite_page/cubit/favorite_cubit.dart';
 import 'package:zip_search/presentation/favorite_page/favorite_page.dart';
-import 'package:zip_search/core/model/address_model.dart';
+import 'package:zip_search/presentation/favorite_page/widgets/tag_widget.dart';
 
 class AdressesBuilderWidget extends StatelessWidget {
   final List<AddressModel> addressList;
@@ -29,6 +30,7 @@ class AdressesBuilderWidget extends StatelessWidget {
       key: FavoritePage.loadedFavoriteAdressesKey,
       itemCount: addressList.length,
       itemBuilder: (context, index) {
+        //! para cada endereço desse eu vou pegar quantas tags ele tem
         final address = addressList.elementAt(index);
         return Padding(
           padding: const EdgeInsets.symmetric(
@@ -101,8 +103,15 @@ class AdressesBuilderWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Expanded(
-                        child: Text(
-                          ''.favoriteCardAddressFormat(address),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              ''.favoriteCardAddressFormat(address),
+                            ),
+                            const SizedBox(height: 6.0),
+                            const TagBuilder(),
+                          ],
                         ),
                       ),
                       IconButton(

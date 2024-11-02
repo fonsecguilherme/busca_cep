@@ -1,9 +1,11 @@
 import 'package:bloc/bloc.dart';
-import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/shared_preferences_keys.dart';
-import 'package:zip_search/presentation/favorite_page/cubit/favorite_state.dart';
 import 'package:zip_search/core/model/address_model.dart';
+import 'package:zip_search/core/model/favorite_model.dart';
 import 'package:zip_search/data/shared_services.dart';
+import 'package:zip_search/presentation/favorite_page/cubit/favorite_state.dart';
+
+import '../../../core/commons/app_strings.dart';
 
 class FavoriteCubit extends Cubit<FavoritesState> {
   FavoriteCubit({
@@ -40,5 +42,21 @@ class FavoriteCubit extends Cubit<FavoritesState> {
       return;
     }
     emit(LoadFavoriteZipState(addressList));
+  }
+
+  Future<void> createTag({
+    required FavoriteModel favoriteAddress,
+    required String tag,
+  }) async {
+    if (favoriteAddress.tags.isEmpty || favoriteAddress.tags.length < 5) {
+      favoriteAddress.tags.add(tag);
+      return;
+    }
+
+    if (favoriteAddress.tags.contains(tag)) {
+      favoriteAddress.tags.remove(tag);
+      return;
+    }
+    emit(state);
   }
 }

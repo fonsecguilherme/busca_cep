@@ -3,12 +3,13 @@ import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/shared_preferences_keys.dart';
-import 'package:zip_search/presentation/search_page/cubit/search_state.dart';
 import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/data/shared_services.dart';
 import 'package:zip_search/domain/repositories/via_cep_repository.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_state.dart';
 
 import '../../../core/exceptions/custom_exceptions.dart';
+import '../../../core/model/favorite_model.dart';
 
 class SearchCubit extends Cubit<SearchState> {
   SearchCubit({
@@ -19,6 +20,7 @@ class SearchCubit extends Cubit<SearchState> {
   final SharedServices sharedServices;
   final IViaCepRepository viaCepRepository;
   List<AddressModel> addressList = [];
+  List<FavoriteModel> favoriteList = [];
   int counterSearchedZips = 0;
   int counterFavZips = 0;
 
@@ -79,6 +81,37 @@ class SearchCubit extends Cubit<SearchState> {
 
       await sharedServices.saveListString(
           SharedPreferencesKeys.savedAdresses, addressList);
+
+      emit(FavoriteAddressState(
+        message: AppStrings.successZipFavoriteText,
+      ));
+    }
+  }
+
+  //! WIP função teste
+  Future<void> addToFavorites2(
+    AddressModel address,
+  ) async {
+    counterFavZips =
+        await sharedServices.getInt(SharedPreferencesKeys.savedZipKey) ??
+            counterFavZips;
+
+    favoriteList = await sharedServices
+        .getListString2(SharedPreferencesKeys.savedAdresses);
+
+    if (favoriteList.any((address) => address.addressModel == address)) {
+      emit(ErrorAlreadyFavotiteZipState(
+          errorMessage: AppStrings.alreadyFavoritedZipCodeText));
+    } else {
+      counterFavZips++;
+
+      await sharedServices.saveInt(
+          SharedPreferencesKeys.savedZipKey, counterFavZips);
+
+      favoriteList.add(FavoriteModel(addressModel: address));
+
+      await sharedServices.saveListString2(
+          SharedPreferencesKeys.savedAdresses, favoriteList);
 
       emit(FavoriteAddressState(
         message: AppStrings.successZipFavoriteText,
