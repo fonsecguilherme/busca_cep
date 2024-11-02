@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zip_search/core/model/address_model.dart';
+import 'package:zip_search/core/model/favorite_model.dart';
 
 class SharedServices {
   static SharedPreferences? _preferences;
@@ -48,5 +49,27 @@ class SharedServices {
     final jsonList = _preferences!.getStringList(key) ?? [];
 
     return jsonList.map((e) => AddressModel.fromJson(json.decode(e))).toList();
+  }
+
+  //! WIP funções
+  Future<void> saveListString2(
+    String key,
+    List<FavoriteModel> favoriteAddressList,
+  ) async {
+    await _getPreferences();
+
+    List<String> encodedList = favoriteAddressList
+        .map((address) => jsonEncode(address.toJson()))
+        .toList();
+
+    await _preferences!.setStringList(key, encodedList);
+  }
+
+  Future<List<FavoriteModel>> getListString2(String key) async {
+    await _getPreferences();
+
+    final jsonList = _preferences!.getStringList(key) ?? [];
+
+    return jsonList.map((e) => FavoriteModel.fromJson(e)).toList();
   }
 }
