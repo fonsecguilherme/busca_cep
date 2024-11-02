@@ -3,10 +3,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
-import 'package:zip_search/presentation/favorite_page/cubit/favorite_cubit.dart';
-import 'package:zip_search/presentation/favorite_page/cubit/favorite_state.dart';
 import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/data/shared_services.dart';
+import 'package:zip_search/presentation/favorite_page/cubit/favorite_cubit.dart';
+import 'package:zip_search/presentation/favorite_page/cubit/favorite_state.dart';
 
 class MockSharedServices extends Mock implements SharedServices {}
 
