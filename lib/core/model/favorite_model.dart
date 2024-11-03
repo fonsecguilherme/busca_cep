@@ -6,13 +6,33 @@ import 'package:zip_search/core/model/address_model.dart';
 class FavoriteModel extends Equatable {
   final AddressModel addressModel;
   final List<String> tags;
-  final String? description;
+  final String description;
 
-  const FavoriteModel({
+  FavoriteModel({
     required this.addressModel,
-    this.tags = const [],
-    this.description,
-  });
+    List<String>? tags,
+    String? description,
+  })  : tags = tags ?? [],
+        description = description ?? 'Sem descrição';
+
+  factory FavoriteModel.fromJson(Map<String, dynamic> json) {
+    return FavoriteModel(
+      addressModel: AddressModel.fromJson(json['addressModel']),
+      tags: (json['tags'] as List<dynamic>?)
+              ?.map((tag) => tag as String)
+              .toList() ??
+          [],
+      description: json['description'] ?? 'Sem descrição',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'addressModel': addressModel.toJson(),
+      'tags': tags,
+      'description': description.isNotEmpty ? description : 'Sem descrição',
+    };
+  }
 
   FavoriteModel copyWith({
     AddressModel? addressModel,
@@ -27,28 +47,9 @@ class FavoriteModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [addressModel, tags, description];
-
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'addressModel': addressModel.toJson(),
-      'tags': tags,
-      'description': description,
-    };
-  }
-
-  factory FavoriteModel.fromMap(Map<String, dynamic> map) {
-    return FavoriteModel(
-      addressModel:
-          AddressModel.fromJson(map['addressModel'] as Map<String, dynamic>),
-      tags: List<String>.from((map['tags'] as List<String>)),
-      description:
-          map['description'] != null ? map['description'] as String : null,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory FavoriteModel.fromJson(String source) =>
-      FavoriteModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  List<Object?> get props => [
+        addressModel,
+        tags,
+        description,
+      ];
 }
