@@ -24,6 +24,7 @@ final class DeletedFavoriteZipState extends FavoriteState {
 }
 
 final class AddedTagZipState extends FavoriteState {
+  final List<String> tags;
   final String message;
 
   AddedTagZipState(this.message);

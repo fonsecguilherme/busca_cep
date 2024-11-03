@@ -19,7 +19,7 @@ class SearchCubit extends Cubit<SearchState> {
 
   final SharedServices sharedServices;
   final IViaCepRepository viaCepRepository;
-  List<AddressModel> addressList = [];
+  List<FavoriteModel> addressList = [];
   List<FavoriteModel> favoriteList = [];
   int counterSearchedZips = 0;
   int counterFavZips = 0;
@@ -65,41 +65,10 @@ class SearchCubit extends Cubit<SearchState> {
         await sharedServices.getInt(SharedPreferencesKeys.savedZipKey) ??
             counterFavZips;
 
-    addressList =
+    favoriteList =
         await sharedServices.getListString(SharedPreferencesKeys.savedAdresses);
 
-    if (addressList.contains(address)) {
-      emit(ErrorAlreadyFavotiteZipState(
-          errorMessage: AppStrings.alreadyFavoritedZipCodeText));
-    } else {
-      counterFavZips++;
-
-      await sharedServices.saveInt(
-          SharedPreferencesKeys.savedZipKey, counterFavZips);
-
-      addressList.add(address);
-
-      await sharedServices.saveListString(
-          SharedPreferencesKeys.savedAdresses, addressList);
-
-      emit(FavoriteAddressState(
-        message: AppStrings.successZipFavoriteText,
-      ));
-    }
-  }
-
-  //! WIP função teste
-  Future<void> addToFavorites2(
-    AddressModel address,
-  ) async {
-    counterFavZips =
-        await sharedServices.getInt(SharedPreferencesKeys.savedZipKey) ??
-            counterFavZips;
-
-    favoriteList = await sharedServices
-        .getListString2(SharedPreferencesKeys.savedAdresses);
-
-    if (favoriteList.any((address) => address.addressModel == address)) {
+    if (favoriteList.any((element) => element.addressModel == address)) {
       emit(ErrorAlreadyFavotiteZipState(
           errorMessage: AppStrings.alreadyFavoritedZipCodeText));
     } else {
@@ -110,7 +79,7 @@ class SearchCubit extends Cubit<SearchState> {
 
       favoriteList.add(FavoriteModel(addressModel: address));
 
-      await sharedServices.saveListString2(
+      await sharedServices.saveListString(
           SharedPreferencesKeys.savedAdresses, favoriteList);
 
       emit(FavoriteAddressState(

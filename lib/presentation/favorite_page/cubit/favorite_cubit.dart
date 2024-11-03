@@ -1,19 +1,18 @@
 import 'package:bloc/bloc.dart';
 import 'package:zip_search/core/commons/shared_preferences_keys.dart';
-import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/core/model/favorite_model.dart';
 import 'package:zip_search/data/shared_services.dart';
 import 'package:zip_search/presentation/favorite_page/cubit/favorite_state.dart';
 
 import '../../../core/commons/app_strings.dart';
 
-class FavoriteCubit extends Cubit<FavoritesState> {
+class FavoriteCubit extends Cubit<FavoriteState> {
   FavoriteCubit({
     required this.sharedServices,
   }) : super(InitialFavoriteState());
 
   final SharedServices sharedServices;
-  List<AddressModel> addressList = [];
+  List<FavoriteModel> addressList = [];
 
   Future<void> loadFavoriteAdresses() async {
     addressList =
@@ -27,11 +26,12 @@ class FavoriteCubit extends Cubit<FavoritesState> {
     emit(LoadFavoriteZipState(addressList));
   }
 
-  Future<void> deleteAddress(AddressModel address) async {
+  Future<void> deleteAddress(FavoriteModel address) async {
     addressList =
         await sharedServices.getListString(SharedPreferencesKeys.savedAdresses);
 
-    addressList.removeWhere((element) => element.cep == address.cep);
+    addressList.removeWhere(
+        (element) => element.addressModel.cep == address.addressModel.cep);
 
     await sharedServices.saveListString(
         SharedPreferencesKeys.savedAdresses, addressList);
@@ -48,15 +48,36 @@ class FavoriteCubit extends Cubit<FavoritesState> {
     required FavoriteModel favoriteAddress,
     required String tag,
   }) async {
-    if (favoriteAddress.tags.isEmpty || favoriteAddress.tags.length < 5) {
-      favoriteAddress.tags.add(tag);
+    addressList =
+        await sharedServices.getListString(SharedPreferencesKeys.savedAdresses);
+
+    if (!favoriteAddress.tags.contains(tag) ||
+        favoriteAddress.tags.length < 5) {
+      final address = addressList.firstWhere((element) =>
+          element.addressModel.cep == favoriteAddress.addressModel.cep);
+
+      address.tags.add(tag);
+      address.copyWith(tags: favoriteAddress.tags);
+
+      await sharedServices.saveListString(
+          SharedPreferencesKeys.savedAdresses, addressList);
+
+      emit(AddedTagZipState('Tag adicionada com sucesso!'));
+      emit(LoadFavoriteZipState(addressList));
       return;
     }
 
     if (favoriteAddress.tags.contains(tag)) {
-      favoriteAddress.tags.remove(tag);
+      final address = addressList.firstWhere((element) =>
+          element.addressModel.cep == favoriteAddress.addressModel.cep);
+      address.tags.remove(tag);
+      address.copyWith(tags: favoriteAddress.tags);
+
+      await sharedServices.saveListString(
+          SharedPreferencesKeys.savedAdresses, addressList);
+      emit(RemovedTagZipState('Tag removida com sucesso!'));
+      emit(LoadFavoriteZipState(addressList));
       return;
     }
-    emit(state);
   }
 }
