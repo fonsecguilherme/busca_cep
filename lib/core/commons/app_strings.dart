@@ -21,6 +21,9 @@ class AppStrings {
   static const String cancelText = 'Cancelar';
   static const String modalTitle =
       'Olá! Estou compartilhando com você esse endereço!';
+  static const String addTagSuccessText = 'Tag adicionada com sucesso!';
+  static const String removeTagSuccessText = 'Tag removida com sucesso!';
+  static const String addTagText = 'Adicionar tag!';
 
   //Search page
   static const String textFieldText = 'Somente números =)';
