@@ -73,7 +73,7 @@ class FavoriteCubit extends Cubit<FavoriteState> {
 
       await sharedServices.saveListString(
           SharedPreferencesKeys.savedAdresses, addressList);
-      emit(RemovedTagZipState(AppStrings.removeTagSuccessText));
+      emit(RemovedTagZipState(AppStrings.removeTagSuccessText, address.tags));
       emit(LoadFavoriteZipState(addressList));
       return;
     }

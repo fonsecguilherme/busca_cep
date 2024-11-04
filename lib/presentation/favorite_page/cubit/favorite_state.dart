@@ -31,7 +31,8 @@ final class AddedTagZipState extends FavoriteState {
 }
 
 final class RemovedTagZipState extends FavoriteState {
+  final List<String> tags;
   final String message;
 
-  RemovedTagZipState(this.message);
+  RemovedTagZipState(this.message, this.tags);
 }
