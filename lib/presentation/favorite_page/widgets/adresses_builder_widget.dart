@@ -30,7 +30,6 @@ class AdressesBuilderWidget extends StatelessWidget {
       key: FavoritePage.loadedFavoriteAdressesKey,
       itemCount: addressList.length,
       itemBuilder: (context, index) {
-        //! para cada endereço desse eu vou pegar quantas tags ele tem
         final address = addressList.elementAt(index);
         return Padding(
           padding: const EdgeInsets.symmetric(
@@ -112,7 +111,7 @@ class AdressesBuilderWidget extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 6.0),
-                            TagBuilderWidget(favoriteAddress: address),
+                            CardTagsWidget(favoriteAddress: address),
                           ],
                         ),
                       ),

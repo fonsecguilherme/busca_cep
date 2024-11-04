@@ -51,31 +51,29 @@ class FavoriteCubit extends Cubit<FavoriteState> {
     addressList =
         await sharedServices.getListString(SharedPreferencesKeys.savedAdresses);
 
-    if (!favoriteAddress.tags.contains(tag) ||
-        favoriteAddress.tags.length < 5) {
-      final address = addressList.firstWhere((element) =>
-          element.addressModel.cep == favoriteAddress.addressModel.cep);
+    final address = addressList.firstWhere((element) =>
+        element.addressModel.cep == favoriteAddress.addressModel.cep);
 
+    if (!favoriteAddress.tags.contains(tag) &&
+        favoriteAddress.tags.length < 5) {
       address.tags.add(tag);
       address.copyWith(tags: favoriteAddress.tags);
 
       await sharedServices.saveListString(
           SharedPreferencesKeys.savedAdresses, addressList);
 
-      emit(AddedTagZipState('Tag adicionada com sucesso!'));
+      emit(AddedTagZipState(AppStrings.addTagSuccessText, address.tags));
       emit(LoadFavoriteZipState(addressList));
       return;
     }
 
     if (favoriteAddress.tags.contains(tag)) {
-      final address = addressList.firstWhere((element) =>
-          element.addressModel.cep == favoriteAddress.addressModel.cep);
       address.tags.remove(tag);
       address.copyWith(tags: favoriteAddress.tags);
 
       await sharedServices.saveListString(
           SharedPreferencesKeys.savedAdresses, addressList);
-      emit(RemovedTagZipState('Tag removida com sucesso!'));
+      emit(RemovedTagZipState(AppStrings.removeTagSuccessText));
       emit(LoadFavoriteZipState(addressList));
       return;
     }
