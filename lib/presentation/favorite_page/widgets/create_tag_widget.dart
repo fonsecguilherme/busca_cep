@@ -7,6 +7,8 @@ import 'package:zip_search/core/widgets/focus_widget.dart';
 import 'package:zip_search/presentation/favorite_page/cubit/favorite_cubit.dart';
 import 'package:zip_search/presentation/favorite_page/cubit/favorite_state.dart';
 
+import '../../../core/commons/app_strings.dart';
+
 class CreateTagWidget extends StatefulWidget {
   final FavoriteModel favoriteAddress;
 
@@ -45,7 +47,7 @@ class _CreateTagWidgetState extends State<CreateTagWidget> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    'Qual o nome da nova tag?',
+                    AppStrings.createTagPageTitleText,
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
                   TextField(
@@ -54,11 +56,12 @@ class _CreateTagWidgetState extends State<CreateTagWidget> {
                   const Spacer(),
                   CustomElevatedButton(
                     icon: Icons.sell_outlined,
-                    title: 'Adicionar tag',
+                    title: AppStrings.createTagPageButtonText,
                     onTap: () {
                       favoriteCubit.createTag(
-                          favoriteAddress: widget.favoriteAddress,
-                          tag: tagInputController.text);
+                        favoriteAddress: widget.favoriteAddress,
+                        tag: tagInputController.text,
+                      );
                     },
                   ),
                 ],

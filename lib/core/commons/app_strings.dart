@@ -57,7 +57,9 @@ class AppStrings {
       'Caso seja desejado, também é possível apagar o endereço favoritado.';
   static const String goToHomeButton = 'Ir para home';
 
-  //Cubit messages
+  //Create tag page
+  static const String createTagPageTitleText = 'Qual o nome da nova tag?';
+  static const String createTagPageButtonText = 'Adicionar tag';
 
   //Search zip cubit
   static const zipCodeEmptyErrorMessageText =
