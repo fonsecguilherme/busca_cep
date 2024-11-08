@@ -1,12 +1,13 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/analytics_events.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
+import 'package:zip_search/core/widgets/custom_elevated_button.dart';
 import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
 import 'package:zip_search/presentation/search_page/cubit/search_state.dart';
-import 'package:zip_search/core/widgets/custom_elevated_button.dart';
 
 class InitialWidget extends StatefulWidget {
   final FirebaseAnalytics analytics;
@@ -45,6 +46,9 @@ class _InitialWidgetState extends State<InitialWidget> {
             child: TextField(
               maxLength: 8,
               controller: _zipController,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
               onEditingComplete: () {
                 widget.analytics.logEvent(
                   name: SearchPageEvents.searchPageButton,
@@ -56,20 +60,15 @@ class _InitialWidgetState extends State<InitialWidget> {
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(16.0),
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30), // Borda circular
+                  borderRadius: BorderRadius.circular(30),
                   borderSide: BorderSide(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .outline, // Cor da borda quando o TextField não está em foco
-                    width: 2.0,
+                    color: Theme.of(context).colorScheme.outline,
                   ),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30), // Borda circular
+                  borderRadius: BorderRadius.circular(30),
                   borderSide: BorderSide(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .outline, // Cor da borda quando o TextField está em foco
+                    color: Theme.of(context).colorScheme.outline,
                     width: 2.0,
                   ),
                 ),

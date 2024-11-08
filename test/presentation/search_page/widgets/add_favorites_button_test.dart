@@ -22,7 +22,7 @@ import '../../../firebase_mock.dart';
 class MockSearchZipCubit extends MockCubit<SearchState>
     implements SearchCubit {}
 
-class MockFavoritesCubit extends MockCubit<FavoritesState>
+class MockFavoritesCubit extends MockCubit<FavoriteState>
     implements FavoriteCubit {}
 
 class MockSharedServices extends Mock implements SharedServices {}

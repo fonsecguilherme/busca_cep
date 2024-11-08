@@ -4,11 +4,12 @@ import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/exceptions/custom_exceptions.dart';
-import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
-import 'package:zip_search/presentation/search_page/cubit/search_state.dart';
 import 'package:zip_search/core/model/address_model.dart';
+import 'package:zip_search/core/model/favorite_model.dart';
 import 'package:zip_search/data/shared_services.dart';
 import 'package:zip_search/domain/repositories/via_cep_repository.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_state.dart';
 
 class MockSharedPreferences extends Mock implements SharedPreferences {}
 
@@ -106,7 +107,7 @@ void main() {
         );
 
         when(() => sharedServices.getListString(any())).thenAnswer(
-          (invocation) async => _addressList,
+          (invocation) async => _favoriteList,
         );
 
         return searchZipCubit;
@@ -134,7 +135,8 @@ void main() {
           (_) async => 1,
         );
 
-        when(() => sharedServices.saveListString(any(), [_address])).thenAnswer(
+        when(() => sharedServices.saveListString(any(), [_favoriteAddress]))
+            .thenAnswer(
           (_) async => [],
         );
 
@@ -150,6 +152,32 @@ void main() {
   });
 }
 
+final _favoriteList = [
+  FavoriteModel(
+    addressModel: const AddressModel(
+      cep: '06053040',
+      logradouro: 'logradouro',
+      complemento: 'complemento',
+      bairro: 'bairro',
+      localidade: 'localidade',
+      uf: 'uf',
+      ddd: 'ddd',
+    ),
+  ),
+];
+
+final _favoriteAddress = FavoriteModel(
+  addressModel: const AddressModel(
+    cep: '06053040',
+    logradouro: 'logradouro',
+    complemento: 'complemento',
+    bairro: 'bairro',
+    localidade: 'localidade',
+    uf: 'uf',
+    ddd: 'ddd',
+  ),
+);
+
 AddressModel _address = const AddressModel(
   cep: '06053040',
   logradouro: 'logradouro',
@@ -159,14 +187,3 @@ AddressModel _address = const AddressModel(
   uf: 'uf',
   ddd: 'ddd',
 );
-final _addressList = [
-  const AddressModel(
-    cep: '06053040',
-    logradouro: 'logradouro',
-    complemento: 'complemento',
-    bairro: 'bairro',
-    localidade: 'localidade',
-    uf: 'uf',
-    ddd: 'ddd',
-  ),
-];

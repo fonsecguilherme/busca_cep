@@ -21,6 +21,9 @@ class AppStrings {
   static const String cancelText = 'Cancelar';
   static const String modalTitle =
       'Olá! Estou compartilhando com você esse endereço!';
+  static const String addTagSuccessText = 'Tag adicionada com sucesso!';
+  static const String removeTagSuccessText = 'Tag removida com sucesso!';
+  static const String addTagText = 'Adicionar tag!';
 
   //Search page
   static const String textFieldText = 'Somente números =)';
@@ -54,7 +57,9 @@ class AppStrings {
       'Caso seja desejado, também é possível apagar o endereço favoritado.';
   static const String goToHomeButton = 'Ir para home';
 
-  //Cubit messages
+  //Create tag page
+  static const String createTagPageTitleText = 'Qual o nome da nova tag?';
+  static const String createTagPageButtonText = 'Adicionar tag';
 
   //Search zip cubit
   static const zipCodeEmptyErrorMessageText =

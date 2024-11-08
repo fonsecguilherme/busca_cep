@@ -11,15 +11,16 @@ import 'package:get_it/get_it.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/shared_preferences_keys.dart';
+import 'package:zip_search/core/model/address_model.dart';
+import 'package:zip_search/core/model/favorite_model.dart';
+import 'package:zip_search/data/shared_services.dart';
 import 'package:zip_search/presentation/favorite_page/cubit/favorite_cubit.dart';
 import 'package:zip_search/presentation/favorite_page/cubit/favorite_state.dart';
 import 'package:zip_search/presentation/favorite_page/favorite_page.dart';
-import 'package:zip_search/core/model/address_model.dart';
-import 'package:zip_search/data/shared_services.dart';
 
 import '../../firebase_mock.dart';
 
-class MockFavoritesCubit extends MockCubit<FavoritesState>
+class MockFavoritesCubit extends MockCubit<FavoriteState>
     implements FavoriteCubit {}
 
 class MockSharedServices extends Mock implements SharedServices {}
@@ -117,9 +118,9 @@ void main() {
       );
 
       await tester.runAsync(() async {
-        final state = StreamController<FavoritesState>();
+        final state = StreamController<FavoriteState>();
 
-        whenListen<FavoritesState>(
+        whenListen<FavoriteState>(
           favoriteCubit,
           state.stream,
           initialState: InitialFavoriteState(),
@@ -139,18 +140,8 @@ void main() {
   });
 }
 
-AddressModel _address = const AddressModel(
-  cep: '12345678',
-  logradouro: 'logradouro',
-  complemento: 'complemento',
-  bairro: 'bairro',
-  localidade: 'localidade',
-  uf: 'uf',
-  ddd: 'ddd',
-);
-
-List<AddressModel> _addressList = [
-  const AddressModel(
+final _address = FavoriteModel(
+  addressModel: const AddressModel(
     cep: '12345678',
     logradouro: 'logradouro',
     complemento: 'complemento',
@@ -159,6 +150,20 @@ List<AddressModel> _addressList = [
     uf: 'uf',
     ddd: 'ddd',
   ),
+);
+
+final _addressList = [
+  FavoriteModel(
+    addressModel: const AddressModel(
+      cep: '12345678',
+      logradouro: 'logradouro',
+      complemento: 'complemento',
+      bairro: 'bairro',
+      localidade: 'localidade',
+      uf: 'uf',
+      ddd: 'ddd',
+    ),
+  )
 ];
 
 Future<void> _createWidget(WidgetTester tester) async {

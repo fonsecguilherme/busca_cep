@@ -3,12 +3,13 @@ import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/shared_preferences_keys.dart';
-import 'package:zip_search/presentation/search_page/cubit/search_state.dart';
 import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/data/shared_services.dart';
 import 'package:zip_search/domain/repositories/via_cep_repository.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_state.dart';
 
 import '../../../core/exceptions/custom_exceptions.dart';
+import '../../../core/model/favorite_model.dart';
 
 class SearchCubit extends Cubit<SearchState> {
   SearchCubit({
@@ -18,7 +19,8 @@ class SearchCubit extends Cubit<SearchState> {
 
   final SharedServices sharedServices;
   final IViaCepRepository viaCepRepository;
-  List<AddressModel> addressList = [];
+  List<FavoriteModel> addressList = [];
+  List<FavoriteModel> favoriteList = [];
   int counterSearchedZips = 0;
   int counterFavZips = 0;
 
@@ -63,10 +65,10 @@ class SearchCubit extends Cubit<SearchState> {
         await sharedServices.getInt(SharedPreferencesKeys.savedZipKey) ??
             counterFavZips;
 
-    addressList =
+    favoriteList =
         await sharedServices.getListString(SharedPreferencesKeys.savedAdresses);
 
-    if (addressList.contains(address)) {
+    if (favoriteList.any((element) => element.addressModel == address)) {
       emit(ErrorAlreadyFavotiteZipState(
           errorMessage: AppStrings.alreadyFavoritedZipCodeText));
     } else {
@@ -75,10 +77,10 @@ class SearchCubit extends Cubit<SearchState> {
       await sharedServices.saveInt(
           SharedPreferencesKeys.savedZipKey, counterFavZips);
 
-      addressList.add(address);
+      favoriteList.add(FavoriteModel(addressModel: address));
 
       await sharedServices.saveListString(
-          SharedPreferencesKeys.savedAdresses, addressList);
+          SharedPreferencesKeys.savedAdresses, favoriteList);
 
       emit(FavoriteAddressState(
         message: AppStrings.successZipFavoriteText,

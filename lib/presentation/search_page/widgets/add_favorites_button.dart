@@ -2,10 +2,10 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
-import 'package:zip_search/presentation/favorite_page/cubit/favorite_cubit.dart';
-import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
 import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/core/widgets/custom_elevated_button.dart';
+import 'package:zip_search/presentation/favorite_page/cubit/favorite_cubit.dart';
+import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
 
 import '../../../core/commons/analytics_events.dart';
 

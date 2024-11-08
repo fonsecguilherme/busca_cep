@@ -31,20 +31,20 @@ class _SavedZipState extends State<FavoritePage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
-        body: BlocConsumer<FavoriteCubit, FavoritesState>(
+        body: BlocConsumer<FavoriteCubit, FavoriteState>(
           bloc: favoritesCubit,
           listener: listener,
           builder: builder,
         ),
       );
 
-  void listener(BuildContext context, FavoritesState state) {
+  void listener(BuildContext context, FavoriteState state) {
     if (state is DeletedFavoriteZipState) {
       Messages.of(context).showSuccess(state.deletedMessage);
     }
   }
 
-  Widget builder(BuildContext context, FavoritesState state) {
+  Widget builder(BuildContext context, FavoriteState state) {
     if (state is InitialFavoriteState) {
       return const Center(
         child: Text(AppStrings.initialZipPageText),
