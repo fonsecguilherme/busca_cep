@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
+import 'package:zip_search/core/widgets/focus_widget.dart';
 import 'package:zip_search/domain/repositories/via_cep_repository.dart';
 import 'package:zip_search/presentation/counter_page/counter_page.dart';
 import 'package:zip_search/presentation/favorite_page/cubit/favorite_cubit.dart';
@@ -34,7 +35,6 @@ class _NavigationPageState extends State<NavigationPage> {
     favoritesCubit.loadFavoriteAdresses();
   }
 
-  //TODO: Ao invés de criar essa instância, injetar via o bloc provider
   FavoriteCubit get favoritesCubit => context.read<FavoriteCubit>();
 
   final repository = getIt<IViaCepRepository>();
@@ -55,12 +55,14 @@ class _NavigationPageState extends State<NavigationPage> {
           create: (context) => NavigationCubit(),
         ),
       ],
-      child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        bottomNavigationBar: _BottomNaVigationBarWidget(
-          analytics: analytics,
+      child: FocusWidget(
+        child: Scaffold(
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          bottomNavigationBar: _BottomNaVigationBarWidget(
+            analytics: analytics,
+          ),
+          body: SafeArea(child: _body()),
         ),
-        body: SafeArea(child: _body()),
       ),
     );
   }

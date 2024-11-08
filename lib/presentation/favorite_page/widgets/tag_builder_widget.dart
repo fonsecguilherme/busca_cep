@@ -56,25 +56,35 @@ class _TagBuilderWidget extends StatelessWidget {
   }) : super();
 
   @override
-  Widget build(BuildContext context) => Wrap(
-        spacing: 6.0,
-        runSpacing: 8.0,
+  Widget build(BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ...List.generate(
-            tagAmount,
-            (index) => _TagWidget(
-              tagName: tags.elementAt(index),
-              action: () {
-                favoriteCubit.createTag(
-                  favoriteAddress: favoriteAddress,
-                  tag: tags.elementAt(index),
-                );
-              },
-            ),
+          Wrap(
+            alignment: WrapAlignment.start,
+            spacing: 6.0,
+            runSpacing: 8.0,
+            children: [
+              ...List.generate(
+                tagAmount,
+                (index) => _TagWidget(
+                  tagName: tags.elementAt(index),
+                  action: () {
+                    favoriteCubit.createTag(
+                      favoriteAddress: favoriteAddress,
+                      tag: tags.elementAt(index),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
           Visibility(
             visible: tags.length < 5,
             child: TextButton.icon(
+              style: TextButton.styleFrom(
+                visualDensity: VisualDensity.compact,
+                padding: EdgeInsets.zero,
+              ),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -122,7 +132,6 @@ class _TagWidget extends StatelessWidget {
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            // crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Icon(
                 Icons.close,
