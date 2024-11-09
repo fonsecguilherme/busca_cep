@@ -42,12 +42,12 @@ workflows:
     scripts:
       - name: Setup the keystore
         script: |
-          echo $KEYSTORE_FILE | base64 --decode > android/app/keystore.jks
+          echo $KEYSTORE_FILE | base64 --decode > /tmp/keystore.jks
           cat >> "$CM_BUILD_DIR/android/key.properties << EOF
           storePassword=$CM_KEYSTORE_PASSWORD
           keyPassword=$CM_KEY_PASSWORD
           keyAlias=upload
-          storefile=android/app/keystore.jks
+          storefile=/tmp/keystore.jks
           EOF
       - name: Setup Flutter SDK
         script: |
