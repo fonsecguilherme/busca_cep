@@ -1,7 +1,7 @@
 workflows:
   develop:
     name: Develop Branch Workflow
-    triggers:
+    triggering:
       events:
       - pull_request
     environment:
@@ -30,7 +30,7 @@ workflows:
 
   master:
     name: Master Branch Workflow
-    triggers:
+    triggering:
       events:
       - pull_request
     environment:
