@@ -2,6 +2,7 @@ workflows:
   develop:
     name: Develop Branch Workflow
     triggers:
+      events:
       - pull_request
     environment:
       vars:
@@ -30,6 +31,7 @@ workflows:
   master:
     name: Master Branch Workflow
     triggers:
+      events:
       - pull_request
     environment:
       vars:
