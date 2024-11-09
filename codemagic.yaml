@@ -40,15 +40,15 @@ workflows:
       vars:
         FLUTTER_VERSION: stable
     scripts:
-      - name: Setup the keystore
+            - name: Setup the keystore
         script: |
           echo $KEYSTORE_FILE | base64 --decode > /tmp/keystore.jks
-          cat >> "$CM_BUILD_DIR/android/key.properties << EOF
+          cat > "$CM_BUILD_DIR/android/key.properties" << EOF
           storePassword=$CM_KEYSTORE_PASSWORD
           keyPassword=$CM_KEY_PASSWORD
           keyAlias=upload
-          storefile=/tmp/keystore.jks
-          EOF
+          storeFile=/tmp/keystore.jks
+EOF
       - name: Setup Flutter SDK
         script: |
           export PATH="$PATH:/opt/flutter/bin"
