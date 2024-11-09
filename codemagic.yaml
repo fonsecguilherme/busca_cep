@@ -71,6 +71,7 @@ workflows:
       - name: Build Production App Bundle
         script: |
           cd $CM_BUILD_DIR
+          flutter packages pub get
           flutter build appbundle --release --flavor prod -t lib/main_prod.dart
     artifacts:
       - build/**/outputs/**/*.aab
