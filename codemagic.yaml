@@ -59,7 +59,7 @@ workflows:
       - name: Build Production App Bundle
         script: |
           flutter build appbundle --release --flavor prod -t lib/main_prod.dart
-  publishing:
-    email:
-      recipients:
-        - devramosguilherme41@gmail.com
+    publishing:
+      email:
+        recipients:
+          - devramosguilherme41@gmail.com
