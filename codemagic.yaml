@@ -4,11 +4,14 @@ workflows:
     triggering:
       events:
       - pull_request
+      cancel_previous_builds: true
     environment:
       vars:
         FLUTTER_VERSION: stable
+      groups:
+        - google_credentials
     scripts:
-      - name: Set up Flutter SDK
+      - name: Setup Flutter SDK
         script: |
           export PATH="$PATH:/opt/flutter/bin"
           flutter --version
@@ -30,14 +33,27 @@ workflows:
 
   master:
     name: Master Branch Workflow
+    max_build_duration: 30
     triggering:
       events:
       - pull_request
+      cancel_previous_builds: true
     environment:
       vars:
         FLUTTER_VERSION: stable
+      groups:
+        - google_credentials
     scripts:
-      - name: Set up Flutter SDK
+      - name: Setup the keystore
+        script: |
+          echo $KEYSTORE_FILE | base64 --decode > /Documents/keystore.jks
+          cat >> "$CM_BUILD_DIR/android/key.properties << EOF
+          storePassword=$CM_KEYSTORE_PASSWORD
+          keyPassword=$CM_KEY_PASSWORD
+          keyAlias=upload
+          storefile=/Documents/keystore.jks
+          EOF
+      - name: Setup Flutter SDK
         script: |
           export PATH="$PATH:/opt/flutter/bin"
           flutter --version
@@ -58,7 +74,10 @@ workflows:
           flutter analyze
       - name: Build Production App Bundle
         script: |
+          cd $CM_BUILD_DIR
           flutter build appbundle --release --flavor prod -t lib/main_prod.dart
+    artifacts:
+      - build/**/outputs/**/*.aab
     publishing:
       email:
         recipients:
