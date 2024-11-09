@@ -8,8 +8,6 @@ workflows:
     environment:
       vars:
         FLUTTER_VERSION: stable
-      groups:
-        - google_credentials
     scripts:
       - name: Setup Flutter SDK
         script: |
@@ -41,8 +39,6 @@ workflows:
     environment:
       vars:
         FLUTTER_VERSION: stable
-      groups:
-        - google_credentials
     scripts:
       - name: Setup the keystore
         script: |
