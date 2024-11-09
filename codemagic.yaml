@@ -1,10 +1,40 @@
 workflows:
+  develop:
+    name: Develop Branch Workflow
+    triggering:
+      events:
+      - pull_request
+      cancel_previous_builds: true
+    environment:
+      vars:
+        FLUTTER_VERSION: stable
+    scripts:
+      - name: Setup Flutter SDK
+        script: |
+          export PATH="$PATH:/opt/flutter/bin"
+          flutter --version
+      - name: Clean the project
+        script: |
+          flutter clean
+      - name: Install dependencies
+        script: |
+          flutter pub get
+      - name: Check Code Formatting
+        script: |
+          dart format . --set-exit-if-changed
+      - name: Run Flutter Tests with Coverage
+        script: |
+          flutter test --coverage
+      - name: Run Dart Analyze
+        script: |
+          flutter analyze
+
   master:
     name: Master Branch Workflow
     max_build_duration: 30
     triggering:
       events:
-        - pull_request
+      - pull_request
       cancel_previous_builds: true
     environment:
       vars:
@@ -13,18 +43,7 @@ workflows:
       - name: Setup the keystore
         script: |
           echo $KEYSTORE_FILE | base64 --decode > /tmp/keystore.jks
-          
-          if [ ! -f /tmp/keystore.jks ]; then
-            echo "Erro: Keystore file não foi criado corretamente."
-            exit 1
-          fi
-
-          keytool -list -v -keystore /tmp/keystore.jks -storepass $CM_KEYSTORE_PASSWORD || {
-            echo "Erro: Keystore inválido ou senha incorreta."
-            exit 1
-          }
-
-          cat > "$CM_BUILD_DIR/android/key.properties" <<EOF
+          cat > "$CM_BUILD_DIR/android/key.properties" << EOF
           storePassword=$CM_KEYSTORE_PASSWORD
           keyPassword=$CM_KEY_PASSWORD
           keyAlias=upload
