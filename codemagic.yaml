@@ -37,6 +37,8 @@ workflows:
       - pull_request
       cancel_previous_builds: true
     environment:
+      groups:
+        - keystore_credentials
       vars:
         FLUTTER_VERSION: stable
     scripts:
