@@ -97,7 +97,7 @@ void main() {
           await _createWidget(tester);
 
           state.add(
-            FavoriteAddressState(
+            const FavoriteAddressState(
               message: AppStrings.successZipFavoriteText,
             ),
           );
@@ -126,7 +126,7 @@ void main() {
           await _createWidget(tester);
 
           state.add(
-            ErrorEmptyZipState(
+            const ErrorEmptyZipState(
               errorEmptyMessage: AppStrings.zipCodeEmptyErrorMessageText,
             ),
           );
@@ -155,7 +155,7 @@ void main() {
           await _createWidget(tester);
 
           state.add(
-            ErrorSearchZipState(
+            const ErrorSearchZipState(
               errorMessage: AppStrings.zipCodeInvalidErrorMessageText,
             ),
           );
@@ -185,7 +185,7 @@ void main() {
           await _createWidget(tester);
 
           state.add(
-            ErrorAlreadyFavotiteZipState(
+            const ErrorAlreadyFavotiteZipState(
               errorMessage: AppStrings.alreadyFavoritedZipCodeText,
             ),
           );

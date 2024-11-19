@@ -68,7 +68,7 @@ void main() {
       act: (cubit) => cubit.searchZip(zipCode: ''),
       expect: () => <SearchState>[
         LoadingSearchState(),
-        ErrorEmptyZipState(
+        const ErrorEmptyZipState(
             errorEmptyMessage: AppStrings.zipCodeEmptyErrorMessageText)
       ],
     );
@@ -91,7 +91,7 @@ void main() {
       act: (cubit) => cubit.searchZip(zipCode: 'zipCode'),
       expect: () => <SearchState>[
         LoadingSearchState(),
-        ErrorSearchZipState(
+        const ErrorSearchZipState(
           errorMessage: AppStrings.zipCodeInvalidErrorMessageText,
         )
       ],
@@ -114,7 +114,7 @@ void main() {
       },
       act: (cubit) => cubit.addToFavorites(_address),
       expect: () => <SearchState>[
-        ErrorAlreadyFavotiteZipState(
+        const ErrorAlreadyFavotiteZipState(
           errorMessage: AppStrings.alreadyFavoritedZipCodeText,
         )
       ],
@@ -144,7 +144,7 @@ void main() {
       },
       act: (cubit) => cubit.addToFavorites(_address),
       expect: () => <SearchState>[
-        FavoriteAddressState(
+        const FavoriteAddressState(
           message: AppStrings.successZipFavoriteText,
         ),
       ],

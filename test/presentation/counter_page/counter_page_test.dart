@@ -102,7 +102,7 @@ void main() {
         .thenAnswer((_) async => 2);
 
     when(() => searchZipCubit.state).thenReturn(
-        (FavoriteAddressState(message: 'CEP favoritado com sucesso!')));
+        (const FavoriteAddressState(message: 'CEP favoritado com sucesso!')));
     when(() => searchZipCubit.counterFavZips).thenReturn(1);
     when(() => searchZipCubit.counterSearchedZips).thenReturn(2);
 
