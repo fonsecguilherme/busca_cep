@@ -66,7 +66,8 @@ void main() {
 
   // TODO: verify if functions were called
   testWidgets('Find if functions were called after tap button', (tester) async {
-    when(() => searchZipCubit.state).thenReturn(const SuccessSearchState(_address));
+    when(() => searchZipCubit.state)
+        .thenReturn(const SuccessSearchState(_address));
 
     when(() => searchZipCubit.addToFavorites(_address)).thenAnswer(
       (_) async => Future.value(),
