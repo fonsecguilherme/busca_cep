@@ -1,13 +1,13 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:zip_search/core/commons/analytics_events.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
-import 'package:zip_search/core/widgets/custom_elevated_button.dart';
 import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
 import 'package:zip_search/presentation/search_page/cubit/search_state.dart';
+
+import 'multiple_address_widget.dart';
+import 'single_address_widget.dart';
 
 class InitialWidget extends StatefulWidget {
   final FirebaseAnalytics analytics;
@@ -23,85 +23,55 @@ class InitialWidget extends StatefulWidget {
 class _InitialWidgetState extends State<InitialWidget> {
   SearchCubit get cubit => context.read<SearchCubit>();
 
-  late TextEditingController _zipController;
+  late List<String> states;
 
   @override
   void initState() {
     super.initState();
-    _zipController = TextEditingController();
+    states = cubit.getBrStates();
   }
 
   @override
-  Widget build(BuildContext context) => Column(
-        key: InitialWidget.initialWidgetKey,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            AppStrings.searchPageMessage,
-            style: Theme.of(context).textTheme.titleSmall,
-          ),
-          const SizedBox(height: 12),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: TextField(
-              maxLength: 8,
-              controller: _zipController,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-              ],
-              onEditingComplete: () {
-                widget.analytics.logEvent(
-                  name: SearchPageEvents.searchPageButton,
-                );
-                cubit.searchZip(zipCode: _zipController.text);
-                _zipController.clear();
-              },
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                contentPadding: const EdgeInsets.all(16.0),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                  borderSide: BorderSide(
-                    color: Theme.of(context).colorScheme.outline,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                  borderSide: BorderSide(
-                    color: Theme.of(context).colorScheme.outline,
-                    width: 2.0,
-                  ),
-                ),
-                filled: true,
-                hintStyle: const TextStyle(color: Colors.grey),
-                hintText: AppStrings.textFieldText,
+  Widget build(BuildContext context) => BlocBuilder<SearchCubit, SearchState>(
+        builder: (context, state) {
+          return Column(
+            key: InitialWidget.initialWidgetKey,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                AppStrings.searchPageMessage,
               ),
-            ),
-          ),
-          BlocBuilder<SearchCubit, SearchState>(
-            builder: (BuildContext context, SearchState state) {
-              if (state is LoadingSearchState) {
-                return const CircularProgressIndicator();
+              const SizedBox(height: 8.0),
+              SegmentedButton<SearchOptions>(
+                segments: const [
+                  ButtonSegment(
+                    value: SearchOptions.zip,
+                    label: Text(AppStrings.zipText),
+                    icon: Icon(CupertinoIcons.home),
+                  ),
+                  ButtonSegment(
+                    value: SearchOptions.address,
+                    label: Text(AppStrings.addressText),
+                    icon: Icon(CupertinoIcons.home),
+                  ),
+                ],
+                selected: {state.selectedOption},
+                onSelectionChanged: (Set<SearchOptions> newSelection) =>
+                    cubit.toggleOption(),
+              ),
+              switch (state.selectedOption) {
+                SearchOptions.zip => SingleAddressWidget(
+                    analytics: widget.analytics,
+                    cubit: cubit,
+                  ),
+                SearchOptions.address => MultipleAddressWidget(
+                    analytics: widget.analytics,
+                    cubit: cubit,
+                    states: states,
+                  ),
               }
-              return CustomElevatedButton(
-                onTap: () {
-                  widget.analytics.logEvent(
-                    name: SearchPageEvents.searchPageButton,
-                  );
-                  cubit.searchZip(zipCode: _zipController.text);
-                  _zipController.clear();
-                },
-                icon: CupertinoIcons.search,
-                title: AppStrings.searchPagebuttonText,
-              );
-            },
-          ),
-        ],
+            ],
+          );
+        },
       );
-
-  @override
-  void dispose() {
-    _zipController.dispose();
-    super.dispose();
-  }
 }
