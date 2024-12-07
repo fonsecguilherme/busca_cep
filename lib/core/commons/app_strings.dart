@@ -74,4 +74,7 @@ class AppStrings {
 
   //SnackBar text
   static const snackBarOkText = 'OK';
+
+  //Logs texts
+  static const seachedZipLog = 'CEP procurado:';
 }
