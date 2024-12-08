@@ -9,13 +9,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
+import 'package:zip_search/core/model/address_model.dart';
+import 'package:zip_search/data/shared_services.dart';
 import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
 import 'package:zip_search/presentation/search_page/cubit/search_state.dart';
 import 'package:zip_search/presentation/search_page/search_page.dart';
 import 'package:zip_search/presentation/search_page/widgets/initial_widget.dart';
 import 'package:zip_search/presentation/search_page/widgets/success_widget.dart';
-import 'package:zip_search/core/model/address_model.dart';
-import 'package:zip_search/data/shared_services.dart';
 
 import '../../firebase_mock.dart';
 
@@ -48,6 +48,8 @@ void main() {
     );
     getItTest.registerLazySingleton(() => FirebaseAnalytics.instance);
     registerFallbackValue(_addressModel);
+
+    when(() => searchZipCubit.getBrStates()).thenReturn([]);
   });
 
   tearDown(
@@ -55,7 +57,7 @@ void main() {
   );
 
   testWidgets('Find inital widgets when state is inital', (tester) async {
-    when(() => searchZipCubit.state).thenReturn(InitialSearchState());
+    when(() => searchZipCubit.state).thenReturn(const InitialSearchState());
 
     await _createWidget(tester);
 
@@ -91,7 +93,7 @@ void main() {
           whenListen(
             searchZipCubit,
             state.stream,
-            initialState: InitialSearchState(),
+            initialState: const InitialSearchState(),
           );
 
           await _createWidget(tester);
@@ -120,7 +122,7 @@ void main() {
           whenListen(
             searchZipCubit,
             state.stream,
-            initialState: InitialSearchState(),
+            initialState: const InitialSearchState(),
           );
 
           await _createWidget(tester);
@@ -149,7 +151,7 @@ void main() {
           whenListen(
             searchZipCubit,
             state.stream,
-            initialState: InitialSearchState(),
+            initialState: const InitialSearchState(),
           );
 
           await _createWidget(tester);
@@ -179,7 +181,7 @@ void main() {
           whenListen(
             searchZipCubit,
             state.stream,
-            initialState: InitialSearchState(),
+            initialState: const InitialSearchState(),
           );
 
           await _createWidget(tester);

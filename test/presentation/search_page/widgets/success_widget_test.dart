@@ -25,6 +25,8 @@ void main() {
   setUp(() {
     searchZipCubit = MockSearchZipCubit();
     analytics = MockTracker();
+
+    when(() => searchZipCubit.getBrStates()).thenReturn([]);
   });
 
   testWidgets('Should show address after', (tester) async {
