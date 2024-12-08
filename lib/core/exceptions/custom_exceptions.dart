@@ -15,3 +15,12 @@ class EmptyZipException implements Exception {
   @override
   String toString() => message;
 }
+
+class InvalidAddressException implements Exception {
+  final String message;
+
+  InvalidAddressException(this.message);
+
+  @override
+  String toString() => message;
+}

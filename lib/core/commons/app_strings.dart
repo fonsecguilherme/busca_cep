@@ -28,10 +28,14 @@ class AppStrings {
   //Search page
   static const String textFieldText = 'Somente números =)';
   static const String searchPageMessage =
-      'Digite o CEP que você deseja procurar:';
+      'Selecione de qual maneira você quer procurar o endereço:';
   static const String searchPagebuttonText = 'Buscar CEP!';
-  static const String addressText = 'Endereço:';
+  static const String addressText = 'Endereço';
   static const String addToFavoritesButton = 'Adicionar aos favoritos';
+  static const String zipText = 'CEP';
+  static const String resultsAppBarText = 'Resultados';
+  static const String favoritedAddressList =
+      'Se dirija a tela de favoritos para desfavoritar esse endereço.';
 
   //Welcome page
   static const String welcomePageItemTitle01 = 'Seja bem vindo ao Busca CEP!';
@@ -74,4 +78,7 @@ class AppStrings {
 
   //SnackBar text
   static const snackBarOkText = 'OK';
+
+  //Logs texts
+  static const seachedZipLog = 'CEP procurado:';
 }

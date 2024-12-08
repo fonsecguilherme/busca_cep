@@ -27,4 +27,29 @@ class ViaCepRepositoryImp implements IViaCepRepository {
           'Error when trying to access API. Status code: ${response.statusCode}');
     }
   }
+
+  @override
+  Future<List<AddressModel>?> fetchAddressList({
+    required String address,
+    required String state,
+    required String city,
+  }) async {
+    final String url = 'https://viacep.com.br/ws/$state/$city/$address/json/';
+
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      final body = jsonDecode(response.body);
+
+      final List<AddressModel> addressList = (body as List)
+          .map((e) => AddressModel.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+      return addressList;
+    } else if (response.statusCode == 400) {
+      throw InvalidAddressException('Invalid address');
+    } else {
+      throw Exception('Unexpected server error.');
+    }
+  }
 }
