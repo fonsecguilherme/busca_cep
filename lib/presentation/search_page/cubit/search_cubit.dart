@@ -10,6 +10,7 @@ import '../../../core/commons/logger_helper.dart';
 import '../../../core/exceptions/custom_exceptions.dart';
 import '../../../core/model/favorite_model.dart';
 
+
 class SearchCubit extends Cubit<SearchState> {
   SearchCubit({
     required this.viaCepRepository,
@@ -109,8 +110,34 @@ class SearchCubit extends Cubit<SearchState> {
     } on Exception catch (e, stacktrace) {
       LoggerHelper.error(e.toString());
       LoggerHelper.error(stacktrace.toString());
+      
+      final (data: result, error: error) =
+          await viaCepRepository.fetchAddress(zipCode);
 
-      emit(ErrorSearchZipState(errorMessage: e.toString()));
+      if (error is EmptyZipFailure) {
+        log(error.message);
+        emit(ErrorEmptyZipState(
+            errorEmptyMessage: AppStrings.zipCodeEmptyErrorMessageText));
+        return;
+      }
+
+      if (error is InvalidZipFailure) {
+        log(error.message);
+        emit(ErrorSearchZipState(
+            errorMessage: AppStrings.zipCodeInvalidErrorMessageText));
+        return;
+      }
+      counterSearchedZips += 1;
+      await sharedServices.saveInt(
+          SharedPreferencesKeys.counterSearchedZipsKeys, counterSearchedZips);
+
+      return emit(SuccessSearchState(result!));
+    } catch (error, stacktrace) {
+      log(stacktrace.toString());
+      log(error.toString());
+
+
+      emit(ErrorSearchZipState(errorMessage: error.toString()));
     }
   }
 

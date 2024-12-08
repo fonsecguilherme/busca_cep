@@ -1,0 +1,81 @@
+workflows:
+  develop:
+    name: Develop Branch Workflow
+    triggering:
+      events:
+      - pull_request
+      cancel_previous_builds: true
+    environment:
+      vars:
+        FLUTTER_VERSION: stable
+    scripts:
+      - name: Setup Flutter SDK
+        script: |
+          export PATH="$PATH:/opt/flutter/bin"
+          flutter --version
+      - name: Clean the project
+        script: |
+          flutter clean
+      - name: Install dependencies
+        script: |
+          flutter pub get
+      - name: Check Code Formatting
+        script: |
+          dart format . --set-exit-if-changed
+      - name: Run Flutter Tests with Coverage
+        script: |
+          flutter test --coverage
+      - name: Run Dart Analyze
+        script: |
+          flutter analyze
+
+  master:
+    name: Master Branch Workflow
+    max_build_duration: 30
+    triggering:
+      events:
+      - pull_request
+      cancel_previous_builds: true
+    environment:
+      groups:
+        - keystore_credentials
+      vars:
+        FLUTTER_VERSION: stable
+    scripts:
+      - name: Setup the keystore
+        script: |
+          echo $KEYSTORE_FILE | base64 --decode > /tmp/keystore.jks
+          cat > "$CM_BUILD_DIR/android/key.properties" << EOF
+          storePassword=$CM_KEYSTORE_PASSWORD
+          keyPassword=$CM_KEY_PASSWORD
+          keyAlias=upload
+          storeFile=/tmp/keystore.jks
+          EOF
+      - name: Setup Flutter SDK
+        script: |
+          export PATH="$PATH:/opt/flutter/bin"
+          flutter --version
+      - name: Clean the project
+        script: |
+          flutter clean
+      - name: Install dependencies
+        script: |
+          flutter pub get
+      - name: Check Code Formatting
+        script: |
+          dart format . --set-exit-if-changed
+      - name: Run Flutter Tests with Coverage
+        script: |
+          flutter test --coverage
+      - name: Run Dart Analyze
+        script: |
+          flutter analyze
+      - name: Build Production App Bundle
+        script: |
+          flutter build appbundle --release --flavor prod -t lib/main_prod.dart
+    artifacts:
+      - build/**/outputs/**/*.aab
+    publishing:
+      email:
+        recipients:
+          - devramosguilherme41@gmail.com
