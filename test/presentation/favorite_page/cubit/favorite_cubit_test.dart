@@ -40,7 +40,7 @@ void main() {
     },
     act: (cubit) => cubit.loadFavoriteAdresses(),
     expect: () => <FavoriteState>[
-      InitialFavoriteState(),
+      const InitialFavoriteState(),
     ],
   );
 
@@ -74,8 +74,8 @@ void main() {
     },
     act: (cubit) => cubit.deleteAddress(_address),
     expect: () => <FavoriteState>[
-      DeletedFavoriteZipState(AppStrings.deletedFavoriteZipText),
-      InitialFavoriteState()
+      const DeletedFavoriteZipState(AppStrings.deletedFavoriteZipText),
+      const InitialFavoriteState()
     ],
   );
 
@@ -95,7 +95,7 @@ void main() {
     },
     act: (cubit) => cubit.deleteAddress(_address),
     expect: () => <FavoriteState>[
-      DeletedFavoriteZipState(AppStrings.deletedFavoriteZipText),
+      const DeletedFavoriteZipState(AppStrings.deletedFavoriteZipText),
       LoadFavoriteZipState(_removedAdressesList),
     ],
   );
@@ -122,7 +122,7 @@ void main() {
       act: (cubit) =>
           cubit.createTag(favoriteAddress: _address, tag: 'busca cep'),
       expect: () => <FavoriteState>[
-        AddedTagZipState(AppStrings.addTagSuccessText, const ['busca cep']),
+        const AddedTagZipState(AppStrings.addTagSuccessText, ['busca cep']),
         LoadFavoriteZipState([
           _address.copyWith(tags: ['busca cep'])
         ])
@@ -152,7 +152,7 @@ void main() {
           favoriteAddress: _address.copyWith(tags: ['busca cep']),
           tag: 'busca cep'),
       expect: () => <FavoriteState>[
-        RemovedTagZipState(AppStrings.addTagSuccessText, const []),
+        const RemovedTagZipState(AppStrings.addTagSuccessText, []),
         LoadFavoriteZipState([_address.copyWith(tags: [])])
       ],
     );

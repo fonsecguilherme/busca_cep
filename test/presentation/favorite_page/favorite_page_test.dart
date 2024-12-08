@@ -50,7 +50,7 @@ void main() {
         (_) async => Future.value(),
       );
 
-      when(() => favoriteCubit.state).thenReturn(InitialFavoriteState());
+      when(() => favoriteCubit.state).thenReturn(const InitialFavoriteState());
 
       await _createWidget(tester);
 
@@ -123,12 +123,13 @@ void main() {
         whenListen<FavoriteState>(
           favoriteCubit,
           state.stream,
-          initialState: InitialFavoriteState(),
+          initialState: const InitialFavoriteState(),
         );
 
         await _createWidget(tester);
 
-        state.add(DeletedFavoriteZipState(AppStrings.deletedFavoriteZipText));
+        state.add(
+            const DeletedFavoriteZipState(AppStrings.deletedFavoriteZipText));
 
         await tester.pump();
         await tester.pump();
