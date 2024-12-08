@@ -20,10 +20,12 @@ void main() {
   setUp(() {
     searchZipCubit = MockSearchZipCubit();
     analytics = MockTracker();
+
+    when(() => searchZipCubit.getBrStates()).thenReturn([]);
   });
 
   testWidgets('Find inital widget when app loads', (tester) async {
-    when(() => searchZipCubit.state).thenReturn(InitialSearchState());
+    when(() => searchZipCubit.state).thenReturn(const InitialSearchState());
 
     await _createWidget(tester);
 

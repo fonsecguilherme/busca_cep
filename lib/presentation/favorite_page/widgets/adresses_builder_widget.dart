@@ -7,12 +7,13 @@ import 'package:share_plus/share_plus.dart';
 import 'package:zip_search/core/commons/analytics_events.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/extensions.dart';
+import 'package:zip_search/core/model/favorite_model.dart';
 import 'package:zip_search/presentation/favorite_page/cubit/favorite_cubit.dart';
 import 'package:zip_search/presentation/favorite_page/favorite_page.dart';
-import 'package:zip_search/core/model/address_model.dart';
+import 'package:zip_search/presentation/favorite_page/widgets/tag_builder_widget.dart';
 
 class AdressesBuilderWidget extends StatelessWidget {
-  final List<AddressModel> addressList;
+  final List<FavoriteModel> addressList;
   final FavoriteCubit favoritesCubit;
   final FirebaseAnalytics analytics;
 
@@ -46,7 +47,7 @@ class AdressesBuilderWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        address.cep,
+                        address.addressModel.cep,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
@@ -58,10 +59,10 @@ class AdressesBuilderWidget extends StatelessWidget {
                               name:
                                   FavoritesPageEvents.favoritesPageDeleteButton,
                               parameters: <String, String>{
-                                'zip': address.cep,
-                                'ddd': address.ddd,
-                                'address': address.logradouro,
-                                'state': address.uf,
+                                'zip': address.addressModel.cep,
+                                'ddd': address.addressModel.ddd,
+                                'address': address.addressModel.logradouro,
+                                'state': address.addressModel.uf,
                               });
 
                           _showAdaptiveDialog(
@@ -101,8 +102,17 @@ class AdressesBuilderWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Expanded(
-                        child: Text(
-                          ''.favoriteCardAddressFormat(address),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              ''.favoriteCardAddressFormat(
+                                address.addressModel,
+                              ),
+                            ),
+                            const SizedBox(height: 6.0),
+                            CardTagsWidget(favoriteAddress: address),
+                          ],
                         ),
                       ),
                       IconButton(
@@ -111,14 +121,14 @@ class AdressesBuilderWidget extends StatelessWidget {
                               name:
                                   FavoritesPageEvents.favoritesPageShareButton,
                               parameters: <String, String>{
-                                'zip': address.cep,
-                                'ddd': address.ddd,
-                                'address': address.logradouro,
-                                'state': address.uf,
+                                'zip': address.addressModel.cep,
+                                'ddd': address.addressModel.ddd,
+                                'address': address.addressModel.logradouro,
+                                'state': address.addressModel.uf,
                               });
 
                           Share.share(
-                            ''.favoriteCardAddressFormat(address),
+                            ''.favoriteCardAddressFormat(address.addressModel),
                             subject: AppStrings.modalTitle,
                           );
                         },

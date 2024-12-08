@@ -2,9 +2,9 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/extensions.dart';
+import 'package:zip_search/core/model/address_model.dart';
 import 'package:zip_search/presentation/search_page/widgets/add_favorites_button.dart';
 import 'package:zip_search/presentation/search_page/widgets/initial_widget.dart';
-import 'package:zip_search/core/model/address_model.dart';
 
 class SuccessWidget extends StatelessWidget {
   final AddressModel address;
@@ -36,7 +36,7 @@ class SuccessWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    AppStrings.addressText,
+                    '${AppStrings.addressText}:',
                     style: TextStyle(
                       fontSize: 16,
                       color: Theme.of(context).colorScheme.primary,

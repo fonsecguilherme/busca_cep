@@ -22,7 +22,7 @@ import '../../../firebase_mock.dart';
 class MockSearchZipCubit extends MockCubit<SearchState>
     implements SearchCubit {}
 
-class MockFavoritesCubit extends MockCubit<FavoritesState>
+class MockFavoritesCubit extends MockCubit<FavoriteState>
     implements FavoriteCubit {}
 
 class MockSharedServices extends Mock implements SharedServices {}
@@ -66,7 +66,8 @@ void main() {
 
   // TODO: verify if functions were called
   testWidgets('Find if functions were called after tap button', (tester) async {
-    when(() => searchZipCubit.state).thenReturn(SuccessSearchState(_address));
+    when(() => searchZipCubit.state)
+        .thenReturn(const SuccessSearchState(_address));
 
     when(() => searchZipCubit.addToFavorites(_address)).thenAnswer(
       (_) async => Future.value(),

@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
+import 'package:zip_search/core/widgets/focus_widget.dart';
+import 'package:zip_search/domain/repositories/via_cep_repository.dart';
 import 'package:zip_search/presentation/counter_page/counter_page.dart';
 import 'package:zip_search/presentation/favorite_page/cubit/favorite_cubit.dart';
 import 'package:zip_search/presentation/favorite_page/cubit/favorite_state.dart';
@@ -11,11 +13,10 @@ import 'package:zip_search/presentation/navigation_page/cubit/navigation_cubit.d
 import 'package:zip_search/presentation/navigation_page/cubit/navigation_state.dart';
 import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
 import 'package:zip_search/presentation/search_page/search_page.dart';
-import 'package:zip_search/domain/repositories/via_cep_repository.dart';
 
-import '../../data/shared_services.dart';
 import '../../core/commons/analytics_events.dart';
 import '../../core/di/setup_locator.dart';
+import '../../data/shared_services.dart';
 
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});
@@ -34,7 +35,6 @@ class _NavigationPageState extends State<NavigationPage> {
     favoritesCubit.loadFavoriteAdresses();
   }
 
-  //TODO: Ao invés de criar essa instância, injetar via o bloc provider
   FavoriteCubit get favoritesCubit => context.read<FavoriteCubit>();
 
   final repository = getIt<IViaCepRepository>();
@@ -55,12 +55,14 @@ class _NavigationPageState extends State<NavigationPage> {
           create: (context) => NavigationCubit(),
         ),
       ],
-      child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        bottomNavigationBar: _BottomNaVigationBarWidget(
-          analytics: analytics,
+      child: FocusWidget(
+        child: Scaffold(
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          bottomNavigationBar: _BottomNaVigationBarWidget(
+            analytics: analytics,
+          ),
+          body: SafeArea(child: _body()),
         ),
-        body: SafeArea(child: _body()),
       ),
     );
   }
@@ -103,7 +105,7 @@ class _BottomNaVigationBarWidget extends StatelessWidget {
             ),
             NavigationDestination(
               icon: Badge(
-                label: BlocBuilder<FavoriteCubit, FavoritesState>(
+                label: BlocBuilder<FavoriteCubit, FavoriteState>(
                   builder: (_, state) {
                     switch (state) {
                       case LoadFavoriteZipState s:
