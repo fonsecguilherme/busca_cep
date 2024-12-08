@@ -9,7 +9,7 @@ import '../../../core/commons/app_strings.dart';
 class FavoriteCubit extends Cubit<FavoriteState> {
   FavoriteCubit({
     required this.sharedServices,
-  }) : super(InitialFavoriteState());
+  }) : super(const InitialFavoriteState());
 
   final SharedServices sharedServices;
   List<FavoriteModel> addressList = [];
@@ -19,7 +19,7 @@ class FavoriteCubit extends Cubit<FavoriteState> {
         await sharedServices.getListString(SharedPreferencesKeys.savedAdresses);
 
     if (addressList.isEmpty) {
-      emit(InitialFavoriteState());
+      emit(const InitialFavoriteState());
       return;
     }
 
@@ -36,9 +36,9 @@ class FavoriteCubit extends Cubit<FavoriteState> {
     await sharedServices.saveListString(
         SharedPreferencesKeys.savedAdresses, addressList);
 
-    emit(DeletedFavoriteZipState(AppStrings.deletedFavoriteZipText));
+    emit(const DeletedFavoriteZipState(AppStrings.deletedFavoriteZipText));
     if (addressList.isEmpty) {
-      emit(InitialFavoriteState());
+      emit(const InitialFavoriteState());
       return;
     }
     emit(LoadFavoriteZipState(addressList));

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/shared_preferences_keys.dart';
@@ -8,6 +6,7 @@ import 'package:zip_search/data/shared_services.dart';
 import 'package:zip_search/domain/repositories/via_cep_repository.dart';
 import 'package:zip_search/presentation/search_page/cubit/search_state.dart';
 
+import '../../../core/commons/logger_helper.dart';
 import '../../../core/exceptions/custom_exceptions.dart';
 import '../../../core/model/favorite_model.dart';
 
@@ -15,7 +14,7 @@ class SearchCubit extends Cubit<SearchState> {
   SearchCubit({
     required this.viaCepRepository,
     required this.sharedServices,
-  }) : super(InitialSearchState());
+  }) : super(const InitialSearchState());
 
   final SharedServices sharedServices;
   final IViaCepRepository viaCepRepository;
@@ -34,25 +33,82 @@ class SearchCubit extends Cubit<SearchState> {
     try {
       final address = await viaCepRepository.fetchAddress(zipCode);
 
+      LoggerHelper.debug('${AppStrings.seachedZipLog} $zipCode');
+
       if (address != null) {
         counterSearchedZips += 1;
         await sharedServices.saveInt(
             SharedPreferencesKeys.counterSearchedZipsKeys, counterSearchedZips);
+        LoggerHelper.debug(address.toString());
         emit(SuccessSearchState(address));
       }
     } on EmptyZipException catch (e) {
-      log(e.toString());
+      LoggerHelper.error(e.message);
 
-      emit(ErrorEmptyZipState(
+      emit(const ErrorEmptyZipState(
           errorEmptyMessage: AppStrings.zipCodeEmptyErrorMessageText));
     } on InvalidZipException catch (e) {
-      log(e.toString());
+      LoggerHelper.error(e.message);
 
-      emit(ErrorSearchZipState(
+      emit(const ErrorSearchZipState(
           errorMessage: AppStrings.zipCodeInvalidErrorMessageText));
     } on Exception catch (e, stacktrace) {
-      log(stacktrace.toString());
-      log(e.toString());
+      LoggerHelper.error(e.toString());
+      LoggerHelper.error(stacktrace.toString());
+
+      emit(ErrorSearchZipState(errorMessage: e.toString()));
+    }
+  }
+
+  Future<void> searchAddress({
+    required String address,
+    required String city,
+    required String state,
+  }) async {
+    counterSearchedZips = await sharedServices
+            .getInt(SharedPreferencesKeys.counterSearchedZipsKeys) ??
+        counterSearchedZips;
+
+    state = state.split(' - ').last;
+
+    emit(LoadingSearchState());
+
+    if (city.length < 3 || address.length < 3) {
+      emit(const ErrorSearchZipState(
+          errorMessage: 'Ops, você precisa digitar ao menos 3 '
+              'letras nos campos de endereço ou cidade'));
+      return;
+    }
+
+    try {
+      final addressList = await viaCepRepository.fetchAddressList(
+        address: address,
+        state: state,
+        city: city,
+      );
+
+      if (addressList != null) {
+        addressList.sort(
+          (a, b) => a.cep.compareTo(b.cep),
+        );
+      }
+
+      LoggerHelper.debug(
+          'Foram retornados ${addressList?.length ?? 0} endereços');
+
+      if (addressList != null) {
+        counterSearchedZips += 1;
+        await sharedServices.saveInt(
+            SharedPreferencesKeys.counterSearchedZipsKeys, counterSearchedZips);
+        emit(SuccessAddressesSearchState(addressList));
+      }
+    } on InvalidAddressException catch (e) {
+      LoggerHelper.error(e.toString());
+
+      emit(ErrorSearchZipState(errorMessage: e.message));
+    } on Exception catch (e, stacktrace) {
+      LoggerHelper.error(e.toString());
+      LoggerHelper.error(stacktrace.toString());
 
       emit(ErrorSearchZipState(errorMessage: e.toString()));
     }
@@ -69,7 +125,7 @@ class SearchCubit extends Cubit<SearchState> {
         await sharedServices.getListString(SharedPreferencesKeys.savedAdresses);
 
     if (favoriteList.any((element) => element.addressModel == address)) {
-      emit(ErrorAlreadyFavotiteZipState(
+      emit(const ErrorAlreadyFavotiteZipState(
           errorMessage: AppStrings.alreadyFavoritedZipCodeText));
     } else {
       counterFavZips++;
@@ -82,9 +138,64 @@ class SearchCubit extends Cubit<SearchState> {
       await sharedServices.saveListString(
           SharedPreferencesKeys.savedAdresses, favoriteList);
 
-      emit(FavoriteAddressState(
+      emit(const FavoriteAddressState(
         message: AppStrings.successZipFavoriteText,
       ));
     }
+  }
+
+  Future<void> toggleOption() async {
+    final currentOption = state.selectedOption;
+
+    final newOption = currentOption == SearchOptions.address
+        ? SearchOptions.zip
+        : SearchOptions.address;
+
+    LoggerHelper.debug('Opção escolhida: ${currentOption.name}');
+
+    emit(InitialSearchState(searchOption: newOption));
+  }
+
+  List<String> getBrStates() {
+    const statesList = [
+      "Acre - AC",
+      "Alagoas - AL",
+      "Amapá - AP",
+      "Amazonas - AM",
+      "Bahia - BA",
+      "Ceará - CE",
+      "Distrito Federal - DF",
+      "Espírito Santo - ES",
+      "Goiás - GO",
+      "Maranhão - MA",
+      "Mato Grosso - MT",
+      "Mato Grosso do Sul - MS",
+      "Minas Gerais - MG",
+      "Pará - PA",
+      "Paraíba - PB",
+      "Paraná - PR",
+      "Pernambuco - PE",
+      "Piauí - PI",
+      "Rio de Janeiro - RJ",
+      "Rio Grande do Norte - RN",
+      "Rio Grande do Sul - RS",
+      "Rondônia - RO",
+      "Roraima - RR",
+      "Santa Catarina - SC",
+      "São Paulo - SP",
+      "Sergipe - SE",
+      "Tocantins - TO"
+    ];
+
+    return statesList;
+  }
+
+  bool isAddresslreadyFavorited({
+    required AddressModel address,
+    required List<FavoriteModel> addressList,
+  }) {
+    return addressList.any(
+      (stateAddress) => stateAddress.addressModel.cep == address.cep,
+    );
   }
 }

@@ -2,37 +2,39 @@ import 'package:equatable/equatable.dart';
 import 'package:zip_search/core/model/favorite_model.dart';
 
 sealed class FavoriteState extends Equatable {
-  @override
-  List<Object> get props => [];
-}
+  final List<FavoriteModel> addresses;
 
-final class InitialFavoriteState extends FavoriteState {}
-
-final class LoadFavoriteZipState extends FavoriteState {
-  late final List<FavoriteModel> addresses;
-
-  LoadFavoriteZipState(this.addresses);
+  const FavoriteState({this.addresses = const []});
 
   @override
   List<Object> get props => [addresses];
 }
 
+final class InitialFavoriteState extends FavoriteState {
+  const InitialFavoriteState({super.addresses = const []});
+}
+
+final class LoadFavoriteZipState extends FavoriteState {
+  const LoadFavoriteZipState(List<FavoriteModel> addresses)
+      : super(addresses: addresses);
+}
+
 final class DeletedFavoriteZipState extends FavoriteState {
   final String deletedMessage;
 
-  DeletedFavoriteZipState(this.deletedMessage);
+  const DeletedFavoriteZipState(this.deletedMessage);
 }
 
 final class AddedTagZipState extends FavoriteState {
   final List<String> tags;
   final String message;
 
-  AddedTagZipState(this.message, this.tags);
+  const AddedTagZipState(this.message, this.tags);
 }
 
 final class RemovedTagZipState extends FavoriteState {
   final List<String> tags;
   final String message;
 
-  RemovedTagZipState(this.message, this.tags);
+  const RemovedTagZipState(this.message, this.tags);
 }
