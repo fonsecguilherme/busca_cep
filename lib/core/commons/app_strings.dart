@@ -35,7 +35,7 @@ class AppStrings {
   static const String zipText = 'CEP';
   static const String resultsAppBarText = 'Resultados';
   static const String favoritedAddressList =
-      'Se dirija a tela de favoritos para remover um endereço';
+      'Se dirija a tela de favoritos para desfavoritar esse endereço.';
 
   //Welcome page
   static const String welcomePageItemTitle01 = 'Seja bem vindo ao Busca CEP!';
