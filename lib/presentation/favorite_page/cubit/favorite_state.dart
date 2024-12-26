@@ -15,6 +15,9 @@ final class InitialFavoriteState extends FavoriteState {
 }
 
 final class LoadFavoriteZipState extends FavoriteState {
+
+
+  
   const LoadFavoriteZipState(List<FavoriteModel> addresses)
       : super(addresses: addresses);
 }

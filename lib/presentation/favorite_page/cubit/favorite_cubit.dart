@@ -6,6 +6,8 @@ import 'package:zip_search/presentation/favorite_page/cubit/favorite_state.dart'
 
 import '../../../core/commons/app_strings.dart';
 
+enum AppBartype { defaultAppBar, searchAppBar }
+
 class FavoriteCubit extends Cubit<FavoriteState> {
   FavoriteCubit({
     required this.sharedServices,
@@ -13,6 +15,7 @@ class FavoriteCubit extends Cubit<FavoriteState> {
 
   final SharedServices sharedServices;
   List<FavoriteModel> addressList = [];
+  AppBartype appBarType = AppBartype.defaultAppBar;
 
   Future<void> loadFavoriteAdresses() async {
     addressList =
@@ -73,9 +76,31 @@ class FavoriteCubit extends Cubit<FavoriteState> {
 
       await sharedServices.saveListString(
           SharedPreferencesKeys.savedAdresses, addressList);
+
+      appBarType = AppBartype.defaultAppBar;
       emit(RemovedTagZipState(AppStrings.removeTagSuccessText, address.tags));
       emit(LoadFavoriteZipState(addressList));
       return;
     }
+  }
+
+  Future<void> filterAddresses({
+    required String query,
+  }) async {
+    final filteredList = addressList.where(
+      (element) {
+        return element.addressModel.cep.toLowerCase().contains(query) ||
+            element.addressModel.logradouro.toLowerCase().contains(query) ||
+            element.addressModel.complemento.toLowerCase().contains(query) ||
+            element.addressModel.bairro.toLowerCase().contains(query) ||
+            element.addressModel.localidade.toLowerCase().contains(query) ||
+            element.addressModel.uf.toLowerCase().contains(query) ||
+            element.addressModel.ddd.toLowerCase().contains(query);
+      },
+    ).toList();
+
+    appBarType = AppBartype.defaultAppBar;
+
+    emit(LoadFavoriteZipState(filteredList));
   }
 }

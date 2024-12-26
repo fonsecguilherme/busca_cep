@@ -1,16 +1,13 @@
-import 'dart:io';
-
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:zip_search/core/commons/analytics_events.dart';
-import 'package:zip_search/core/commons/app_strings.dart';
-import 'package:zip_search/core/commons/extensions.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/model/favorite_model.dart';
 import 'package:zip_search/presentation/favorite_page/cubit/favorite_cubit.dart';
 import 'package:zip_search/presentation/favorite_page/favorite_page.dart';
-import 'package:zip_search/presentation/favorite_page/widgets/tag_builder_widget.dart';
+
+import '../cubit/favorite_state.dart';
+import 'custom_favorite_card.dart';
 
 class AdressesBuilderWidget extends StatelessWidget {
   final List<FavoriteModel> addressList;
@@ -26,150 +23,117 @@ class AdressesBuilderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      key: FavoritePage.loadedFavoriteAdressesKey,
-      itemCount: addressList.length,
-      itemBuilder: (context, index) {
-        final address = addressList.elementAt(index);
-        return Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 8.0,
-            horizontal: 16.0,
+    return BlocBuilder<FavoriteCubit, FavoriteState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: _CustomSearchAppBar(
+            favoritesCubit: favoritesCubit,
           ),
-          child: Card(
-            elevation: 8,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        address.addressModel.cep,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          analytics.logEvent(
-                              name:
-                                  FavoritesPageEvents.favoritesPageDeleteButton,
-                              parameters: <String, String>{
-                                'zip': address.addressModel.cep,
-                                'ddd': address.addressModel.ddd,
-                                'address': address.addressModel.logradouro,
-                                'state': address.addressModel.uf,
-                              });
-
-                          _showAdaptiveDialog(
-                            context,
-                            title: const Text(AppStrings.dialogTitleText),
-                            content: const Text(
-                              AppStrings.dialogContentText,
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: const Text(AppStrings.cancelText),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  favoritesCubit.deleteAddress(
-                                    address,
-                                  );
-                                  Navigator.pop(context);
-                                },
-                                child: const Text(AppStrings.okText),
-                              ),
-                            ],
-                          );
-                        },
-                        icon: InkWell(
-                          child: Icon(
-                            CupertinoIcons.delete,
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              ''.favoriteCardAddressFormat(
-                                address.addressModel,
-                              ),
-                            ),
-                            const SizedBox(height: 6.0),
-                            CardTagsWidget(favoriteAddress: address),
-                          ],
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          analytics.logEvent(
-                              name:
-                                  FavoritesPageEvents.favoritesPageShareButton,
-                              parameters: <String, String>{
-                                'zip': address.addressModel.cep,
-                                'ddd': address.addressModel.ddd,
-                                'address': address.addressModel.logradouro,
-                                'state': address.addressModel.uf,
-                              });
-
-                          Share.share(
-                            ''.favoriteCardAddressFormat(address.addressModel),
-                            subject: AppStrings.modalTitle,
-                          );
-                        },
-                        icon: Icon(
-                          CupertinoIcons.share,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
+          body: ListView.builder(
+            key: FavoritePage.loadedFavoriteAdressesKey,
+            itemCount: state.addresses.length,
+            itemBuilder: (context, index) {
+              final address = addressList.elementAt(index);
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8.0,
+                  horizontal: 16.0,
+                ),
+                child: CustomFavoriteCardWidget(
+                  address: address,
+                  analytics: analytics,
+                  favoritesCubit: favoritesCubit,
+                ),
+              );
+            },
           ),
         );
       },
     );
   }
+}
 
-  void _showAdaptiveDialog(
-    context, {
-    required Text title,
-    required Text content,
-    required List<Widget> actions,
-  }) {
-    Platform.isIOS || Platform.isMacOS
-        ? showCupertinoDialog<String>(
-            context: context,
-            builder: (BuildContext context) => CupertinoAlertDialog(
-              title: title,
-              content: content,
-              actions: actions,
-            ),
-          )
-        : showDialog(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-              title: title,
-              content: content,
-              actions: actions,
-            ),
+class _CustomSearchAppBar extends StatefulWidget
+    implements PreferredSizeWidget {
+  final FavoriteCubit favoritesCubit;
+
+  const _CustomSearchAppBar({
+    required this.favoritesCubit,
+  });
+
+  @override
+  State<_CustomSearchAppBar> createState() => __CustomSearchAppBarState();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+class __CustomSearchAppBarState extends State<_CustomSearchAppBar> {
+  late AppBartype appBartype;
+  final TextEditingController _searchController = TextEditingController();
+
+  AppBar _buildDefaultAppBar() {
+    return AppBar(
+      actions: [
+        IconButton(
+          icon: const Icon(CupertinoIcons.search),
+          onPressed: () {
+            setState(() {
+              appBartype = AppBartype.searchAppBar;
+              _searchController.clear();
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  AppBar _buildSearchAppBar() {
+    return AppBar(
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () {
+          setState(() {
+            appBartype = AppBartype.defaultAppBar;
+            _searchController.clear();
+          });
+        },
+      ),
+      title: TextField(
+        controller: _searchController,
+        autofocus: true,
+        decoration: const InputDecoration(
+          hintText: 'Buscar...',
+          border: InputBorder.none,
+        ),
+        onChanged: (query) {
+          widget.favoritesCubit.filterAddresses(
+            query: query,
           );
+        },
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    appBartype = widget.favoritesCubit.appBarType;
+    setState(() {
+      appBartype = AppBartype.defaultAppBar;
+      _searchController.clear();
+      print('Conteúdo ${_searchController.text}');
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<FavoriteCubit, FavoriteState>(
+      builder: (context, state) {
+        return appBartype == AppBartype.searchAppBar
+            ? _buildSearchAppBar()
+            : _buildDefaultAppBar();
+      },
+    );
   }
 }
