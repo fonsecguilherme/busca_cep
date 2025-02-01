@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class AdressesBuilderWidget extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           appBar: _CustomSearchAppBar(
-            favoritesCubit: favoritesCubit,
+            favoriteCubit: favoritesCubit,
           ),
           body: ListView.builder(
             key: FavoritePage.loadedFavoriteAdressesKey,
@@ -55,10 +56,10 @@ class AdressesBuilderWidget extends StatelessWidget {
 
 class _CustomSearchAppBar extends StatefulWidget
     implements PreferredSizeWidget {
-  final FavoriteCubit favoritesCubit;
+  final FavoriteCubit favoriteCubit;
 
   const _CustomSearchAppBar({
-    required this.favoritesCubit,
+    required this.favoriteCubit,
   });
 
   @override
@@ -69,71 +70,106 @@ class _CustomSearchAppBar extends StatefulWidget
 }
 
 class __CustomSearchAppBarState extends State<_CustomSearchAppBar> {
-  late AppBartype appBartype;
   final TextEditingController _searchController = TextEditingController();
-
-  AppBar _buildDefaultAppBar() {
-    return AppBar(
-      actions: [
-        IconButton(
-          icon: const Icon(CupertinoIcons.search),
-          onPressed: () {
-            setState(() {
-              appBartype = AppBartype.searchAppBar;
-              _searchController.clear();
-            });
-          },
-        ),
-      ],
-    );
-  }
-
-  AppBar _buildSearchAppBar() {
-    return AppBar(
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back),
-        onPressed: () {
-          setState(() {
-            appBartype = AppBartype.defaultAppBar;
-            _searchController.clear();
-          });
-        },
-      ),
-      title: TextField(
-        controller: _searchController,
-        autofocus: true,
-        decoration: const InputDecoration(
-          hintText: 'Buscar...',
-          border: InputBorder.none,
-        ),
-        onChanged: (query) {
-          widget.favoritesCubit.filterAddresses(
-            query: query,
-          );
-        },
-      ),
-    );
-  }
 
   @override
   void initState() {
     super.initState();
-    appBartype = widget.favoritesCubit.appBarType;
-    setState(() {
-      appBartype = AppBartype.defaultAppBar;
-      _searchController.clear();
-      print('Conteúdo ${_searchController.text}');
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FavoriteCubit, FavoriteState>(
       builder: (context, state) {
-        return appBartype == AppBartype.searchAppBar
-            ? _buildSearchAppBar()
-            : _buildDefaultAppBar();
+        if (state is LoadFavoriteZipState) {
+          return state.appBarType == AppBarType.search
+              ? SearchAppBarWidget(
+                  favoriteCubit: widget.favoriteCubit,
+                  controller: _searchController,
+                )
+              : DefaultAppBar(
+                  favoriteCubit: widget.favoriteCubit,
+                  controller: _searchController,
+                );
+        } else {
+          return const Center(child: Text('deu ruim'));
+        }
       },
     );
   }
+}
+
+class DefaultAppBar extends StatefulWidget {
+  final FavoriteCubit favoriteCubit;
+  final TextEditingController controller;
+
+  const DefaultAppBar({
+    Key? key,
+    required this.favoriteCubit,
+    required this.controller,
+  }) : super(key: key);
+
+  @override
+  State<DefaultAppBar> createState() => _DefaultAppBarState();
+}
+
+class _DefaultAppBarState extends State<DefaultAppBar> {
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      actions: [
+        IconButton(
+          icon: const Icon(CupertinoIcons.search),
+          onPressed: () {
+            widget.favoriteCubit.toggleAppBar(
+              newAppBarType: AppBarType.search,
+            );
+            // widget.controller.clear();
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class SearchAppBarWidget extends StatefulWidget {
+  final FavoriteCubit favoriteCubit;
+  final TextEditingController controller;
+
+  const SearchAppBarWidget({
+    Key? key,
+    required this.favoriteCubit,
+    required this.controller,
+  }) : super(key: key);
+
+  @override
+  State<SearchAppBarWidget> createState() => _SearchAppBarWidgetState();
+}
+
+class _SearchAppBarWidgetState extends State<SearchAppBarWidget> {
+  @override
+  Widget build(BuildContext context) => AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            widget.favoriteCubit.toggleAppBar(
+              newAppBarType: AppBarType.normal,
+            );
+            // widget.controller.clear();
+          },
+        ),
+        title: TextField(
+          controller: widget.controller,
+          autofocus: true,
+          decoration: const InputDecoration(
+            hintText: 'Buscar...',
+            border: InputBorder.none,
+          ),
+          onChanged: (query) {
+            widget.favoriteCubit.filterAddresses(
+              query: query,
+            );
+          },
+        ),
+      );
 }

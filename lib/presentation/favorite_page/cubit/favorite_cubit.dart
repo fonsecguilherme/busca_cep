@@ -6,8 +6,6 @@ import 'package:zip_search/presentation/favorite_page/cubit/favorite_state.dart'
 
 import '../../../core/commons/app_strings.dart';
 
-enum AppBartype { defaultAppBar, searchAppBar }
-
 class FavoriteCubit extends Cubit<FavoriteState> {
   FavoriteCubit({
     required this.sharedServices,
@@ -15,7 +13,6 @@ class FavoriteCubit extends Cubit<FavoriteState> {
 
   final SharedServices sharedServices;
   List<FavoriteModel> addressList = [];
-  AppBartype appBarType = AppBartype.defaultAppBar;
 
   Future<void> loadFavoriteAdresses() async {
     addressList =
@@ -26,7 +23,7 @@ class FavoriteCubit extends Cubit<FavoriteState> {
       return;
     }
 
-    emit(LoadFavoriteZipState(addressList));
+    emit(LoadFavoriteZipState(addresses: addressList));
   }
 
   Future<void> deleteAddress(FavoriteModel address) async {
@@ -44,7 +41,10 @@ class FavoriteCubit extends Cubit<FavoriteState> {
       emit(const InitialFavoriteState());
       return;
     }
-    emit(LoadFavoriteZipState(addressList));
+
+    emit(const LoadFavoriteZipState().copyWith(
+      addresses: addressList,
+    ));
   }
 
   Future<void> createTag({
@@ -65,8 +65,14 @@ class FavoriteCubit extends Cubit<FavoriteState> {
       await sharedServices.saveListString(
           SharedPreferencesKeys.savedAdresses, addressList);
 
-      emit(AddedTagZipState(AppStrings.addTagSuccessText, address.tags));
-      emit(LoadFavoriteZipState(addressList));
+      emit(AddedTagZipState(
+        AppStrings.addTagSuccessText,
+        address.tags,
+      ));
+
+      emit(const LoadFavoriteZipState().copyWith(
+        addresses: addressList,
+      ));
       return;
     }
 
@@ -77,9 +83,11 @@ class FavoriteCubit extends Cubit<FavoriteState> {
       await sharedServices.saveListString(
           SharedPreferencesKeys.savedAdresses, addressList);
 
-      appBarType = AppBartype.defaultAppBar;
       emit(RemovedTagZipState(AppStrings.removeTagSuccessText, address.tags));
-      emit(LoadFavoriteZipState(addressList));
+
+      emit(const LoadFavoriteZipState().copyWith(
+        addresses: addressList,
+      ));
       return;
     }
   }
@@ -99,8 +107,16 @@ class FavoriteCubit extends Cubit<FavoriteState> {
       },
     ).toList();
 
-    appBarType = AppBartype.defaultAppBar;
+    emit(const LoadFavoriteZipState().copyWith(
+      filteredAddresses: filteredList,
+    ));
+  }
 
-    emit(LoadFavoriteZipState(filteredList));
+  Future<void> toggleAppBar({
+    required AppBarType newAppBarType,
+  }) async {
+    emit(const LoadFavoriteZipState().copyWith(
+      appBarType: newAppBarType,
+    ));
   }
 }
