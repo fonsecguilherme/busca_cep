@@ -31,13 +31,10 @@ final class LoadFavoriteZipState extends FavoriteState {
   final AppBarType appBarType;
 
   const LoadFavoriteZipState({
+    this.appBarType = AppBarType.normal,
     List<FavoriteModel> addresses = const [],
     List<FavoriteModel> filteredAddresses = const [],
-    this.appBarType = AppBarType.normal,
-  }) : super(
-          addresses: addresses,
-          filteredAddresses: filteredAddresses,
-        );
+  }) : super(addresses: addresses, filteredAddresses: filteredAddresses);
 
   LoadFavoriteZipState copyWith({
     List<FavoriteModel>? addresses,
@@ -50,6 +47,9 @@ final class LoadFavoriteZipState extends FavoriteState {
       appBarType: appBarType ?? this.appBarType,
     );
   }
+
+  @override
+  List<Object> get props => [appBarType, addresses, filteredAddresses];
 }
 
 /// SnackBar States

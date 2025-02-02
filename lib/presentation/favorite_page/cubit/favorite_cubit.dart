@@ -7,15 +7,14 @@ import 'package:zip_search/presentation/favorite_page/cubit/favorite_state.dart'
 import '../../../core/commons/app_strings.dart';
 
 class FavoriteCubit extends Cubit<FavoriteState> {
+  final SharedServices sharedServices;
+
   FavoriteCubit({
     required this.sharedServices,
   }) : super(const InitialFavoriteState());
 
-  final SharedServices sharedServices;
-  List<FavoriteModel> addressList = [];
-
   Future<void> loadFavoriteAdresses() async {
-    addressList =
+    final addressList =
         await sharedServices.getListString(SharedPreferencesKeys.savedAdresses);
 
     if (addressList.isEmpty) {
@@ -23,11 +22,14 @@ class FavoriteCubit extends Cubit<FavoriteState> {
       return;
     }
 
-    emit(LoadFavoriteZipState(addresses: addressList));
+    emit(LoadFavoriteZipState(
+      addresses: addressList,
+      filteredAddresses: const [],
+    ));
   }
 
   Future<void> deleteAddress(FavoriteModel address) async {
-    addressList =
+    final addressList =
         await sharedServices.getListString(SharedPreferencesKeys.savedAdresses);
 
     addressList.removeWhere(
@@ -42,16 +44,15 @@ class FavoriteCubit extends Cubit<FavoriteState> {
       return;
     }
 
-    emit(const LoadFavoriteZipState().copyWith(
-      addresses: addressList,
-    ));
+    emit(LoadFavoriteZipState(
+        addresses: addressList, filteredAddresses: const []));
   }
 
   Future<void> createTag({
     required FavoriteModel favoriteAddress,
     required String tag,
   }) async {
-    addressList =
+    final addressList =
         await sharedServices.getListString(SharedPreferencesKeys.savedAdresses);
 
     final address = addressList.firstWhere((element) =>
@@ -70,7 +71,7 @@ class FavoriteCubit extends Cubit<FavoriteState> {
         address.tags,
       ));
 
-      emit(const LoadFavoriteZipState().copyWith(
+      emit(LoadFavoriteZipState(
         addresses: addressList,
       ));
       return;
@@ -85,17 +86,15 @@ class FavoriteCubit extends Cubit<FavoriteState> {
 
       emit(RemovedTagZipState(AppStrings.removeTagSuccessText, address.tags));
 
-      emit(const LoadFavoriteZipState().copyWith(
-        addresses: addressList,
-      ));
-      return;
+      emit(LoadFavoriteZipState(
+          addresses: addressList, filteredAddresses: state.filteredAddresses));
     }
   }
 
   Future<void> filterAddresses({
     required String query,
   }) async {
-    final filteredList = addressList.where(
+    final filteredList = state.addresses.where(
       (element) {
         return element.addressModel.cep.toLowerCase().contains(query) ||
             element.addressModel.logradouro.toLowerCase().contains(query) ||
@@ -107,8 +106,19 @@ class FavoriteCubit extends Cubit<FavoriteState> {
       },
     ).toList();
 
+    if (query.isEmpty) {
+      emit(const LoadFavoriteZipState().copyWith(
+        addresses: state.addresses,
+        filteredAddresses: filteredList,
+        appBarType: AppBarType.normal,
+      ));
+      return;
+    }
+
     emit(const LoadFavoriteZipState().copyWith(
+      addresses: state.addresses,
       filteredAddresses: filteredList,
+      appBarType: AppBarType.search,
     ));
   }
 
@@ -117,6 +127,8 @@ class FavoriteCubit extends Cubit<FavoriteState> {
   }) async {
     emit(const LoadFavoriteZipState().copyWith(
       appBarType: newAppBarType,
+      addresses: state.addresses,
+      filteredAddresses: state.filteredAddresses,
     ));
   }
 }
