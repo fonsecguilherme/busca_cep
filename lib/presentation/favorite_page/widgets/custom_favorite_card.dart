@@ -15,14 +15,13 @@ import 'tag_builder_widget.dart';
 class CustomFavoriteCardWidget extends StatelessWidget {
   final FavoriteModel address;
   final FirebaseAnalytics analytics;
-    final FavoriteCubit favoritesCubit;
-
-
+  final FavoriteCubit favoritesCubit;
 
   const CustomFavoriteCardWidget({
     super.key,
     required this.address,
-    required this.analytics, required this.favoritesCubit,
+    required this.analytics,
+    required this.favoritesCubit,
   });
 
   @override
