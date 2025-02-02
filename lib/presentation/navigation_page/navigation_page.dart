@@ -14,7 +14,6 @@ import 'package:zip_search/presentation/navigation_page/cubit/navigation_state.d
 import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
 import 'package:zip_search/presentation/search_page/search_page.dart';
 
-import '../../core/commons/analytics_events.dart';
 import '../../core/di/setup_locator.dart';
 import '../../data/shared_services.dart';
 
@@ -61,24 +60,24 @@ class _NavigationPageState extends State<NavigationPage> {
           bottomNavigationBar: _BottomNaVigationBarWidget(
             analytics: analytics,
           ),
-          body: SafeArea(child: _body()),
+          body: SafeArea(
+            child: BlocBuilder<NavigationCubit, NavigationState>(
+              builder: (context, state) {
+                if (state.navBarItem == NavBarItem.counter) {
+                  return const CounterPage();
+                } else if (state.navBarItem == NavBarItem.search) {
+                  return const SearchPage();
+                } else if (state.navBarItem == NavBarItem.saved) {
+                  return const FavoritePage();
+                }
+                return const SizedBox();
+              },
+            ),
+          ),
         ),
       ),
     );
   }
-
-  Widget _body() => BlocBuilder<NavigationCubit, NavigationState>(
-        builder: (context, state) {
-          if (state.navBarItem == NavBarItem.counter) {
-            return const CounterPage();
-          } else if (state.navBarItem == NavBarItem.search) {
-            return const SearchPage();
-          } else if (state.navBarItem == NavBarItem.saved) {
-            return const FavoritePage();
-          }
-          return const SizedBox();
-        },
-      );
 }
 
 class _BottomNaVigationBarWidget extends StatelessWidget {
@@ -125,21 +124,12 @@ class _BottomNaVigationBarWidget extends StatelessWidget {
           ],
           onDestinationSelected: (index) {
             if (index == 0) {
-              analytics.logEvent(
-                  name: NavigationBarEvents.navigationToHomePage);
-
               BlocProvider.of<NavigationCubit>(context)
                   .getNavBarItem(NavBarItem.counter);
             } else if (index == 1) {
-              analytics.logEvent(
-                  name: NavigationBarEvents.navigationToSearchPage);
-
               BlocProvider.of<NavigationCubit>(context)
                   .getNavBarItem(NavBarItem.search);
             } else if (index == 2) {
-              analytics.logEvent(
-                  name: NavigationBarEvents.navigationToFavoritePage);
-
               BlocProvider.of<NavigationCubit>(context)
                   .getNavBarItem(NavBarItem.saved);
             }

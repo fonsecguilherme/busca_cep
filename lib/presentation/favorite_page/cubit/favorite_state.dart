@@ -1,24 +1,58 @@
 import 'package:equatable/equatable.dart';
 import 'package:zip_search/core/model/favorite_model.dart';
 
+enum AppBarType { normal, search }
+
 sealed class FavoriteState extends Equatable {
   final List<FavoriteModel> addresses;
+  final List<FavoriteModel> filteredAddresses;
 
-  const FavoriteState({this.addresses = const []});
+  const FavoriteState({
+    this.addresses = const [],
+    this.filteredAddresses = const [],
+  });
 
   @override
-  List<Object> get props => [addresses];
+  List<Object> get props => [addresses, filteredAddresses];
 }
 
+/// Page States
 final class InitialFavoriteState extends FavoriteState {
-  const InitialFavoriteState({super.addresses = const []});
+  const InitialFavoriteState({
+    List<FavoriteModel> addresses = const [],
+    List<FavoriteModel> filteredAddresses = const [],
+  }) : super(
+          addresses: addresses,
+          filteredAddresses: filteredAddresses,
+        );
 }
 
 final class LoadFavoriteZipState extends FavoriteState {
-  const LoadFavoriteZipState(List<FavoriteModel> addresses)
-      : super(addresses: addresses);
+  final AppBarType appBarType;
+
+  const LoadFavoriteZipState({
+    this.appBarType = AppBarType.normal,
+    List<FavoriteModel> addresses = const [],
+    List<FavoriteModel> filteredAddresses = const [],
+  }) : super(addresses: addresses, filteredAddresses: filteredAddresses);
+
+  LoadFavoriteZipState copyWith({
+    List<FavoriteModel>? addresses,
+    List<FavoriteModel>? filteredAddresses,
+    AppBarType? appBarType,
+  }) {
+    return LoadFavoriteZipState(
+      addresses: addresses ?? this.addresses,
+      filteredAddresses: filteredAddresses ?? this.filteredAddresses,
+      appBarType: appBarType ?? this.appBarType,
+    );
+  }
+
+  @override
+  List<Object> get props => [appBarType, addresses, filteredAddresses];
 }
 
+/// SnackBar States
 final class DeletedFavoriteZipState extends FavoriteState {
   final String deletedMessage;
 
