@@ -7,6 +7,7 @@ import 'package:zip_search/core/model/favorite_model.dart';
 import 'package:zip_search/presentation/favorite_page/cubit/favorite_cubit.dart';
 import 'package:zip_search/presentation/favorite_page/favorite_page.dart';
 
+import '../../../core/commons/app_strings.dart';
 import '../cubit/favorite_state.dart';
 import 'custom_favorite_card.dart';
 
@@ -26,15 +27,19 @@ class AdressesBuilderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<FavoriteCubit, FavoriteState>(
       builder: (context, state) {
+        List<FavoriteModel> myList = [];
+
+        myList = addressesListing(state);
+
         return Scaffold(
           appBar: _CustomSearchAppBar(
             favoriteCubit: favoritesCubit,
           ),
           body: ListView.builder(
             key: FavoritePage.loadedFavoriteAdressesKey,
-            itemCount: state.addresses.length,
+            itemCount: myList.length,
             itemBuilder: (context, index) {
-              final address = addressList.elementAt(index);
+              final address = myList.elementAt(index);
               return Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 8.0,
@@ -51,6 +56,14 @@ class AdressesBuilderWidget extends StatelessWidget {
         );
       },
     );
+  }
+
+  List<FavoriteModel> addressesListing(FavoriteState state) {
+    if (state.filteredAddresses.isNotEmpty) {
+      return state.filteredAddresses;
+    } else {
+      return state.addresses;
+    }
   }
 }
 
@@ -73,13 +86,13 @@ class __CustomSearchAppBarState extends State<_CustomSearchAppBar> {
   final TextEditingController _searchController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FavoriteCubit, FavoriteState>(
+    return BlocConsumer<FavoriteCubit, FavoriteState>(
+      listener: (context, state) {
+        if (state is RemovedTagZipState || state is RemovedTagZipState) {
+          _searchController.clear();
+        }
+      },
       builder: (context, state) {
         if (state is LoadFavoriteZipState) {
           return state.appBarType == AppBarType.search
@@ -124,7 +137,6 @@ class _DefaultAppBarState extends State<DefaultAppBar> {
             widget.favoriteCubit.toggleAppBar(
               newAppBarType: AppBarType.search,
             );
-            // widget.controller.clear();
           },
         ),
       ],
@@ -155,14 +167,14 @@ class _SearchAppBarWidgetState extends State<SearchAppBarWidget> {
             widget.favoriteCubit.toggleAppBar(
               newAppBarType: AppBarType.normal,
             );
-            // widget.controller.clear();
+            widget.controller.clear();
           },
         ),
         title: TextField(
           controller: widget.controller,
           autofocus: true,
           decoration: const InputDecoration(
-            hintText: 'Buscar...',
+            hintText: AppStrings.searchText,
             border: InputBorder.none,
           ),
           onChanged: (query) {
