@@ -22,10 +22,7 @@ class FavoriteCubit extends Cubit<FavoriteState> {
       return;
     }
 
-    emit(LoadFavoriteZipState(
-      addresses: addressList,
-      filteredAddresses: const [],
-    ));
+    emit(LoadFavoriteZipState(addresses: addressList));
   }
 
   Future<void> deleteAddress(FavoriteModel address) async {
