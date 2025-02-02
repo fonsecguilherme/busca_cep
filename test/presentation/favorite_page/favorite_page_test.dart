@@ -63,7 +63,7 @@ void main() {
       );
 
       when(() => favoriteCubit.state)
-          .thenReturn(LoadFavoriteZipState(_addressList));
+          .thenReturn(LoadFavoriteZipState(addresses: _addressList));
 
       await _createWidget(tester);
 
@@ -88,7 +88,7 @@ void main() {
       );
 
       when(() => favoriteCubit.state)
-          .thenReturn(LoadFavoriteZipState(_addressList));
+          .thenReturn(LoadFavoriteZipState(addresses: _addressList));
 
       await _createWidget(tester);
 
