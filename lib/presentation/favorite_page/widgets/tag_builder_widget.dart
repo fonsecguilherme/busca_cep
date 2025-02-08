@@ -104,6 +104,27 @@ class _TagBuilderWidget extends StatelessWidget {
               ),
               label: const Text(AppStrings.addTagText),
             ),
+          ),
+          GestureDetector(
+            child: const Text('Expandir'),
+            onTap: () {
+              showModalBottomSheet(
+                  isScrollControlled: true,
+                  context: context,
+                  builder: (context) {
+                    return const FractionallySizedBox(
+                      heightFactor: 0.75,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text('GeeksforGeeks'),
+                          ],
+                        ),
+                      ),
+                    );
+                  });
+            },
           )
         ],
       );
