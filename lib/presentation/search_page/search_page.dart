@@ -29,7 +29,16 @@ class _HomeState extends State<SearchPage> {
         body: BlocConsumer<SearchCubit, SearchState>(
           bloc: searchZipCubit,
           listener: listener,
-          builder: builder,
+          builder: (context, state) {
+            if (state is SuccessSearchState) {
+              return SuccessWidget(
+                address: state.address,
+                analytics: analytics,
+              );
+            } else {
+              return InitialWidget(analytics: analytics);
+            }
+          },
         ),
       );
 
@@ -57,17 +66,6 @@ class _HomeState extends State<SearchPage> {
           ),
         ),
       );
-    }
-  }
-
-  Widget builder(BuildContext context, SearchState state) {
-    if (state is SuccessSearchState) {
-      return SuccessWidget(
-        address: state.address,
-        analytics: analytics,
-      );
-    } else {
-      return InitialWidget(analytics: analytics);
     }
   }
 }

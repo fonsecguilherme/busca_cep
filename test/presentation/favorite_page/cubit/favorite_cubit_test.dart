@@ -27,80 +27,82 @@ void main() {
     () => favoritesCubit.close(),
   );
 
-  blocTest<FavoriteCubit, FavoriteState>(
-    'If user has not favorited no adressess, shoudl emit InitialFavoriteState',
-    build: () {
-      favoritesCubit.addressList = [];
+  group('Load Favorite Addresses function tests | ', () {
+    blocTest<FavoriteCubit, FavoriteState>(
+      'If user has not favorited no adressess, shoudl emit InitialFavoriteState',
+      build: () {
+        when(() => sharedServices.getListString(any())).thenAnswer(
+          (_) async => [],
+        );
 
-      when(() => sharedServices.getListString(any())).thenAnswer(
-        (_) async => [],
-      );
+        return favoritesCubit;
+      },
+      act: (cubit) => cubit.loadFavoriteAdresses(),
+      expect: () => <FavoriteState>[
+        const InitialFavoriteState(),
+      ],
+    );
 
-      return favoritesCubit;
-    },
-    act: (cubit) => cubit.loadFavoriteAdresses(),
-    expect: () => <FavoriteState>[
-      const InitialFavoriteState(),
-    ],
-  );
+    blocTest<FavoriteCubit, FavoriteState>(
+      ' If user favorites one address, should emit LoadFavoriteZipState // When favorites page has one address',
+      build: () {
+        when(() => sharedServices.getListString(any())).thenAnswer(
+          (_) async => _adressesList,
+        );
 
-  blocTest<FavoriteCubit, FavoriteState>(
-    ' If user favorites one address, should emit LoadFavoriteZipState // When favorites page has one address',
-    build: () {
-      when(() => sharedServices.getListString(any())).thenAnswer(
-        (_) async => _adressesList,
-      );
+        return favoritesCubit;
+      },
+      act: (cubit) => cubit.loadFavoriteAdresses(),
+      expect: () => <FavoriteState>[
+        LoadFavoriteZipState(addresses: _adressesList),
+      ],
+    );
+  });
 
-      return favoritesCubit;
-    },
-    act: (cubit) => cubit.loadFavoriteAdresses(),
-    expect: () => <FavoriteState>[
-      LoadFavoriteZipState(_adressesList),
-    ],
-  );
+  group('Delete Address function tests | ', () {
+    blocTest<FavoriteCubit, FavoriteState>(
+      'Show initial favorites page after delete one address',
+      build: () {
+        when(() => sharedServices.getListString(any())).thenAnswer(
+          (_) async => _adressesList,
+        );
 
-  blocTest<FavoriteCubit, FavoriteState>(
-    'Show initial favorites page after delete one address',
-    build: () {
-      when(() => sharedServices.getListString(any())).thenAnswer(
-        (_) async => _adressesList,
-      );
+        when(
+          () => sharedServices.saveListString(any(), []),
+        ).thenAnswer((_) async => []);
 
-      when(
-        () => sharedServices.saveListString(any(), []),
-      ).thenAnswer((_) async => []);
+        return favoritesCubit;
+      },
+      act: (cubit) => cubit.deleteAddress(_address),
+      expect: () => <FavoriteState>[
+        const DeletedFavoriteZipState(AppStrings.deletedFavoriteZipText),
+        const InitialFavoriteState()
+      ],
+    );
 
-      return favoritesCubit;
-    },
-    act: (cubit) => cubit.deleteAddress(_address),
-    expect: () => <FavoriteState>[
-      const DeletedFavoriteZipState(AppStrings.deletedFavoriteZipText),
-      const InitialFavoriteState()
-    ],
-  );
+    blocTest<FavoriteCubit, FavoriteState>(
+      'Show remaining addresses after delete one',
+      build: () {
+        when(() => sharedServices.getListString(any())).thenAnswer(
+          (_) async => adressesList2,
+        );
 
-  blocTest<FavoriteCubit, FavoriteState>(
-    'Show remaining addresses after delete one',
-    build: () {
-      when(() => sharedServices.getListString(any())).thenAnswer(
-        (_) async => adressesList2,
-      );
+        when(() => sharedServices.saveListString(any(), _removedAdressesList))
+            .thenAnswer(
+          (_) async => _removedAdressesList,
+        );
 
-      when(() => sharedServices.saveListString(any(), _removedAdressesList))
-          .thenAnswer(
-        (_) async => _removedAdressesList,
-      );
+        return favoritesCubit;
+      },
+      act: (cubit) => cubit.deleteAddress(_address),
+      expect: () => <FavoriteState>[
+        const DeletedFavoriteZipState(AppStrings.deletedFavoriteZipText),
+        LoadFavoriteZipState(addresses: _removedAdressesList),
+      ],
+    );
+  });
 
-      return favoritesCubit;
-    },
-    act: (cubit) => cubit.deleteAddress(_address),
-    expect: () => <FavoriteState>[
-      const DeletedFavoriteZipState(AppStrings.deletedFavoriteZipText),
-      LoadFavoriteZipState(_removedAdressesList),
-    ],
-  );
-
-  group('Tag tests', () {
+  group('Tag tests | ', () {
     blocTest<FavoriteCubit, FavoriteState>(
       'Should create a tag case it has not been added to tags list',
       build: () {
@@ -123,7 +125,7 @@ void main() {
           cubit.createTag(favoriteAddress: _address, tag: 'busca cep'),
       expect: () => <FavoriteState>[
         const AddedTagZipState(AppStrings.addTagSuccessText, ['busca cep']),
-        LoadFavoriteZipState([
+        LoadFavoriteZipState(addresses: [
           _address.copyWith(tags: ['busca cep'])
         ])
       ],
@@ -153,7 +155,50 @@ void main() {
           tag: 'busca cep'),
       expect: () => <FavoriteState>[
         const RemovedTagZipState(AppStrings.addTagSuccessText, []),
-        LoadFavoriteZipState([_address.copyWith(tags: [])])
+        LoadFavoriteZipState(
+          addresses: [_address.copyWith(tags: [])],
+        )
+      ],
+    );
+  });
+
+  group('Toggle AppBar function tests | ', () {
+    blocTest<FavoriteCubit, FavoriteState>(
+      'Should emit a new appbar type state',
+      build: () => favoritesCubit,
+      act: (cubit) =>
+          favoritesCubit.toggleAppBar(newAppBarType: AppBarType.search),
+      expect: () => const <FavoriteState>[
+        LoadFavoriteZipState(appBarType: AppBarType.search)
+      ],
+    );
+  });
+
+  group('Filter Address function tests | ', () {
+    blocTest<FavoriteCubit, FavoriteState>(
+      'Case query is empty should change Appbar to normal',
+      build: () => favoritesCubit,
+      act: (cubit) => cubit.filterAddresses(query: ''),
+      expect: () => const <FavoriteState>[
+        LoadFavoriteZipState(appBarType: AppBarType.normal)
+      ],
+    );
+
+    blocTest<FavoriteCubit, FavoriteState>(
+      'Should return an address case query correspond to smething in favorited address list',
+      seed: () => LoadFavoriteZipState(
+        appBarType: AppBarType.search,
+        addresses: adressesList2,
+        filteredAddresses: const [],
+      ),
+      build: () => favoritesCubit,
+      act: (cubit) => cubit.filterAddresses(query: 'logradouro'),
+      expect: () => <FavoriteState>[
+        LoadFavoriteZipState(
+          appBarType: AppBarType.search,
+          addresses: adressesList2,
+          filteredAddresses: adressesList2,
+        )
       ],
     );
   });

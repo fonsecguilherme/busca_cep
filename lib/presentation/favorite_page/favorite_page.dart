@@ -34,7 +34,21 @@ class _SavedZipState extends State<FavoritePage> {
         body: BlocConsumer<FavoriteCubit, FavoriteState>(
           bloc: favoritesCubit,
           listener: listener,
-          builder: builder,
+          builder: (context, state) {
+            if (state is InitialFavoriteState) {
+              return const Center(
+                child: Text(AppStrings.initialZipPageText),
+              );
+            }
+            if (state is LoadFavoriteZipState) {
+              return AdressesBuilderWidget(
+                addressList: state.addresses,
+                favoritesCubit: favoritesCubit,
+                analytics: analytics,
+              );
+            }
+            return const SizedBox();
+          },
         ),
       );
 
@@ -42,21 +56,5 @@ class _SavedZipState extends State<FavoritePage> {
     if (state is DeletedFavoriteZipState) {
       Messages.of(context).showSuccess(state.deletedMessage);
     }
-  }
-
-  Widget builder(BuildContext context, FavoriteState state) {
-    if (state is InitialFavoriteState) {
-      return const Center(
-        child: Text(AppStrings.initialZipPageText),
-      );
-    }
-    if (state is LoadFavoriteZipState) {
-      return AdressesBuilderWidget(
-        addressList: state.addresses,
-        favoritesCubit: favoritesCubit,
-        analytics: analytics,
-      );
-    }
-    return const SizedBox();
   }
 }

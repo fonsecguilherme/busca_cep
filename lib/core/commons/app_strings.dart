@@ -24,6 +24,7 @@ class AppStrings {
   static const String addTagSuccessText = 'Tag adicionada com sucesso!';
   static const String removeTagSuccessText = 'Tag removida com sucesso!';
   static const String addTagText = 'Adicionar tag!';
+  static const String searchText = 'Buscar...';
 
   //Search page
   static const String textFieldText = 'Somente números =)';
