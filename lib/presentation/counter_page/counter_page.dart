@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/shared_preferences_keys.dart';
+import 'package:zip_search/data/shared_services.dart';
 import 'package:zip_search/presentation/counter_page/widgets/counter_bar_widget.dart';
 import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
 import 'package:zip_search/presentation/theme/cubit/theme_cubit.dart';
-import 'package:zip_search/data/shared_services.dart';
 
 import '../../core/commons/analytics_events.dart';
 import '../../core/di/setup_locator.dart';
@@ -85,7 +85,7 @@ class _CounterPageState extends State<CounterPage> {
         key: CounterPage.counterPageKey,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
@@ -106,6 +106,9 @@ class _CounterPageState extends State<CounterPage> {
               onTap: () =>
                   analytics.logEvent(name: CounterPageEvents.favoritedZipCard),
             ),
+            const SizedBox(
+              height: 94,
+            )
           ],
         ),
       ),
