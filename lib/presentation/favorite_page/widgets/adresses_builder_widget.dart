@@ -35,23 +35,30 @@ class AdressesBuilderWidget extends StatelessWidget {
           appBar: _CustomSearchAppBar(
             favoriteCubit: favoritesCubit,
           ),
-          body: ListView.builder(
-            key: FavoritePage.loadedFavoriteAdressesKey,
-            itemCount: myList.length,
-            itemBuilder: (context, index) {
-              final address = myList.elementAt(index);
-              return Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8.0,
-                  horizontal: 16.0,
+          body: Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  padding: const EdgeInsets.only(bottom: 100),
+                  key: FavoritePage.loadedFavoriteAdressesKey,
+                  itemCount: myList.length,
+                  itemBuilder: (context, index) {
+                    final address = myList.elementAt(index);
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8.0,
+                        horizontal: 16.0,
+                      ),
+                      child: CustomFavoriteCardWidget(
+                        address: address,
+                        analytics: analytics,
+                        favoritesCubit: favoritesCubit,
+                      ),
+                    );
+                  },
                 ),
-                child: CustomFavoriteCardWidget(
-                  address: address,
-                  analytics: analytics,
-                  favoritesCubit: favoritesCubit,
-                ),
-              );
-            },
+              ),
+            ],
           ),
         );
       },
