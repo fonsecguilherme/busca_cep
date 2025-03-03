@@ -29,21 +29,21 @@ class NavigationPage extends StatefulWidget {
 }
 
 class _NavigationPageState extends State<NavigationPage> {
+  List<SMIBool> riveIconInputs = [];
+  List<StateMachineController?> controllers = [];
+
+  final repository = getIt<IViaCepRepository>();
+  final sharedServices = getIt<SharedServices>();
+  final analytics = getIt<FirebaseAnalytics>();
+
+  FavoriteCubit get favoritesCubit => context.read<FavoriteCubit>();
+
   @override
   void initState() {
     super.initState();
 
     favoritesCubit.loadFavoriteAdresses();
   }
-
-  FavoriteCubit get favoritesCubit => context.read<FavoriteCubit>();
-
-  final repository = getIt<IViaCepRepository>();
-  final sharedServices = getIt<SharedServices>();
-  final analytics = getIt<FirebaseAnalytics>();
-
-  List<SMIBool> riveIconInputs = [];
-  List<StateMachineController?> controllers = [];
 
   void animateIcon(int index) {
     riveIconInputs.elementAt(index).change(true);
@@ -69,6 +69,14 @@ class _NavigationPageState extends State<NavigationPage> {
 
       riveIconInputs.add(controller.findInput<bool>('active') as SMIBool);
     }
+  }
+
+  void updateRiveIcons() {
+    for (var controller in controllers) {
+      controller?.dispose();
+    }
+    controllers.clear();
+    riveIconInputs.clear();
   }
 
   @override
@@ -98,128 +106,133 @@ class _NavigationPageState extends State<NavigationPage> {
       child: FocusWidget(
         child: Scaffold(
           backgroundColor: Theme.of(context).colorScheme.onSurface,
-          body: BlocBuilder<NavigationCubit, NavigationState>(
-            builder: (context, state) {
-              return Stack(
-                children: [
-                  IndexedStack(
-                    index: state.index,
-                    children: const [
-                      CounterPage(),
-                      SearchPage(),
-                      FavoritePage(),
-                    ],
-                  ),
-                  Positioned(
-                    bottom: 16,
-                    left: 0,
-                    right: 0,
-                    child: SafeArea(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 12.0,
-                          horizontal: 24,
-                        ),
-                        margin: const EdgeInsets.only(
-                            right: 48.0, bottom: 8, left: 48.0),
-                        decoration: BoxDecoration(
-                          color: isDarkThemeEnable
-                              ? Theme.of(context)
-                                  .colorScheme
-                                  .surfaceContainerHighest
-                              : Theme.of(context)
-                                  .colorScheme
-                                  .surfaceContainerHighest,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(24.0)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xFF17203A)
-                                  .withValues(alpha: 0.3),
-                              offset: const Offset(0, 20),
-                              blurRadius: 20,
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: List.generate(
-                            3,
-                            (index) {
-                              final icon = isDarkThemeEnable
-                                  ? whiteBottomNavItems.elementAt(index)
-                                  : bottomNavItems.elementAt(index);
+          body: BlocListener<ThemeCubit, AppTheme>(
+            listener: (context, state) {
+              updateRiveIcons();
+            },
+            child: BlocBuilder<NavigationCubit, NavigationState>(
+              builder: (context, state) {
+                return Stack(
+                  children: [
+                    IndexedStack(
+                      index: state.index,
+                      children: const [
+                        CounterPage(),
+                        SearchPage(),
+                        FavoritePage(),
+                      ],
+                    ),
+                    Positioned(
+                      bottom: 16,
+                      left: 0,
+                      right: 0,
+                      child: SafeArea(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 12.0,
+                            horizontal: 24,
+                          ),
+                          margin: const EdgeInsets.only(
+                              right: 48.0, bottom: 8, left: 48.0),
+                          decoration: BoxDecoration(
+                            color: isDarkThemeEnable
+                                ? Theme.of(context)
+                                    .colorScheme
+                                    .surfaceContainerHighest
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .surfaceContainerHighest,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(24.0)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(0xFF17203A)
+                                    .withValues(alpha: 0.3),
+                                offset: const Offset(0, 20),
+                                blurRadius: 20,
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: List.generate(
+                              3,
+                              (index) {
+                                final icon = isDarkThemeEnable
+                                    ? whiteBottomNavItems.elementAt(index)
+                                    : bottomNavItems.elementAt(index);
 
-                              return GestureDetector(
-                                onTap: () {
-                                  if (index == 0) {
-                                    BlocProvider.of<NavigationCubit>(context)
-                                        .getNavBarItem(NavBarItem.counter);
-                                    animateIcon(index);
-                                  } else if (index == 1) {
-                                    BlocProvider.of<NavigationCubit>(context)
-                                        .getNavBarItem(NavBarItem.search);
-                                    animateIcon(index);
-                                  } else if (index == 2) {
-                                    BlocProvider.of<NavigationCubit>(context)
-                                        .getNavBarItem(NavBarItem.saved);
-                                    animateIcon(index);
-                                  }
-                                },
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    switch (index) {
-                                      0 => NavigationBarIconWidget(
-                                          navigationState: state,
-                                          selectedNavBarIndex: index,
-                                          onInit: (artboard) => riveOnInit(
-                                            artboard: artboard,
-                                            stateMachineName:
-                                                icon.rive.stateMachine,
+                                return GestureDetector(
+                                  onTap: () {
+                                    if (index == 0) {
+                                      BlocProvider.of<NavigationCubit>(context)
+                                          .getNavBarItem(NavBarItem.counter);
+                                      animateIcon(index);
+                                    } else if (index == 1) {
+                                      BlocProvider.of<NavigationCubit>(context)
+                                          .getNavBarItem(NavBarItem.search);
+                                      animateIcon(index);
+                                    } else if (index == 2) {
+                                      BlocProvider.of<NavigationCubit>(context)
+                                          .getNavBarItem(NavBarItem.saved);
+                                      animateIcon(index);
+                                    }
+                                  },
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      switch (index) {
+                                        0 => NavigationBarIconWidget(
+                                            navigationState: state,
+                                            selectedNavBarIndex: index,
+                                            onInit: (artboard) => riveOnInit(
+                                              artboard: artboard,
+                                              stateMachineName:
+                                                  icon.rive.stateMachine,
+                                            ),
+                                            icon: icon,
+                                            iconText: 'Home',
+                                            iconPositionIndex: index,
                                           ),
-                                          icon: icon,
-                                          iconText: 'Home',
-                                          iconPositionIndex: index,
-                                        ),
-                                      1 => NavigationBarIconWidget(
-                                          navigationState: state,
-                                          selectedNavBarIndex: index,
-                                          onInit: (artboard) => riveOnInit(
-                                            artboard: artboard,
-                                            stateMachineName:
-                                                icon.rive.stateMachine,
+                                        1 => NavigationBarIconWidget(
+                                            navigationState: state,
+                                            selectedNavBarIndex: index,
+                                            onInit: (artboard) => riveOnInit(
+                                              artboard: artboard,
+                                              stateMachineName:
+                                                  icon.rive.stateMachine,
+                                            ),
+                                            icon: icon,
+                                            iconText: 'Buscar',
+                                            iconPositionIndex: index,
                                           ),
-                                          icon: icon,
-                                          iconText: 'Buscar',
-                                          iconPositionIndex: index,
-                                        ),
-                                      2 => NavigationBarIconWithBadgeWidget(
-                                          navigationState: state,
-                                          selectedNavBarIndex: index,
-                                          onInit: (artboard) => riveOnInit(
-                                            artboard: artboard,
-                                            stateMachineName:
-                                                icon.rive.stateMachine,
+                                        2 => NavigationBarIconWithBadgeWidget(
+                                            navigationState: state,
+                                            selectedNavBarIndex: index,
+                                            onInit: (artboard) => riveOnInit(
+                                              artboard: artboard,
+                                              stateMachineName:
+                                                  icon.rive.stateMachine,
+                                            ),
+                                            icon: icon,
+                                            iconText: 'Favoritos',
+                                            iconPositionIndex: index,
                                           ),
-                                          icon: icon,
-                                          iconText: 'Favoritos',
-                                          iconPositionIndex: index,
-                                        ),
-                                      int() => throw UnimplementedError(),
-                                    },
-                                  ],
-                                ),
-                              );
-                            },
+                                        int() => throw UnimplementedError(),
+                                      },
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              );
-            },
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),
