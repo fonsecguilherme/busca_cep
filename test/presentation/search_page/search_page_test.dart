@@ -10,7 +10,9 @@ import 'package:get_it/get_it.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/model/address_model.dart';
+import 'package:zip_search/core/model/favorite_model.dart';
 import 'package:zip_search/data/shared_services.dart';
+import 'package:zip_search/presentation/favorite_page/cubit/export_favorite_cubit.dart';
 import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
 import 'package:zip_search/presentation/search_page/cubit/search_state.dart';
 import 'package:zip_search/presentation/search_page/search_page.dart';
@@ -22,9 +24,13 @@ import '../../firebase_mock.dart';
 class MockSearchZipCubit extends MockCubit<SearchState>
     implements SearchCubit {}
 
+class MockFavoriteCubit extends MockCubit<FavoriteState>
+    implements FavoriteCubit {}
+
 class FakeAddressModel extends Fake implements AddressModel {}
 
 late SearchCubit searchZipCubit;
+late FavoriteCubit favoriteCubit;
 
 AddressModel _addressModel = const AddressModel(
   cep: '57035400',
@@ -41,14 +47,19 @@ void main() {
   final getItTest = GetIt.instance;
 
   setUp(() async {
-    await Firebase.initializeApp();
+    //Variables initializer
     searchZipCubit = MockSearchZipCubit();
+    favoriteCubit = MockFavoriteCubit();
+
+    // Firebase Setup
+    await Firebase.initializeApp();
+
     getItTest.registerLazySingleton<SharedServices>(
       () => SharedServices(),
     );
     getItTest.registerLazySingleton(() => FirebaseAnalytics.instance);
-    registerFallbackValue(_addressModel);
 
+    registerFallbackValue(_addressModel);
     when(() => searchZipCubit.getBrStates()).thenReturn([]);
   });
 
@@ -202,12 +213,55 @@ void main() {
       });
     });
   });
+
+  group('Navigation test', () {
+    testWidgets(
+        'Case user search address from SearchOptions.address and the result is success',
+        (tester) async {
+      await tester.runAsync(() async {
+        whenListen(
+            searchZipCubit,
+            Stream.fromIterable(<SearchState>[
+              LoadingSearchState(),
+              SuccessAddressesSearchState([_addressModel])
+            ]),
+            initialState: const InitialSearchState());
+
+        when(() => searchZipCubit.searchAddress(
+            address: 'avenida',
+            city: 'flora',
+            state: 'SP')).thenAnswer((_) async => {});
+
+        when(() => searchZipCubit.isAddresslreadyFavorited(
+              address: _addressModel,
+              addressList: [FavoriteModel(addressModel: _addressModel)],
+            )).thenReturn(true);
+
+        when(() => favoriteCubit.state).thenReturn(LoadFavoriteZipState(
+            addresses: [FavoriteModel(addressModel: _addressModel)]));
+
+        await _createWidget(tester);
+
+        expect(find.text(AppStrings.searchPageMessage), findsOneWidget);
+
+        await tester.pumpAndSettle();
+
+        expect(find.text(AppStrings.searchPageMessage), findsNothing);
+
+        expect(find.text(AppStrings.resultsAppBarText), findsOneWidget);
+        expect(find.byType(ListView), findsOneWidget);
+      });
+    });
+  });
 }
 
 Future<void> _createWidget(WidgetTester tester) async {
   await tester.pumpWidget(
-    BlocProvider<SearchCubit>.value(
-      value: searchZipCubit,
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<SearchCubit>.value(value: searchZipCubit),
+        BlocProvider<FavoriteCubit>.value(value: favoriteCubit),
+      ],
       child: const MaterialApp(
         home: SearchPage(),
       ),
