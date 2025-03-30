@@ -53,6 +53,7 @@ class _MultipleAddressWidgetState extends State<MultipleAddressWidget> {
             bottom: 16.0,
           ),
           child: CustomTextfield(
+            key: const Key('address_input_textField'),
             hintText: 'Endereço',
             controller: addressController,
             onEditingComplete: () {
@@ -67,6 +68,7 @@ class _MultipleAddressWidgetState extends State<MultipleAddressWidget> {
             bottom: 16.0,
           ),
           child: CustomTextfield(
+            key: const Key('city'),
             hintText: 'Cidade',
             controller: cityController,
             onEditingComplete: () {
@@ -77,6 +79,7 @@ class _MultipleAddressWidgetState extends State<MultipleAddressWidget> {
         BlocBuilder<SearchCubit, SearchState>(
           builder: (context, state) {
             return DropdownMenu<String>(
+              key: const Key('state_input_textField'),
               initialSelection: widget.states.first,
               onSelected: (String? value) {
                 dropdownValue = value!;
