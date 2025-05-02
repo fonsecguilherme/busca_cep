@@ -43,6 +43,7 @@ class _NavigationPageState extends State<NavigationPage> {
     super.initState();
 
     favoritesCubit.loadFavoriteAdresses();
+    updateRiveIcons();
   }
 
   void animateIcon(int index) {
