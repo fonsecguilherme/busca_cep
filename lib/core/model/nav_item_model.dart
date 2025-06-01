@@ -2,7 +2,7 @@ import 'rive_model.dart';
 
 class NavItemModel {
   final String title;
-  final RiveModel rive;
+  final RiveAsset rive;
 
   NavItemModel({
     required this.title,
@@ -10,55 +10,26 @@ class NavItemModel {
   });
 }
 
-List<NavItemModel> bottomNavItems = [
-  NavItemModel(
+List<RiveAsset> bottomNavItems = [
+  RiveAsset(
+    srcDark: 'assets/animated_icons.riv',
+    srcLight: 'assets/animated_icons_white.riv',
+    artboard: 'HOME',
+    stateMachineName: 'HOME_interactivity',
     title: 'Home',
-    rive: RiveModel(
-      src: 'assets/animated_icons.riv',
-      artboard: 'HOME',
-      stateMachine: 'HOME_interactivity',
-    ),
   ),
-  NavItemModel(
+  RiveAsset(
+    srcDark: 'assets/animated_icons.riv',
+    srcLight: 'assets/animated_icons_white.riv',
+    artboard: 'SEARCH',
+    stateMachineName: 'SEARCH_Interactivity',
     title: 'Search',
-    rive: RiveModel(
-      src: 'assets/animated_icons.riv',
-      artboard: 'SEARCH',
-      stateMachine: 'SEARCH_Interactivity',
-    ),
   ),
-  NavItemModel(
+  RiveAsset(
+    srcDark: 'assets/animated_icons.riv',
+    srcLight: 'assets/animated_icons_white.riv',
+    artboard: 'LIKE/STAR',
+    stateMachineName: 'STAR_Interactivity',
     title: 'Like',
-    rive: RiveModel(
-      src: 'assets/animated_icons.riv',
-      artboard: 'LIKE/STAR',
-      stateMachine: 'STAR_Interactivity',
-    ),
-  ),
-];
-List<NavItemModel> whiteBottomNavItems = [
-  NavItemModel(
-    title: 'Home',
-    rive: RiveModel(
-      src: 'assets/animated_icons_white.riv',
-      artboard: 'HOME',
-      stateMachine: 'HOME_interactivity',
-    ),
-  ),
-  NavItemModel(
-    title: 'Search',
-    rive: RiveModel(
-      src: 'assets/animated_icons_white.riv',
-      artboard: 'SEARCH',
-      stateMachine: 'SEARCH_Interactivity',
-    ),
-  ),
-  NavItemModel(
-    title: 'Like',
-    rive: RiveModel(
-      src: 'assets/animated_icons_white.riv',
-      artboard: 'LIKE/STAR',
-      stateMachine: 'STAR_Interactivity',
-    ),
-  ),
+  )
 ];
