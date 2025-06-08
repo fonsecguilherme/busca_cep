@@ -14,6 +14,7 @@ import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
 import 'package:zip_search/presentation/search_page/search_page.dart';
 import 'package:zip_search/presentation/theme/cubit/theme_cubit.dart';
 
+import '../../core/commons/rive_utils.dart';
 import '../../core/di/setup_locator.dart';
 import '../../core/model/nav_item_model.dart';
 import '../../data/shared_services.dart';
@@ -29,6 +30,12 @@ class NavigationPage extends StatefulWidget {
 }
 
 class _NavigationPageState extends State<NavigationPage> {
+  final repository = getIt<IViaCepRepository>();
+  final sharedServices = getIt<SharedServices>();
+  final analytics = getIt<FirebaseAnalytics>();
+
+  FavoriteCubit get favoritesCubit => context.read<FavoriteCubit>();
+
   @override
   void initState() {
     super.initState();
@@ -36,46 +43,8 @@ class _NavigationPageState extends State<NavigationPage> {
     favoritesCubit.loadFavoriteAdresses();
   }
 
-  FavoriteCubit get favoritesCubit => context.read<FavoriteCubit>();
-
-  final repository = getIt<IViaCepRepository>();
-  final sharedServices = getIt<SharedServices>();
-  final analytics = getIt<FirebaseAnalytics>();
-
-  List<SMIBool> riveIconInputs = [];
-  List<StateMachineController?> controllers = [];
-
-  void animateIcon(int index) {
-    riveIconInputs.elementAt(index).change(true);
-
-    Future.delayed(const Duration(seconds: 1), () {
-      riveIconInputs.elementAt(index).change(false);
-    });
-  }
-
-  void riveOnInit({
-    required Artboard artboard,
-    required String stateMachineName,
-  }) {
-    final controller = StateMachineController.fromArtboard(
-      artboard,
-      stateMachineName,
-    );
-
-    if (controller != null) {
-      artboard.addController(controller);
-
-      controllers.add(controller);
-
-      riveIconInputs.add(controller.findInput<bool>('active') as SMIBool);
-    }
-  }
-
   @override
   void dispose() {
-    for (var controller in controllers) {
-      controller?.dispose();
-    }
     super.dispose();
   }
 
@@ -144,26 +113,57 @@ class _NavigationPageState extends State<NavigationPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: List.generate(
-                            3,
+                            bottomNavItems.length,
                             (index) {
-                              final icon = isDarkThemeEnable
-                                  ? whiteBottomNavItems.elementAt(index)
-                                  : bottomNavItems.elementAt(index);
+                              final isSelected = index == state.index;
 
                               return GestureDetector(
                                 onTap: () {
                                   if (index == 0) {
-                                    BlocProvider.of<NavigationCubit>(context)
-                                        .getNavBarItem(NavBarItem.counter);
-                                    animateIcon(index);
+                                    bottomNavItems
+                                        .elementAt(index)
+                                        .input
+                                        ?.change(true);
+                                    if (!isSelected) {
+                                      BlocProvider.of<NavigationCubit>(context)
+                                          .getNavBarItem(NavBarItem.counter);
+                                    }
+                                    Future.delayed(
+                                        const Duration(seconds: 1),
+                                        () => bottomNavItems
+                                            .elementAt(index)
+                                            .input
+                                            ?.change(false));
                                   } else if (index == 1) {
-                                    BlocProvider.of<NavigationCubit>(context)
-                                        .getNavBarItem(NavBarItem.search);
-                                    animateIcon(index);
+                                    bottomNavItems
+                                        .elementAt(index)
+                                        .input
+                                        ?.change(true);
+                                    if (!isSelected) {
+                                      BlocProvider.of<NavigationCubit>(context)
+                                          .getNavBarItem(NavBarItem.search);
+                                    }
+                                    Future.delayed(
+                                        const Duration(seconds: 1),
+                                        () => bottomNavItems
+                                            .elementAt(index)
+                                            .input
+                                            ?.change(false));
                                   } else if (index == 2) {
-                                    BlocProvider.of<NavigationCubit>(context)
-                                        .getNavBarItem(NavBarItem.saved);
-                                    animateIcon(index);
+                                    bottomNavItems
+                                        .elementAt(index)
+                                        .input
+                                        ?.change(true);
+                                    if (!isSelected) {
+                                      BlocProvider.of<NavigationCubit>(context)
+                                          .getNavBarItem(NavBarItem.saved);
+                                    }
+                                    Future.delayed(
+                                        const Duration(seconds: 1),
+                                        () => bottomNavItems
+                                            .elementAt(index)
+                                            .input
+                                            ?.change(false));
                                   }
                                 },
                                 child: Column(
@@ -173,38 +173,89 @@ class _NavigationPageState extends State<NavigationPage> {
                                       0 => NavigationBarIconWidget(
                                           navigationState: state,
                                           selectedNavBarIndex: index,
-                                          onInit: (artboard) => riveOnInit(
-                                            artboard: artboard,
-                                            stateMachineName:
-                                                icon.rive.stateMachine,
-                                          ),
-                                          icon: icon,
-                                          iconText: 'Home',
+                                          onInit: (artboard) {
+                                            final controller =
+                                                RiveUtils.getRiveController(
+                                              artboard,
+                                              stateMachineName: bottomNavItems
+                                                  .elementAt(index)
+                                                  .stateMachineName,
+                                            );
+                                            final input = controller
+                                                .findSMI('active') as SMIBool;
+                                            bottomNavItems
+                                                .elementAt(index)
+                                                .setInput = input;
+                                          },
+                                          icon: NavItemModel(
+                                              title: bottomNavItems
+                                                  .elementAt(index)
+                                                  .title,
+                                              rive: bottomNavItems
+                                                  .elementAt(index)),
+                                          iconText: bottomNavItems
+                                              .elementAt(index)
+                                              .title,
                                           iconPositionIndex: index,
+                                          isDarkThemeEnable: isDarkThemeEnable,
                                         ),
                                       1 => NavigationBarIconWidget(
                                           navigationState: state,
                                           selectedNavBarIndex: index,
-                                          onInit: (artboard) => riveOnInit(
-                                            artboard: artboard,
-                                            stateMachineName:
-                                                icon.rive.stateMachine,
-                                          ),
-                                          icon: icon,
-                                          iconText: 'Buscar',
+                                          onInit: (artboard) {
+                                            final controller =
+                                                RiveUtils.getRiveController(
+                                              artboard,
+                                              stateMachineName: bottomNavItems
+                                                  .elementAt(index)
+                                                  .stateMachineName,
+                                            );
+                                            final input = controller
+                                                .findSMI('active') as SMIBool;
+                                            bottomNavItems
+                                                .elementAt(index)
+                                                .setInput = input;
+                                          },
+                                          icon: NavItemModel(
+                                              title: bottomNavItems
+                                                  .elementAt(index)
+                                                  .title,
+                                              rive: bottomNavItems
+                                                  .elementAt(index)),
+                                          iconText: bottomNavItems
+                                              .elementAt(index)
+                                              .title,
                                           iconPositionIndex: index,
+                                          isDarkThemeEnable: isDarkThemeEnable,
                                         ),
                                       2 => NavigationBarIconWithBadgeWidget(
                                           navigationState: state,
                                           selectedNavBarIndex: index,
-                                          onInit: (artboard) => riveOnInit(
-                                            artboard: artboard,
-                                            stateMachineName:
-                                                icon.rive.stateMachine,
-                                          ),
-                                          icon: icon,
-                                          iconText: 'Favoritos',
+                                          onInit: (artboard) {
+                                            final controller =
+                                                RiveUtils.getRiveController(
+                                              artboard,
+                                              stateMachineName: bottomNavItems
+                                                  .elementAt(index)
+                                                  .stateMachineName,
+                                            );
+                                            final input = controller
+                                                .findSMI('active') as SMIBool;
+                                            bottomNavItems
+                                                .elementAt(index)
+                                                .setInput = input;
+                                          },
+                                          icon: NavItemModel(
+                                              title: bottomNavItems
+                                                  .elementAt(index)
+                                                  .title,
+                                              rive: bottomNavItems
+                                                  .elementAt(index)),
+                                          iconText: bottomNavItems
+                                              .elementAt(index)
+                                              .title,
                                           iconPositionIndex: index,
+                                          isDarkThemeEnable: isDarkThemeEnable,
                                         ),
                                       int() => throw UnimplementedError(),
                                     },
