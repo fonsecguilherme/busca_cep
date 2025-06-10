@@ -44,11 +44,12 @@ class _NavigationPageState extends State<NavigationPage> {
     super.initState();
 
     favoritesCubit.loadFavoriteAdresses();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
+    favoritesCubit.updateCounterValues().then(
+      (values) {
+        counterValue = values.$1;
+        favoriteValue = values.$2;
+      },
+    );
   }
 
   @override
@@ -73,10 +74,7 @@ class _NavigationPageState extends State<NavigationPage> {
           body: BlocConsumer<NavigationCubit, NavigationState>(
             listener: (context, state) {
               if (state.navBarItem == NavBarItem.counter) {
-                context
-                    .read<SearchCubit>()
-                    .updateCounterValues()
-                    .then((values) {
+                favoritesCubit.updateCounterValues().then((values) {
                   setState(() {
                     counterValue = values.$1;
                     favoriteValue = values.$2;
@@ -91,8 +89,9 @@ class _NavigationPageState extends State<NavigationPage> {
                     index: state.index,
                     children: [
                       CounterPage(
-                          counterFav: counterValue,
-                          counterSearch: favoriteValue),
+                        counterFav: counterValue,
+                        counterSearch: favoriteValue,
+                      ),
                       const SearchPage(),
                       const FavoritePage(),
                     ],
