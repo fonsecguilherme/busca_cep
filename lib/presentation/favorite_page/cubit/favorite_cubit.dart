@@ -128,4 +128,15 @@ class FavoriteCubit extends Cubit<FavoriteState> {
       filteredAddresses: state.filteredAddresses,
     ));
   }
+
+  Future<(int, int)> updateCounterValues() async {
+    final resultSerached = await sharedServices
+            .getInt(SharedPreferencesKeys.counterSearchedZipsKeys) ??
+        0;
+
+    final resultFavorited =
+        await sharedServices.getInt(SharedPreferencesKeys.savedZipKey) ?? 0;
+
+    return (resultSerached, resultFavorited);
+  }
 }
