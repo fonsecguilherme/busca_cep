@@ -198,4 +198,16 @@ class SearchCubit extends Cubit<SearchState> {
       (stateAddress) => stateAddress.addressModel.cep == address.cep,
     );
   }
+
+  Future<(int, int)> updateCounterValues() async {
+    final resultSerached = await sharedServices
+            .getInt(SharedPreferencesKeys.counterSearchedZipsKeys) ??
+        counterSearchedZips;
+
+    final resultFavorited =
+        await sharedServices.getInt(SharedPreferencesKeys.savedZipKey) ??
+            counterFavZips;
+
+    return (resultSerached, resultFavorited);
+  }
 }

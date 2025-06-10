@@ -13,7 +13,14 @@ import '../../core/commons/analytics_events.dart';
 import '../../core/di/setup_locator.dart';
 
 class CounterPage extends StatefulWidget {
-  const CounterPage({super.key});
+  final int counterSearch;
+  final int counterFav;
+
+  const CounterPage({
+    super.key,
+    required this.counterSearch,
+    required this.counterFav,
+  });
 
   static const counterPageKey = Key('counterPageKey');
 
@@ -93,14 +100,14 @@ class _CounterPageState extends State<CounterPage> {
               style: Theme.of(context).textTheme.titleLarge,
             ),
             CounterBarWidget(
-              value: counterSearch,
+              value: widget.counterSearch,
               icon: CupertinoIcons.checkmark,
               text: AppStrings.successfulSearchedZipsText,
               onTap: () =>
                   analytics.logEvent(name: CounterPageEvents.searchedZipCard),
             ),
             CounterBarWidget(
-              value: counterFav,
+              value: widget.counterFav,
               icon: CupertinoIcons.star,
               text: AppStrings.successfulSavedZipsText,
               onTap: () =>

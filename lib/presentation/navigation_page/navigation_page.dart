@@ -36,6 +36,9 @@ class _NavigationPageState extends State<NavigationPage> {
 
   FavoriteCubit get favoritesCubit => context.read<FavoriteCubit>();
 
+  int counterValue = 0;
+  int favoriteValue = 0;
+
   @override
   void initState() {
     super.initState();
@@ -67,16 +70,31 @@ class _NavigationPageState extends State<NavigationPage> {
       child: FocusWidget(
         child: Scaffold(
           backgroundColor: Theme.of(context).colorScheme.onSurface,
-          body: BlocBuilder<NavigationCubit, NavigationState>(
+          body: BlocConsumer<NavigationCubit, NavigationState>(
+            listener: (context, state) {
+              if (state.navBarItem == NavBarItem.counter) {
+                context
+                    .read<SearchCubit>()
+                    .updateCounterValues()
+                    .then((values) {
+                  setState(() {
+                    counterValue = values.$1;
+                    favoriteValue = values.$2;
+                  });
+                });
+              }
+            },
             builder: (context, state) {
               return Stack(
                 children: [
                   IndexedStack(
                     index: state.index,
-                    children: const [
-                      CounterPage(),
-                      SearchPage(),
-                      FavoritePage(),
+                    children: [
+                      CounterPage(
+                          counterFav: counterValue,
+                          counterSearch: favoriteValue),
+                      const SearchPage(),
+                      const FavoritePage(),
                     ],
                   ),
                   Positioned(
