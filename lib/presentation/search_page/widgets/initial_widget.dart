@@ -43,16 +43,27 @@ class _InitialWidgetState extends State<InitialWidget> {
               ),
               const SizedBox(height: 8.0),
               SegmentedButton<SearchOptions>(
-                segments: const [
+                showSelectedIcon: false,
+                segments: [
                   ButtonSegment(
                     value: SearchOptions.zip,
-                    label: Text(AppStrings.zipText),
-                    icon: Icon(CupertinoIcons.home),
+                    label: const Text(AppStrings.zipText),
+                    icon: Icon(
+                      Icons.location_on,
+                      color: cubit.state.selectedOption == SearchOptions.zip
+                          ? Colors.black
+                          : Colors.grey,
+                    ),
                   ),
                   ButtonSegment(
                     value: SearchOptions.address,
-                    label: Text(AppStrings.addressText),
-                    icon: Icon(CupertinoIcons.home),
+                    label: const Text(AppStrings.addressText),
+                    icon: Icon(
+                      CupertinoIcons.home,
+                      color: cubit.state.selectedOption == SearchOptions.address
+                          ? Colors.black
+                          : Colors.grey,
+                    ),
                   ),
                 ],
                 selected: {state.selectedOption},

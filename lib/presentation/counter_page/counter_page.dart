@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
-import 'package:zip_search/core/commons/shared_preferences_keys.dart';
 import 'package:zip_search/data/shared_services.dart';
 import 'package:zip_search/presentation/counter_page/widgets/counter_bar_widget.dart';
 import 'package:zip_search/presentation/search_page/cubit/search_cubit.dart';
@@ -13,7 +12,14 @@ import '../../core/commons/analytics_events.dart';
 import '../../core/di/setup_locator.dart';
 
 class CounterPage extends StatefulWidget {
-  const CounterPage({super.key});
+  final int counterSearch;
+  final int counterFav;
+
+  const CounterPage({
+    super.key,
+    required this.counterSearch,
+    required this.counterFav,
+  });
 
   static const counterPageKey = Key('counterPageKey');
 
@@ -22,9 +28,6 @@ class CounterPage extends StatefulWidget {
 }
 
 class _CounterPageState extends State<CounterPage> {
-  int counterSearch = 0;
-  int counterFav = 0;
-
   final sharedServices = getIt<SharedServices>();
   final analytics = getIt<FirebaseAnalytics>();
 
@@ -34,28 +37,6 @@ class _CounterPageState extends State<CounterPage> {
   @override
   void initState() {
     super.initState();
-    _recoverCounterSearchValue();
-    _recoverCounterFavoritesValue();
-  }
-
-  void _recoverCounterSearchValue() async {
-    int value = await sharedServices
-            .getInt(SharedPreferencesKeys.counterSearchedZipsKeys) ??
-        counterSearch;
-
-    setState(() {
-      counterSearch = value;
-    });
-  }
-
-  void _recoverCounterFavoritesValue() async {
-    int value =
-        await sharedServices.getInt(SharedPreferencesKeys.savedZipKey) ??
-            counterFav;
-
-    setState(() {
-      counterFav = value;
-    });
   }
 
   @override
@@ -93,14 +74,14 @@ class _CounterPageState extends State<CounterPage> {
               style: Theme.of(context).textTheme.titleLarge,
             ),
             CounterBarWidget(
-              value: counterSearch,
+              value: widget.counterSearch,
               icon: CupertinoIcons.checkmark,
               text: AppStrings.successfulSearchedZipsText,
               onTap: () =>
                   analytics.logEvent(name: CounterPageEvents.searchedZipCard),
             ),
             CounterBarWidget(
-              value: counterFav,
+              value: widget.counterFav,
               icon: CupertinoIcons.star,
               text: AppStrings.successfulSavedZipsText,
               onTap: () =>

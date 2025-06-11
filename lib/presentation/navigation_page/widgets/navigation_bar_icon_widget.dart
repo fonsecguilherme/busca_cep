@@ -12,6 +12,7 @@ class NavigationBarIconWidget extends StatelessWidget {
   final void Function(Artboard)? onInit;
   final String iconText;
   final int iconPositionIndex;
+  final bool isDarkThemeEnable;
 
   const NavigationBarIconWidget({
     super.key,
@@ -21,6 +22,7 @@ class NavigationBarIconWidget extends StatelessWidget {
     required this.onInit,
     required this.iconText,
     required this.iconPositionIndex,
+    required this.isDarkThemeEnable,
   });
 
   @override
@@ -32,7 +34,7 @@ class NavigationBarIconWidget extends StatelessWidget {
             child: Opacity(
               opacity: navigationState.index == selectedNavBarIndex ? 1 : 0.5,
               child: RiveAnimation.asset(
-                icon.rive.src,
+                isDarkThemeEnable ? icon.rive.srcLight : icon.rive.srcDark,
                 artboard: icon.rive.artboard,
                 onInit: onInit,
               ),

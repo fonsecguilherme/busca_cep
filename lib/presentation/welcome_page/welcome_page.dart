@@ -1,18 +1,13 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zip_search/core/commons/app_strings.dart';
 import 'package:zip_search/core/commons/shared_preferences_keys.dart';
-import 'package:zip_search/presentation/favorite_page/cubit/favorite_cubit.dart';
-import 'package:zip_search/presentation/navigation_page/navigation_page.dart';
 import 'package:zip_search/presentation/welcome_page/widgets/welcome_page_item.dart';
-import 'package:zip_search/core/widgets/custom_elevated_button.dart';
 
-import '../../data/shared_services.dart';
-import '../../core/commons/analytics_events.dart';
 import '../../core/di/setup_locator.dart';
+import '../../data/shared_services.dart';
+import 'widgets/last_page_button.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({
@@ -29,7 +24,9 @@ class WelcomePage extends StatefulWidget {
 class _WelcomeState extends State<WelcomePage> {
   bool _isLastPage = false;
   final PageController _pageController = PageController();
+
   final analytics = getIt<FirebaseAnalytics>();
+  final sharedServices = getIt<SharedServices>();
 
   @override
   void initState() {
@@ -76,10 +73,10 @@ class _WelcomeState extends State<WelcomePage> {
                   ],
                 ),
               ),
-              _LastPageButton(
-                analytics: getIt<FirebaseAnalytics>(),
+              LastPageButton(
+                analytics: analytics,
                 isLastPage: _isLastPage,
-                sharedServices: getIt<SharedServices>(),
+                sharedServices: sharedServices,
               ),
               Flexible(
                 flex: 2,
@@ -105,37 +102,4 @@ class _WelcomeState extends State<WelcomePage> {
     _pageController.dispose();
     super.dispose();
   }
-}
-
-class _LastPageButton extends StatelessWidget {
-  final FirebaseAnalytics analytics;
-  final bool isLastPage;
-  final SharedServices sharedServices;
-
-  const _LastPageButton({
-    required this.analytics,
-    required this.isLastPage,
-    required this.sharedServices,
-  });
-
-  @override
-  Widget build(BuildContext context) => isLastPage == false
-      ? const SizedBox(height: 44)
-      : CustomElevatedButton(
-          icon: CupertinoIcons.home,
-          title: AppStrings.goToHomeButton,
-          onTap: () {
-            analytics.logEvent(name: FirstUseEvents.firstUseToHomePage);
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (_) => BlocProvider(
-                  create: (context) => FavoriteCubit(
-                    sharedServices: sharedServices,
-                  ),
-                  child: const NavigationPage(),
-                ),
-              ),
-            );
-          },
-        );
 }
