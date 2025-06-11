@@ -62,13 +62,12 @@ void main() {
 
     expect(find.text(AppStrings.successfulSavedZipsText), findsOneWidget);
 
-    expect(find.text('0'), findsWidgets);
+    expect(find.text('1'), findsOneWidget);
+    expect(find.text('2'), findsOneWidget);
   });
 
   testWidgets('Find correct counter value when a correct zip is returned',
       (tester) async {
-    when(() => services.getInt(any())).thenAnswer((_) async => 1);
-
     when(() => services.getBool(any())).thenAnswer(
       (_) async => true,
     );
@@ -140,7 +139,10 @@ Future<void> _createWidget(WidgetTester tester) async {
             create: (context) => ThemeCubit(),
           )
         ],
-        child: const CounterPage(),
+        child: const CounterPage(
+          counterFav: 1,
+          counterSearch: 2,
+        ),
       ),
     ),
   );
